@@ -15,7 +15,12 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'Nexpay | Infrastructure de paiement pour l’Afrique',
+      },
+      {
+        name: 'description',
+        content:
+          'Nexpay orchestre les paiements, les paiements sortants et la réconciliation pour les équipes qui opèrent à travers l’Afrique.',
       },
     ],
     links: [
@@ -30,7 +35,7 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="caramellatte">
+    <html lang="fr" data-theme="caramellatte">
       <head>
         <HeadContent />
       </head>
