@@ -8,6 +8,8 @@ import {
   ShieldCheck,
   Sparkles,
   TrendingUp,
+  Smartphone,
+  CreditCard,
   WalletCards,
 } from 'lucide-react'
 
@@ -33,9 +35,10 @@ const floatingCards = [
 ]
 
 const trustPoints = [
-  'Paiements multi-pays',
+  'Afrique → Afrique',
+  'Europe → Afrique',
   'Réconciliation unifiée',
-  'API rapide à brancher',
+  'Mobile Money, Visa, Mastercard',
 ]
 
 export function HeroSection() {
@@ -58,13 +61,13 @@ export function HeroSection() {
 
           <div className="space-y-5">
             <h1 className="max-w-3xl text-5xl font-black leading-[0.95] tracking-tight text-balance text-base-content sm:text-6xl lg:text-7xl">
-              L’infrastructure de paiement qui accélère les équipes qui opèrent
-              à travers l’Afrique.
+              Envoyez de l’argent partout en Afrique, ou depuis l’Europe vers
+              l’Afrique, en quelques clics.
             </h1>
             <p className="max-w-2xl text-lg leading-8 text-base-content/70 sm:text-xl">
-              Nexpay unifie collecte, transferts et réconciliation dans une
-              expérience claire, rapide et conçue pour les opérations
-              multi-marchés.
+              Nexpay permet les transferts Afrique → Afrique et les envois
+              Europe → Afrique via mobile money, Visa et Mastercard, avec une
+              couverture claire des marchés africains.
             </p>
           </div>
 
@@ -90,6 +93,43 @@ export function HeroSection() {
                 </span>
               </div>
             ))}
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[
+              {
+                title: 'Afrique → Afrique',
+                copy: 'Envoi local et régional vers les pays couverts sur le continent.',
+                icon: Globe2,
+              },
+              {
+                title: 'Europe → Afrique',
+                copy: 'Dépôts via mobile money, Visa et Mastercard depuis l’étranger.',
+                icon: CreditCard,
+              },
+            ].map((item) => {
+              const Icon = item.icon
+              return (
+                <div
+                  key={item.title}
+                  className="card border border-base-200 bg-base-100/75 shadow-sm"
+                >
+                  <div className="card-body gap-3 p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                        <Icon className="size-5" />
+                      </div>
+                      <div>
+                        <div className="font-bold text-base-content">{item.title}</div>
+                        <div className="text-sm text-base-content/55">
+                          {item.copy}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </motion.div>
 
@@ -202,9 +242,23 @@ export function HeroSection() {
                         <WalletCards className="size-5" />
                       </div>
                       <div>
-                        <div className="font-semibold">Payouts</div>
+                        <div className="font-semibold">Mobile money & cartes</div>
                         <div className="text-sm text-base-content/55">
-                          orchestrés pour chaque marché
+                          pour envoyer et recevoir partout en Afrique
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="rounded-[1.75rem] border border-base-200 bg-base-200/50 p-5">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-secondary/15 text-secondary">
+                        <Smartphone className="size-5" />
+                      </div>
+                      <div>
+                        <div className="font-semibold">Couverture visible</div>
+                        <div className="text-sm text-base-content/55">
+                          les pays supportés sont lisibles dès le premier écran
                         </div>
                       </div>
                     </div>
