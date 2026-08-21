@@ -30,7 +30,10 @@ export function CtaFooterSection() {
                   Commencer
                   <ArrowRight className="size-4" />
                 </Link>
-                <a href="mailto:hello@nexpay.africa" className="btn btn-outline btn-lg">
+                <a
+                  href="mailto:hello@nexpay.africa"
+                  className="btn btn-outline btn-lg"
+                >
                   Parler à l’équipe
                 </a>
               </div>
@@ -45,7 +48,9 @@ export function CtaFooterSection() {
                     <span className="font-black">N</span>
                   </div>
                   <div>
-                    <div className="text-lg font-bold text-neutral-content">Nexpay</div>
+                    <div className="text-lg font-bold text-neutral-content">
+                      Nexpay
+                    </div>
                     <p className="text-sm text-neutral-content/60">
                       Infrastructure de paiement pour les équipes africaines.
                     </p>
@@ -54,14 +59,24 @@ export function CtaFooterSection() {
               </aside>
 
               <nav>
-                <h6 className="footer-title text-neutral-content">Navigation</h6>
+                <h6 className="footer-title text-neutral-content">
+                  Navigation
+                </h6>
                 {footerLinks.map((link) =>
                   link.href.startsWith('#') ? (
-                    <a key={link.label} href={link.href} className="link link-hover">
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      className="link link-hover"
+                    >
                       {link.label}
                     </a>
                   ) : (
-                    <Link key={link.label} to={link.href} className="link link-hover">
+                    <Link
+                      key={link.label}
+                      to={link.href}
+                      className="link link-hover"
+                    >
                       {link.label}
                     </Link>
                   ),
@@ -70,15 +85,23 @@ export function CtaFooterSection() {
 
               <nav>
                 <h6 className="footer-title text-neutral-content">Réseaux</h6>
-                <a className="link link-hover flex items-center gap-2" href="https://twitter.com">
-                  <ArrowUpRight className="size-4" />
-                  X / Twitter
+                <a
+                  className="link link-hover flex items-center gap-2"
+                  href="https://twitter.com"
+                >
+                  <ArrowUpRight className="size-4" />X / Twitter
                 </a>
-                <a className="link link-hover flex items-center gap-2" href="https://linkedin.com">
+                <a
+                  className="link link-hover flex items-center gap-2"
+                  href="https://linkedin.com"
+                >
                   <ArrowUpRight className="size-4" />
                   LinkedIn
                 </a>
-                <a className="link link-hover flex items-center gap-2" href="https://github.com">
+                <a
+                  className="link link-hover flex items-center gap-2"
+                  href="https://github.com"
+                >
                   <ArrowUpRight className="size-4" />
                   GitHub
                 </a>
@@ -86,7 +109,10 @@ export function CtaFooterSection() {
 
               <nav>
                 <h6 className="footer-title text-neutral-content">Légal</h6>
-                <a className="link link-hover flex items-center gap-2" href="mailto:hello@nexpay.africa">
+                <a
+                  className="link link-hover flex items-center gap-2"
+                  href="mailto:hello@nexpay.africa"
+                >
                   <Mail className="size-4" />
                   hello@nexpay.africa
                 </a>

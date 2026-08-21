@@ -1,5 +1,11 @@
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Clock3, PlugZap, ShieldCheck, Sparkles } from 'lucide-react'
+import {
+  ArrowUpRight,
+  Clock3,
+  PlugZap,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react'
 
 const steps = [
   {
@@ -30,7 +36,10 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="bg-neutral px-4 py-24 text-neutral-content lg:px-8">
+    <section
+      id="how-it-works"
+      className="bg-neutral px-4 py-24 text-neutral-content lg:px-8"
+    >
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="lg:sticky lg:top-28 lg:h-fit">
           <span className="badge badge-outline border-neutral-content/20 text-neutral-content/80">
@@ -41,9 +50,9 @@ export function HowItWorksSection() {
             complexes.
           </h2>
           <p className="mt-5 max-w-lg text-lg leading-8 text-neutral-content/70">
-            Pensée pour les équipes finance, produit et opérations, la plate-forme
-            garde l’expérience lisible du premier branchement jusqu’à la
-            supervision quotidienne.
+            Pensée pour les équipes finance, produit et opérations, la
+            plate-forme garde l’expérience lisible du premier branchement
+            jusqu’à la supervision quotidienne.
           </p>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -51,7 +60,10 @@ export function HowItWorksSection() {
               { label: 'Réduction du temps', value: '−68%' },
               { label: 'Flux unifiés', value: '12' },
             ].map((item) => (
-              <div key={item.label} className="rounded-3xl border border-white/10 bg-white/5 p-5">
+              <div
+                key={item.label}
+                className="rounded-3xl border border-white/10 bg-white/5 p-5"
+              >
                 <div className="text-xs uppercase tracking-[0.24em] text-neutral-content/45">
                   {item.label}
                 </div>
@@ -84,7 +96,9 @@ export function HowItWorksSection() {
                           {step.tag}
                         </span>
                       </div>
-                      <h3 className="text-2xl font-bold sm:text-3xl">{step.title}</h3>
+                      <h3 className="text-2xl font-bold sm:text-3xl">
+                        {step.title}
+                      </h3>
                       <p className="max-w-2xl text-base leading-7 text-neutral-content/70">
                         {step.description}
                       </p>

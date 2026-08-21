@@ -8,7 +8,11 @@ const flows = [
     badge: 'badge-success',
     description:
       'Faites circuler de l’argent entre pays africains avec une couverture lisible et des statuts unifiés.',
-    points: ['Transferts régionaux', 'Mobile money local', 'Pays supportés visibles'],
+    points: [
+      'Transferts régionaux',
+      'Mobile money local',
+      'Pays supportés visibles',
+    ],
   },
   {
     title: 'Europe → Afrique',
@@ -16,7 +20,11 @@ const flows = [
     badge: 'badge-accent',
     description:
       'Recevez depuis l’étranger via Visa, Mastercard ou mobile money selon le marché de destination.',
-    points: ['Cartes internationales', 'Mobile money', 'Encaissement côté Afrique'],
+    points: [
+      'Cartes internationales',
+      'Mobile money',
+      'Encaissement côté Afrique',
+    ],
   },
 ]
 
@@ -41,7 +49,9 @@ export function TransferFlowsSection() {
               </p>
             </div>
 
-            <div className="badge badge-success badge-lg">Mobile money + cartes</div>
+            <div className="badge badge-success badge-lg">
+              Mobile money + cartes
+            </div>
           </div>
 
           <div className="mt-6 grid gap-4 lg:grid-cols-2">

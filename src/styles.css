@@ -1,5 +1,4 @@
-
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "daisyui" {
   themes: all;
 }
@@ -21,8 +20,16 @@ body,
 body {
   margin: 0;
   background:
-    radial-gradient(circle at top left, rgba(45, 212, 191, 0.12), transparent 28%),
-    radial-gradient(circle at top right, rgba(249, 115, 22, 0.1), transparent 24%),
+    radial-gradient(
+      circle at top left,
+      rgba(45, 212, 191, 0.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at top right,
+      rgba(249, 115, 22, 0.1),
+      transparent 24%
+    ),
     linear-gradient(180deg, hsl(var(--b1)) 0%, hsl(var(--b2)) 100%);
   color: hsl(var(--bc));
   font-feature-settings: 'ss01', 'ss02', 'cv11';

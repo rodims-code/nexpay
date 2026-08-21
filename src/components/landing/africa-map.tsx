@@ -42,7 +42,8 @@ const mapMarkers = [
     y: 16,
     badge: 'Nord',
     title: 'Connexion rapide aux marchés du nord',
-    description: 'Une lecture claire des entrées et des conversions multi-devises.',
+    description:
+      'Une lecture claire des entrées et des conversions multi-devises.',
   },
   {
     id: 'kigali',
@@ -52,12 +53,15 @@ const mapMarkers = [
     y: 54,
     badge: 'Support',
     title: 'Déploiements rapides pour l’Est',
-    description: 'Des équipes qui suivent l’activité et les escalades en temps réel.',
+    description:
+      'Des équipes qui suivent l’activité et les escalades en temps réel.',
   },
 ] as const
 
+type MarkerId = (typeof mapMarkers)[number]['id']
+
 export function AfricaMapSection() {
-  const [activeMarkerId, setActiveMarkerId] = useState(mapMarkers[0].id)
+  const [activeMarkerId, setActiveMarkerId] = useState<MarkerId>(mapMarkers[0].id)
   const activeMarker =
     mapMarkers.find((marker) => marker.id === activeMarkerId) ?? mapMarkers[0]
 
@@ -105,7 +109,9 @@ export function AfricaMapSection() {
                     <div className="text-sm uppercase tracking-[0.3em] text-base-content/45">
                       Network map
                     </div>
-                    <h3 className="text-2xl font-bold">Couverture régionale active</h3>
+                    <h3 className="text-2xl font-bold">
+                      Couverture régionale active
+                    </h3>
                   </div>
                   <div className="badge badge-success badge-lg gap-2">
                     <Waves className="size-4" />
@@ -161,7 +167,9 @@ export function AfricaMapSection() {
                             {activeMarker.city}
                           </div>
                         </div>
-                        <span className="badge badge-accent">{activeMarker.badge}</span>
+                        <span className="badge badge-accent">
+                          {activeMarker.badge}
+                        </span>
                       </div>
                       <p className="mt-3 text-sm leading-6 text-base-content/70">
                         {activeMarker.title}
@@ -189,7 +197,9 @@ export function AfricaMapSection() {
                       <div className="card-body gap-2 p-4 text-left">
                         <div className="flex items-center justify-between gap-3">
                           <div className="font-semibold">{marker.city}</div>
-                          <span className="badge badge-outline">{marker.badge}</span>
+                          <span className="badge badge-outline">
+                            {marker.badge}
+                          </span>
                         </div>
                         <div className="text-sm text-base-content/55">
                           {marker.country}

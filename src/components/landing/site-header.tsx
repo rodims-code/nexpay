@@ -38,14 +38,20 @@ export function SiteHeader() {
       </div>
 
       <div className="navbar-end gap-2">
-        <Link to="/auth/login" className="btn btn-ghost btn-sm hidden sm:inline-flex">
+        <Link
+          to="/auth/login"
+          className="btn btn-ghost btn-sm hidden sm:inline-flex"
+        >
           Se connecter
         </Link>
         <Link to="/auth/register" className="btn btn-primary btn-sm">
           Commencer
           <ArrowRight className="size-4" />
         </Link>
-        <button className="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="Ouvrir le menu">
+        <button
+          className="btn btn-ghost btn-square btn-sm lg:hidden"
+          aria-label="Ouvrir le menu"
+        >
           <Menu className="size-5" />
         </button>
       </div>

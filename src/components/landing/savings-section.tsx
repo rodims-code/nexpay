@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, BadgeCheck, BadgePercent, Layers3 } from 'lucide-react'
+import { BadgeCheck, BadgePercent, Layers3 } from 'lucide-react'
 
 const savingsTabs = [
   {
@@ -45,8 +45,10 @@ const savingsTabs = [
   },
 ] as const
 
+type SavingsTabId = (typeof savingsTabs)[number]['id']
+
 export function SavingsSection() {
-  const [activeTab, setActiveTab] = useState(savingsTabs[0].id)
+  const [activeTab, setActiveTab] = useState<SavingsTabId>(savingsTabs[0].id)
   const activeItem =
     savingsTabs.find((tab) => tab.id === activeTab) ?? savingsTabs[0]
 
@@ -63,9 +65,9 @@ export function SavingsSection() {
               Économiser du temps, réduire les coûts et garder le contrôle.
             </h2>
             <p className="text-lg leading-8 text-base-content/70">
-              Les indicateurs ci-dessous sont pensés comme une lecture rapide des
-              gains que Nexpay apporte aux équipes qui doivent exécuter vite et
-              sans friction.
+              Les indicateurs ci-dessous sont pensés comme une lecture rapide
+              des gains que Nexpay apporte aux équipes qui doivent exécuter vite
+              et sans friction.
             </p>
           </div>
 
@@ -137,7 +139,9 @@ export function SavingsSection() {
                         <div className="text-xs uppercase tracking-[0.24em] text-base-content/45">
                           {stat.label}
                         </div>
-                        <div className="mt-2 text-xl font-bold">{stat.value}</div>
+                        <div className="mt-2 text-xl font-bold">
+                          {stat.value}
+                        </div>
                       </div>
                     ))}
                   </div>

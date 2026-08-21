@@ -120,7 +120,9 @@ export function HeroSection() {
                         <Icon className="size-5" />
                       </div>
                       <div>
-                        <div className="font-bold text-base-content">{item.title}</div>
+                        <div className="font-bold text-base-content">
+                          {item.title}
+                        </div>
                         <div className="text-sm text-base-content/55">
                           {item.copy}
                         </div>
@@ -180,7 +182,10 @@ export function HeroSection() {
                         key={height}
                         initial={{ scaleY: 0.4, opacity: 0 }}
                         animate={{ scaleY: 1, opacity: 1 }}
-                        transition={{ delay: 0.15 + index * 0.08, duration: 0.4 }}
+                        transition={{
+                          delay: 0.15 + index * 0.08,
+                          duration: 0.4,
+                        }}
                         className="h-32 origin-bottom rounded-[1.25rem] bg-gradient-to-t from-primary via-primary/70 to-primary-content/70"
                         style={{ height: `${height}%` }}
                       />
@@ -242,7 +247,9 @@ export function HeroSection() {
                         <WalletCards className="size-5" />
                       </div>
                       <div>
-                        <div className="font-semibold">Mobile money & cartes</div>
+                        <div className="font-semibold">
+                          Mobile money & cartes
+                        </div>
                         <div className="text-sm text-base-content/55">
                           pour envoyer et recevoir partout en Afrique
                         </div>
@@ -290,7 +297,9 @@ export function HeroSection() {
                       <div className="text-xs uppercase tracking-[0.24em] text-base-content/45">
                         {card.label}
                       </div>
-                      <div className="mt-1 text-2xl font-black">{card.value}</div>
+                      <div className="mt-1 text-2xl font-black">
+                        {card.value}
+                      </div>
                     </div>
                     <div className={`badge ${card.tone} badge-lg`}>
                       <Icon className="size-4" />
