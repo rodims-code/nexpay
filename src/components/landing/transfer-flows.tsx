@@ -43,10 +43,9 @@ export function TransferFlowsSection() {
                 Deux flux très clairs, pour deux besoins très différents.
               </h2>
               <p className="text-lg leading-8 text-base-content/70">
-                L’utilisateur doit comprendre en une phrase qu’il peut envoyer
-                de l’argent à l’intérieur de l’Afrique, mais aussi recevoir
-                depuis l’Europe vers l’Afrique.
+                Envoyez de l’argent facilement partout en Afrique et recevez des fonds depuis l’Europe, en toute sécurité.
               </p>
+
             </div>
 
             <div className="badge badge-success badge-lg">
