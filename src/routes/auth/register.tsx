@@ -85,14 +85,16 @@ function RegisterLayout() {
         onBackClick={handleBack}
         backButtonText="Étape précédente"
         heroEyebrow="Inscription"
+        heroImageSrc="/images/industrial-designer-working-3d-model.jpg"
+        heroImageAlt="Homme consultant son téléphone dans un espace de travail"
         heroTitle={
           <>
-            Crée ton compte
+            Construis ton avenir
             <br />
-            en quelques étapes.
+            financier.
           </>
         }
-        heroDescription="On garde l’inscription simple et rassurante: téléphone, identité, pays, sécurité puis vérification."
+        heroDescription="Créez votre compte NexPay et avancez avec une expérience pensée pour vos projets et vos paiements."
       >
         <AuthCard
           title={title}

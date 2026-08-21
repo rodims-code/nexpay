@@ -75,14 +75,20 @@ function LoginComponent() {
   return (
     <AuthLayout
       heroEyebrow="Connexion"
+      heroImageSrc="/images/afro-friends-having-fun-together-while-drinking-fruit-juice.jpg"
+      logoNexPaySrc="/images/nexpay.png"
+      logoNexPayAlt="Logo de NexPay"
+      iconNexpaySrc="/images/nexpay-icon.png"
+      iconNexpayAlt="Icône de NexPay"
+      heroImageAlt="Femme utilisant son téléphone pendant sa journée"
       heroTitle={
         <>
-          Reprenez votre session
+          Vos paiements,
           <br />
-          en toute simplicité.
+          toujours avec vous.
         </>
       }
-      heroDescription="Connecte-toi à ton espace NexPay pour continuer tes paiements, retrouver tes comptes et garder tout au même endroit."
+      heroDescription="Retrouvez votre espace NexPay et gardez le contrôle de vos comptes, où que vous soyez."
     >
       <AuthCard
         title="Ravi de vous revoir"

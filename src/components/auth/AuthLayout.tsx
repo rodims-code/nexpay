@@ -12,6 +12,10 @@ interface AuthLayoutProps {
   heroDescription?: React.ReactNode
   heroImageSrc?: string
   heroImageAlt?: string
+  logoNexPaySrc?: string
+  logoNexPayAlt?: string
+  iconNexpaySrc?: string
+  iconNexpayAlt?: string
 }
 
 export function AuthLayout({
@@ -23,6 +27,10 @@ export function AuthLayout({
   heroTitle = 'Accédez à votre argent sans friction',
   heroDescription = "Une expérience d'authentification moderne, claire et sécurisée pour vos comptes et vos transactions.",
   heroImageSrc = '/images/afro-friends-having-fun-together-while-drinking-fruit-juice.jpg',
+  logoNexPaySrc = '/images/nexpay.png',
+  logoNexPayAlt = 'Logo de NexPay',
+  iconNexpaySrc = '/images/nexpay-icon.png',
+  iconNexpayAlt = 'Icône de NexPay',
   heroImageAlt = 'Illustration de la page d’authentification NexPay',
 }: AuthLayoutProps) {
   return (
@@ -30,107 +38,47 @@ export function AuthLayout({
       <div className="mx-auto flex h-dvh w-full max-w-7xl items-center px-3 py-3 sm:px-5 sm:py-4 lg:px-8">
         <div className="grid h-full min-h-0 w-full overflow-hidden rounded-[2rem] border border-base-300/70 bg-base-100/90 shadow-[0_30px_90px_-45px_rgba(15,23,42,0.6)] backdrop-blur-xl lg:grid-cols-[1.08fr_0.92fr]">
           {/* Visual panel */}
-          <div className="relative hidden min-h-0 overflow-hidden bg-base-200/80 p-8 lg:flex lg:flex-col lg:justify-between xl:p-10">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(34,197,94,0.18),_transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(59,130,246,0.16),_transparent_26%)]" />
-            <div className="absolute -left-24 top-8 h-56 w-56 rounded-full bg-primary/20 blur-3xl" />
-            <div className="absolute -right-24 bottom-12 h-72 w-72 rounded-full bg-secondary/20 blur-3xl" />
+          <div className="relative hidden min-h-0 overflow-hidden bg-neutral-950 lg:flex lg:flex-col">
+            {heroImageSrc ? (
+              <img
+                src={heroImageSrc}
+                alt={heroImageAlt}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/50 via-neutral-900 to-secondary/50" />
+            )}
 
-            <div className="relative z-10 flex items-center justify-between gap-4">
-              <Link to="/" className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-content shadow-lg shadow-primary/25">
-                  <span className="text-lg font-black">N</span>
-                </div>
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-[0.35em] text-base-content/55">
-                    NexPay
-                  </div>
-                  <div className="text-sm font-medium text-base-content/75">
-                    Paiements et comptes
-                  </div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/80" />
+            <div className="absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-black/85 via-black/45 to-transparent backdrop-blur-[2px] [mask-image:linear-gradient(to_bottom,transparent_0%,black_38%,black_100%)]" />
+
+            <div className="relative z-10 flex items-center justify-between gap-4 p-8 xl:p-10">
+              <Link to="/" className="flex items-center gap-3 text-white">
+                <div className="flex h-16 w-auto items-center justify-center rounded-2xl overflow-visible shadow-xl">
+                  <img
+                    src={logoNexPaySrc}
+                    alt={logoNexPayAlt}
+                    className="block h-100 w-auto max-w-[180px]  object-contain object-center"
+                  />
                 </div>
               </Link>
 
-              <div className="flex items-center gap-2 rounded-full border border-success/20 bg-success/10 px-3 py-1.5 text-xs font-semibold text-success">
+              <div className="flex items-center gap-2 rounded-full border border-white/25 bg-black/20 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
                 <ShieldCheck className="size-3.5" />
                 <span>Sécurisé</span>
               </div>
             </div>
 
-            <div className="relative z-10 mt-8 max-w-xl space-y-4">
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-primary">
+            <div className="relative z-10 mt-auto max-w-2xl space-y-4 p-8 text-white xl:p-10">
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70">
                 {heroEyebrow}
               </p>
-              <h1 className="text-4xl font-black tracking-tight text-base-content sm:text-5xl xl:text-6xl">
+              <h1 className="text-4xl font-black leading-[0.98] tracking-tight sm:text-5xl xl:text-6xl">
                 {heroTitle}
               </h1>
-              <p className="max-w-lg text-sm leading-7 text-base-content/60 sm:text-base">
+              <p className="max-w-xl text-sm leading-7 text-white/75 sm:text-base">
                 {heroDescription}
               </p>
-            </div>
-
-            <div className="relative z-10 mt-8 grid gap-3 sm:grid-cols-3">
-              <div className="rounded-2xl border border-base-300/70 bg-base-100/85 p-4 shadow-sm">
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-base-content/40">
-                  Sécurité
-                </p>
-                <p className="mt-2 text-lg font-black text-base-content">
-                  Authentification
-                </p>
-                <p className="mt-1 text-xs leading-relaxed text-base-content/50">
-                  Flux protégés et lisibles.
-                </p>
-              </div>
-              <div className="rounded-2xl border border-base-300/70 bg-base-100/85 p-4 shadow-sm">
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-base-content/40">
-                  Expérience
-                </p>
-                <p className="mt-2 text-lg font-black text-base-content">
-                  Interface claire
-                </p>
-                <p className="mt-1 text-xs leading-relaxed text-base-content/50">
-                  Un écran simple à parcourir.
-                </p>
-              </div>
-              <div className="rounded-2xl border border-base-300/70 bg-base-100/85 p-4 shadow-sm">
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-base-content/40">
-                  Image
-                </p>
-                <p className="mt-2 text-lg font-black text-base-content">
-                  /public/images
-                </p>
-                <p className="mt-1 text-xs leading-relaxed text-base-content/50">
-                  Remplace le visuel en un seul fichier.
-                </p>
-              </div>
-            </div>
-
-            <div className="relative z-10 mt-8 overflow-hidden rounded-[2rem] border border-white/40 bg-base-100/85 p-4 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.45)]">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10" />
-              <div className="relative grid gap-4 md:grid-cols-[1.1fr_0.9fr] md:items-center">
-                <div className="space-y-2">
-                  <p className="text-xs font-bold uppercase tracking-[0.3em] text-base-content/45">
-                    Zone image
-                  </p>
-                  <p className="text-sm leading-6 text-base-content/65">
-                    Mets ton image dans <span className="font-mono">public/images/auth-hero.png</span>.
-                    Elle apparaîtra automatiquement ici.
-                  </p>
-                </div>
-
-                <div className="overflow-hidden rounded-[1.5rem] border border-base-300/60 bg-base-200">
-                  {heroImageSrc ? (
-                    <img
-                      src={heroImageSrc}
-                      alt={heroImageAlt}
-                      className="h-56 w-full object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-56 items-center justify-center bg-gradient-to-br from-primary/15 via-base-100 to-secondary/15 text-center text-sm font-semibold text-base-content/55">
-                      Ajoute ici ton visuel
-                    </div>
-                  )}
-                </div>
-              </div>
             </div>
           </div>
 
@@ -149,8 +97,8 @@ export function AuthLayout({
                 </button>
               ) : (
                 <div className="flex items-center gap-2 lg:hidden">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary text-primary-content shadow-md shadow-primary/20">
-                    <span className="text-sm font-black">N</span>
+                  <div className="flex">
+                    <span className=""><img src={iconNexpaySrc} alt={iconNexpayAlt} className='w-20 h-20' /></span>
                   </div>
                   <div>
                     <div className="text-xs font-semibold uppercase tracking-[0.3em] text-base-content/55">
