@@ -75,25 +75,34 @@ function LoginComponent() {
   return (
     <AuthLayout
       heroEyebrow="Connexion"
+      heroImageSrc="/images/afro-friends-having-fun-together-while-drinking-fruit-juice.jpg"
+      logoNexPaySrc="/images/nexpay.png"
+      logoNexPayAlt="Logo de NexPay"
+      iconNexpaySrc="/images/nexpay-icon.png"
+      
+      heroImageAlt="Femme utilisant son téléphone pendant sa journée"
       heroTitle={
         <>
-          Reprenez votre session
+          Vos paiements,
           <br />
-          en toute simplicité.
+          toujours avec vous.
         </>
       }
-      heroDescription="Connecte-toi à ton espace NexPay pour continuer tes paiements, retrouver tes comptes et garder tout au même endroit."
+      heroDescription="Retrouvez votre espace NexPay et gardez le contrôle de vos comptes, où que vous soyez."
     >
       <AuthCard
-        title="Ravi de vous revoir"
+        title="RAVI DE VOUS REVOIR 😁"
         subtitle="Connectez-vous pour continuer vers votre espace NexPay."
       >
         {/* Test account notification */}
-        <div className="alert alert-info text-[11px] font-bold rounded-2xl bg-primary/10 text-primary border border-primary/15 p-3 leading-relaxed mb-1">
-          💡 Compte démo pour test :
-          <br />
-          Tél : <span className="underline">+242 06 123 45 67</span> | MDP :{' '}
-          <span className="underline">Password123!</span>
+        <div className="alert alert-info mb-1 flex min-w-0 flex-col items-start gap-1 rounded-2xl border border-primary/15 bg-primary/10 p-3 text-[11px] font-bold leading-relaxed text-primary sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-2 sm:gap-y-0">
+          <span className="w-full sm:w-auto">💡 Compte démo pour test :</span>
+          <span className="max-w-full break-words">
+            Tél : <span className="underline">+242 06 123 45 67</span>
+          </span>
+          <span className="max-w-full break-words">
+            MDP : <span className="underline">Password123!</span>
+          </span>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
