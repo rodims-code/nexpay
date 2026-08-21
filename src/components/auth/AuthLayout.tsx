@@ -22,7 +22,7 @@ export function AuthLayout({
   heroEyebrow = 'NexPay',
   heroTitle = 'Accédez à votre argent sans friction',
   heroDescription = "Une expérience d'authentification moderne, claire et sécurisée pour vos comptes et vos transactions.",
-  heroImageSrc = '/images/auth-hero.svg',
+  heroImageSrc = '/images/afro-friends-having-fun-together-while-drinking-fruit-juice.jpg',
   heroImageAlt = 'Illustration de la page d’authentification NexPay',
 }: AuthLayoutProps) {
   return (
