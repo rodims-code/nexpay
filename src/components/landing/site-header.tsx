@@ -3,8 +3,8 @@ import { ArrowRight, Menu } from 'lucide-react'
 
 const navItems = [
   { label: 'Comment ça marche ?', href: '#how-it-works' },
-  { label: 'Économies', href: '#savings' },
-  { label: 'Afrique', href: '#africa-map' },
+  { label: 'Le MVP', href: '#savings' },
+  { label: 'Marchés envisagés', href: '#africa-map' },
   { label: 'Contact', href: '#footer' },
 ]
 
@@ -20,7 +20,7 @@ export function SiteHeader() {
             Nexpay
           </div>
           <div className="text-xs text-base-content/55">
-            Paiements orchestrés à l’échelle du continent
+            Transferts simples pour l’Afrique
           </div>
         </div>
       </div>

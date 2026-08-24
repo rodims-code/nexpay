@@ -10,9 +10,9 @@ const mapMarkers = [
     country: 'Nigeria',
     x: 31,
     y: 47,
-    badge: 'Collecte',
-    title: 'Volumes transactionnels élevés',
-    description: 'Paiements domestiques et agrégations à forte cadence.',
+    badge: 'Marché envisagé',
+    title: 'Transferts locaux à valider',
+    description: 'La disponibilité dépendra du provider et des conditions de lancement.',
   },
   {
     id: 'nairobi',
@@ -20,9 +20,9 @@ const mapMarkers = [
     country: 'Kenya',
     x: 58,
     y: 43,
-    badge: 'API',
-    title: 'Hub produit et intégrations',
-    description: 'Orchestration des partenaires et tests de nouveaux rails.',
+    badge: 'À confirmer',
+    title: 'Couverture à vérifier',
+    description: 'Les méthodes disponibles seront affichées selon le trajet choisi.',
   },
   {
     id: 'johannesburg',
@@ -30,9 +30,9 @@ const mapMarkers = [
     country: 'South Africa',
     x: 56,
     y: 76,
-    badge: 'Payouts',
-    title: 'Payouts pour les opérations du sud',
-    description: 'Flux récurrents avec un suivi précis des statuts.',
+    badge: 'À confirmer',
+    title: 'Payout vers le destinataire',
+    description: 'Le statut du transfert sera suivi jusqu’à la confirmation du provider.',
   },
   {
     id: 'casablanca',
@@ -40,10 +40,9 @@ const mapMarkers = [
     country: 'Morocco',
     x: 43,
     y: 16,
-    badge: 'Nord',
-    title: 'Connexion rapide aux marchés du nord',
-    description:
-      'Une lecture claire des entrées et des conversions multi-devises.',
+    badge: 'À confirmer',
+    title: 'Marché potentiel pour les transferts',
+    description: 'Les devises et moyens de paiement seront précisés avant confirmation.',
   },
   {
     id: 'kigali',
@@ -51,10 +50,9 @@ const mapMarkers = [
     country: 'Rwanda',
     x: 50,
     y: 54,
-    badge: 'Support',
-    title: 'Déploiements rapides pour l’Est',
-    description:
-      'Des équipes qui suivent l’activité et les escalades en temps réel.',
+    badge: 'À confirmer',
+    title: 'Destination à explorer',
+    description: 'La carte présente une direction produit, pas une promesse de disponibilité.',
   },
 ] as const
 
@@ -75,17 +73,16 @@ export function AfricaMapSection() {
               Carte Afrique
             </span>
             <h2 className="text-4xl font-black leading-[0.96] tracking-tight text-balance sm:text-5xl lg:text-6xl">
-              Explorer notre présence à travers le continent.
+              Explorer les marchés envisagés à travers le continent.
             </h2>
             <p className="text-lg leading-8 text-base-content/70">
-              Les régions clés sont indiquées pour donner un aperçu rapide de la
-              couverture, des volumes et des points d’attention opérationnels.
+              Consultez les pays et méthodes disponibles pour préparer un transfert. La couverture réelle dépendra du provider, des règles locales et de la validation du lancement.
             </p>
 
             <div className="grid gap-4 sm:grid-cols-2">
               {[
-                { label: 'Régions suivies', value: '8+' },
-                { label: 'Points de couverture', value: '18' },
+                { label: 'Premiers marchés envisagés', value: '4' },
+                { label: 'Provider initial', value: 'Moneroo' },
               ].map((item) => (
                 <div
                   key={item.label}
@@ -107,15 +104,15 @@ export function AfricaMapSection() {
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <div className="text-sm uppercase tracking-[0.3em] text-base-content/45">
-                      Network map
+                      Coverage preview
                     </div>
                     <h3 className="text-2xl font-bold">
-                      Couverture régionale active
+                      Couverture à confirmer
                     </h3>
                   </div>
                   <div className="badge badge-success badge-lg gap-2">
                     <Waves className="size-4" />
-                    Temps réel
+                    Selon le provider
                   </div>
                 </div>
 

@@ -18,13 +18,13 @@ export function ImpactBanner() {
               Mission produit
             </span>
             <h2 className="text-4xl font-black leading-[0.95] tracking-tight text-balance sm:text-5xl lg:text-7xl">
-              Nous simplifions la complexité des paiements pour que votre
-              croissance voyage plus vite que vos frictions.
+              Nous rendons les transferts africains simples, transparents et
+              compréhensibles avant chaque confirmation.
             </h2>
           </div>
 
           <a href="#africa-map" className="btn btn-ghost btn-lg">
-            Explorer la couverture
+            Voir les marchés envisagés
             <ArrowUpRight className="size-4" />
           </a>
         </div>
