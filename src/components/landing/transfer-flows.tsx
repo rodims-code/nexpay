@@ -7,7 +7,7 @@ const flows = [
     icon: MapPinned,
     badge: 'badge-success',
     description:
-      'Faites circuler de l’argent entre pays africains avec une couverture lisible et des statuts unifiés.',
+      'Envoyez de l’argent d’un pays africain à un autre, lorsque le trajet et le provider sont disponibles.',
     points: [
       'Transferts régionaux',
       'Mobile money local',
@@ -19,7 +19,7 @@ const flows = [
     icon: CreditCard,
     badge: 'badge-accent',
     description:
-      'Recevez depuis l’étranger via Visa, Mastercard ou mobile money selon le marché de destination.',
+      'Depuis l’Europe, financez un envoi vers l’Afrique via Visa, Mastercard ou la méthode disponible pour la destination.',
     points: [
       'Cartes internationales',
       'Mobile money',
@@ -43,7 +43,7 @@ export function TransferFlowsSection() {
                 Deux flux très clairs, pour deux besoins très différents.
               </h2>
               <p className="text-lg leading-8 text-base-content/70">
-                Envoyez de l’argent facilement partout en Afrique et recevez des fonds depuis l’Europe, en toute sécurité.
+                Un même parcours pour choisir le destinataire, afficher les frais, confirmer avec un PIN et suivre le statut.
               </p>
 
             </div>

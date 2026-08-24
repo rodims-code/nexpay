@@ -3,8 +3,8 @@ import { ArrowRight, ArrowUpRight, Mail } from 'lucide-react'
 
 const footerLinks = [
   { label: 'Comment ça marche ?', href: '#how-it-works' },
-  { label: 'Économies', href: '#savings' },
-  { label: 'Carte Afrique', href: '#africa-map' },
+  { label: 'Le MVP', href: '#savings' },
+  { label: 'Marchés envisagés', href: '#africa-map' },
   { label: 'Connexion', href: '/auth/login' },
 ]
 
@@ -20,8 +20,8 @@ export function CtaFooterSection() {
                   The future is here
                 </span>
                 <h2 className="text-4xl font-black leading-[0.95] tracking-tight text-balance sm:text-5xl lg:text-6xl">
-                  Construisons maintenant l’expérience de paiement qui donnera
-                  envie à votre équipe de grandir.
+                  Envoyez de l’argent à vos proches, avec une expérience pensée
+                  pour les réalités africaines.
                 </h2>
               </div>
 
@@ -52,7 +52,7 @@ export function CtaFooterSection() {
                       Nexpay
                     </div>
                     <p className="text-sm text-neutral-content/60">
-                      Infrastructure de paiement pour les équipes africaines.
+                      Une expérience simple pour les transferts locaux et cross-border.
                     </p>
                   </div>
                 </div>
@@ -117,10 +117,10 @@ export function CtaFooterSection() {
                   hello@nexpay.africa
                 </a>
                 <a className="link link-hover" href="#">
-                  Mentions légales
+                  Projet en sandbox
                 </a>
                 <a className="link link-hover" href="#">
-                  Politique de confidentialité
+                  Mentions réglementaires
                 </a>
               </nav>
             </footer>
