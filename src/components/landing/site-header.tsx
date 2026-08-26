@@ -12,8 +12,8 @@ export function SiteHeader() {
   return (
     <div className="navbar fixed top-0 z-50 border-b border-base-200/60 bg-base-100/85 px-4 backdrop-blur-xl lg:px-8">
       <div className="navbar-start gap-2">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-primary-content shadow-lg shadow-primary/20">
-          <span className="text-lg font-black">N</span>
+        <div className="flex h-11 w-11 items-center justify-center">
+          <img src="/images/nexpay-icon.png" alt="nexpay-icon" />
         </div>
         <div>
           <div className="text-sm font-semibold uppercase tracking-[0.35em] text-base-content/55">
