@@ -44,8 +44,8 @@ export function CtaFooterSection() {
             <footer className="footer items-start gap-8 text-neutral-content/75">
               <aside className="max-w-sm">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-primary-content">
-                    <span className="font-black">N</span>
+                  <div className="flex h-15 w-15 items-center justify-center">
+                    <img src="/images/nexpay-icon.png" alt="nexpay-icon" />
                   </div>
                   <div>
                     <div className="text-lg font-bold text-neutral-content">

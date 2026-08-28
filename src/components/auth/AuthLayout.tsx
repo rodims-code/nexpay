@@ -76,14 +76,14 @@ export function AuthLayout({
               <h1 className="text-4xl font-black leading-[0.98] tracking-tight sm:text-5xl xl:text-6xl">
                 {heroTitle}
               </h1>
-              <p className="max-w-xl text-sm leading-7 text-white/75 sm:text-base">
+              <p className="max-w-xl text-sm leading-7  text-white/75 sm:text-base">
                 {heroDescription}
               </p>
             </div>
           </div>
 
           {/* Form panel */}
-          <div className="relative flex h-full min-h-0 flex-col justify-between overflow-hidden bg-base-100/95 p-5 sm:p-8 lg:p-10">
+          <div className="relative flex h-full  flex-col justify-between overflow-hidden bg-base-100/95 p-5 sm:p-8 lg:p-10">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(34,197,94,0.08),_transparent_28%)] lg:hidden" />
 
             <div className="relative z-10 flex items-center justify-between gap-3">
@@ -111,10 +111,6 @@ export function AuthLayout({
                 </div>
               )}
 
-              <div className="flex items-center gap-1.5 rounded-full border border-success/20 bg-success/10 px-3 py-1.5 text-xs font-semibold text-success">
-                <ShieldCheck className="size-3.5" />
-                <span>Sécurisé</span>
-              </div>
             </div>
 
             <div className="relative z-10 flex min-h-0 flex-1 items-center justify-center py-4 sm:py-6">
