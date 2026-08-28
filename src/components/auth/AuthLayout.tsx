@@ -35,7 +35,7 @@ export function AuthLayout({
 }: AuthLayoutProps) {
   return (
     <div className="relative h-dvh overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.10),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(59,130,246,0.10),_transparent_28%),linear-gradient(180deg,_hsl(var(--b1))_0%,_hsl(var(--b2))_100%)] font-sans">
-      <div className="mx-auto flex h-dvh w-full max-w-7xl items-center px-3 py-3 sm:px-5 sm:py-4 lg:px-8">
+      <div className="mx-auto flex h-dvh w-full p-10 items-center px-3 py-3 sm:px-5 sm:py-4 lg:px-8">
         <div className="grid h-full min-h-0 w-full overflow-hidden rounded-[2rem] border border-base-300/70 bg-base-100/90 shadow-[0_30px_90px_-45px_rgba(15,23,42,0.6)] backdrop-blur-xl lg:grid-cols-[1.08fr_0.92fr]">
           {/* Visual panel */}
           <div className="relative hidden min-h-0 overflow-hidden bg-neutral-950 lg:flex lg:flex-col">
@@ -76,14 +76,14 @@ export function AuthLayout({
               <h1 className="text-4xl font-black leading-[0.98] tracking-tight sm:text-5xl xl:text-6xl">
                 {heroTitle}
               </h1>
-              <p className="max-w-xl text-sm leading-7 text-white/75 sm:text-base">
+              <p className="max-w-xl text-sm leading-7  text-white/75 sm:text-base">
                 {heroDescription}
               </p>
             </div>
           </div>
 
           {/* Form panel */}
-          <div className="relative flex h-full min-h-0 flex-col justify-between overflow-hidden bg-base-100/95 p-5 sm:p-8 lg:p-10">
+          <div className="relative flex h-full  flex-col justify-between overflow-hidden bg-base-100/95 p-5 sm:p-8 lg:p-10">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(34,197,94,0.08),_transparent_28%)] lg:hidden" />
 
             <div className="relative z-10 flex items-center justify-between gap-3">
@@ -111,10 +111,6 @@ export function AuthLayout({
                 </div>
               )}
 
-              <div className="flex items-center gap-1.5 rounded-full border border-success/20 bg-success/10 px-3 py-1.5 text-xs font-semibold text-success">
-                <ShieldCheck className="size-3.5" />
-                <span>Sécurisé</span>
-              </div>
             </div>
 
             <div className="relative z-10 flex min-h-0 flex-1 items-center justify-center py-4 sm:py-6">
