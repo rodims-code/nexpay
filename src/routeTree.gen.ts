@@ -15,6 +15,11 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as DashboardContactsRouteImport } from './routes/dashboard/contacts'
+import { Route as DashboardPaymentMethodsRouteImport } from './routes/dashboard/payment-methods'
+import { Route as DashboardSendRouteImport } from './routes/dashboard/send'
+import { Route as DashboardSettingsRouteImport } from './routes/dashboard/settings'
+import { Route as DashboardTransactionsRouteImport } from './routes/dashboard/transactions'
 import { Route as AuthForgotPasswordIndexRouteImport } from './routes/auth/forgot-password/index'
 import { Route as AuthLoginIndexRouteImport } from './routes/auth/login/index'
 import { Route as AuthRegisterIndexRouteImport } from './routes/auth/register/index'
@@ -52,6 +57,31 @@ const AuthRegisterRoute = AuthRegisterRouteImport.update({
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardContactsRoute = DashboardContactsRouteImport.update({
+  id: '/dashboard/contacts',
+  path: '/dashboard/contacts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardPaymentMethodsRoute = DashboardPaymentMethodsRouteImport.update({
+  id: '/dashboard/payment-methods',
+  path: '/dashboard/payment-methods',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardSendRoute = DashboardSendRouteImport.update({
+  id: '/dashboard/send',
+  path: '/dashboard/send',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
+  id: '/dashboard/settings',
+  path: '/dashboard/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardTransactionsRoute = DashboardTransactionsRouteImport.update({
+  id: '/dashboard/transactions',
+  path: '/dashboard/transactions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthForgotPasswordIndexRoute = AuthForgotPasswordIndexRouteImport.update({
@@ -101,6 +131,11 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/auth/register': typeof AuthRegisterRouteWithChildren
+  '/dashboard/contacts': typeof DashboardContactsRoute
+  '/dashboard/payment-methods': typeof DashboardPaymentMethodsRoute
+  '/dashboard/send': typeof DashboardSendRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/transactions': typeof DashboardTransactionsRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/auth/register/country': typeof AuthRegisterCountryRoute
   '/auth/register/personal': typeof AuthRegisterPersonalRoute
@@ -116,6 +151,11 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/dashboard/contacts': typeof DashboardContactsRoute
+  '/dashboard/payment-methods': typeof DashboardPaymentMethodsRoute
+  '/dashboard/send': typeof DashboardSendRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/transactions': typeof DashboardTransactionsRoute
   '/dashboard': typeof DashboardIndexRoute
   '/auth/register/country': typeof AuthRegisterCountryRoute
   '/auth/register/personal': typeof AuthRegisterPersonalRoute
@@ -133,6 +173,11 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/auth/register': typeof AuthRegisterRouteWithChildren
+  '/dashboard/contacts': typeof DashboardContactsRoute
+  '/dashboard/payment-methods': typeof DashboardPaymentMethodsRoute
+  '/dashboard/send': typeof DashboardSendRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/transactions': typeof DashboardTransactionsRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/auth/register/country': typeof AuthRegisterCountryRoute
   '/auth/register/personal': typeof AuthRegisterPersonalRoute
@@ -151,6 +196,11 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/auth/register'
+    | '/dashboard/contacts'
+    | '/dashboard/payment-methods'
+    | '/dashboard/send'
+    | '/dashboard/settings'
+    | '/dashboard/transactions'
     | '/dashboard/'
     | '/auth/register/country'
     | '/auth/register/personal'
@@ -166,6 +216,11 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/dashboard/contacts'
+    | '/dashboard/payment-methods'
+    | '/dashboard/send'
+    | '/dashboard/settings'
+    | '/dashboard/transactions'
     | '/dashboard'
     | '/auth/register/country'
     | '/auth/register/personal'
@@ -182,6 +237,11 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/auth/register'
+    | '/dashboard/contacts'
+    | '/dashboard/payment-methods'
+    | '/dashboard/send'
+    | '/dashboard/settings'
+    | '/dashboard/transactions'
     | '/dashboard/'
     | '/auth/register/country'
     | '/auth/register/personal'
@@ -199,6 +259,11 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
   AuthRegisterRoute: typeof AuthRegisterRouteWithChildren
+  DashboardContactsRoute: typeof DashboardContactsRoute
+  DashboardPaymentMethodsRoute: typeof DashboardPaymentMethodsRoute
+  DashboardSendRoute: typeof DashboardSendRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardTransactionsRoute: typeof DashboardTransactionsRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   AuthForgotPasswordIndexRoute: typeof AuthForgotPasswordIndexRoute
   AuthLoginIndexRoute: typeof AuthLoginIndexRoute
@@ -246,6 +311,41 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/contacts': {
+      id: '/dashboard/contacts'
+      path: '/dashboard/contacts'
+      fullPath: '/dashboard/contacts'
+      preLoaderRoute: typeof DashboardContactsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/payment-methods': {
+      id: '/dashboard/payment-methods'
+      path: '/dashboard/payment-methods'
+      fullPath: '/dashboard/payment-methods'
+      preLoaderRoute: typeof DashboardPaymentMethodsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/send': {
+      id: '/dashboard/send'
+      path: '/dashboard/send'
+      fullPath: '/dashboard/send'
+      preLoaderRoute: typeof DashboardSendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/dashboard/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/transactions': {
+      id: '/dashboard/transactions'
+      path: '/dashboard/transactions'
+      fullPath: '/dashboard/transactions'
+      preLoaderRoute: typeof DashboardTransactionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/forgot-password/': {
@@ -335,6 +435,11 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
   AuthRegisterRoute: AuthRegisterRouteWithChildren,
+  DashboardContactsRoute: DashboardContactsRoute,
+  DashboardPaymentMethodsRoute: DashboardPaymentMethodsRoute,
+  DashboardSendRoute: DashboardSendRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardTransactionsRoute: DashboardTransactionsRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   AuthForgotPasswordIndexRoute: AuthForgotPasswordIndexRoute,
   AuthLoginIndexRoute: AuthLoginIndexRoute,
