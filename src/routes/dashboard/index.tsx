@@ -1,110 +1,15 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { ArrowUpRight, ChevronRight, Plus, Send, TrendingUp, WalletCards } from 'lucide-react'
+import { DashboardLayout, SectionTitle } from '#/components/dashboard/dashboard-layout'
+import { demoTransactions } from '#/components/dashboard/dashboard-data'
 
-export const Route = createFileRoute('/dashboard/')({
-  component: RouteComponent,
-})
+export const Route = createFileRoute('/dashboard/')({ component: DashboardPage })
 
-function RouteComponent() {
-  return (
-    <div>
-      <div className="drawer lg:drawer-open">
-        <input
-          id="my-drawer-4"
-          type="checkbox"
-          className="drawer-toggle inline"
-        />
-        <div className="drawer-content">
-          {/* Navbar */}
-          <nav className="navbar w-full bg-base-300">
-            <label
-              htmlFor="my-drawer-4"
-              aria-label="open sidebar"
-              className="btn btn-square btn-ghost drawer-button"
-            >
-              {/* Sidebar toggle icon */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                strokeWidth="2"
-                fill="none"
-                stroke="currentColor"
-                className="my-1.5 inline-block size-4"
-              >
-                <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
-                <path d="M9 4v16"></path>
-                <path d="M14 10l2 2l-2 2"></path>
-              </svg>
-            </label>
-            <div className="px-4">Navbar Title</div>
-          </nav>
-          {/* Page content here */}
-          <div className="p-4">Page Content</div>
-        </div>
-
-        <div className="drawer-side is-drawer-close:overflow-visible">
-          <label
-            htmlFor="my-drawer-4"
-            aria-label="close sidebar"
-            className="drawer-overlay"
-          ></label>
-          <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
-            {/* Sidebar content here */}
-            <ul className="menu w-full grow">
-              {/* List item */}
-              <li>
-                <button
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Homepage"
-                >
-                  {/* Home icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    fill="none"
-                    stroke="currentColor"
-                    className="my-1.5 inline-block size-4"
-                  >
-                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                    <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  </svg>
-                  <span className="is-drawer-close:hidden">Homepage</span>
-                </button>
-              </li>
-
-              {/* List item */}
-              <li>
-                <button
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Settings"
-                >
-                  {/* Settings icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    fill="none"
-                    stroke="currentColor"
-                    className="my-1.5 inline-block size-4"
-                  >
-                    <path d="M20 7h-9"></path>
-                    <path d="M14 17H5"></path>
-                    <circle cx="17" cy="17" r="3"></circle>
-                    <circle cx="7" cy="7" r="3"></circle>
-                  </svg>
-                  <span className="is-drawer-close:hidden">Settings</span>
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+function DashboardPage() {
+  return <DashboardLayout title="Bonjour, Dieuveil" eyebrow="Mardi 1 septembre 2026"><div className="space-y-7">
+    <section className="grid gap-4 xl:grid-cols-[1.45fr_1fr]"><div className="relative overflow-hidden rounded-[2rem] bg-primary p-6 text-primary-content shadow-xl shadow-primary/20 sm:p-8"><div className="relative z-10"><p className="mb-2 text-sm font-bold opacity-75">Solde disponible</p><div className="flex items-end gap-3"><span className="font-display text-4xl font-bold sm:text-5xl">125 000</span><span className="mb-1 font-bold">XAF</span></div><div className="mt-5 flex items-center gap-2 text-xs font-bold opacity-80"><TrendingUp className="size-4" /> +12,5% ce mois-ci</div></div><div className="absolute -right-8 -top-12 size-48 rounded-full border-[24px] border-white/10" /><div className="absolute -bottom-20 right-20 size-56 rounded-full border-[32px] border-white/10" /></div><div className="flex flex-col justify-between rounded-[2rem] border border-base-200 bg-base-200/50 p-6 sm:p-8"><div><p className="text-sm font-bold text-base-content/55">Votre prochaine action</p><h2 className="mt-2 font-display text-2xl font-bold">Envoyer de l’argent</h2><p className="mt-2 max-w-sm text-sm leading-relaxed text-base-content/55">Transférez de l’argent à vos proches en quelques secondes.</p></div><Link to="/dashboard/send" className="btn btn-secondary mt-6 w-full rounded-2xl sm:w-fit">Commencer un envoi <ArrowUpRight className="size-4" /></Link></div></section>
+    <div className="grid gap-4 sm:grid-cols-3"><div className="stat rounded-3xl border border-base-200 bg-base-100 p-5"><div className="stat-figure text-primary"><Send className="size-5" /></div><div className="stat-title text-xs font-bold">Envoyé ce mois</div><div className="stat-value font-display text-2xl">85 500 <small className="text-xs">XAF</small></div><div className="stat-desc">12 transactions</div></div><div className="stat rounded-3xl border border-base-200 bg-base-100 p-5"><div className="stat-figure text-secondary"><WalletCards className="size-5" /></div><div className="stat-title text-xs font-bold">Reçu ce mois</div><div className="stat-value font-display text-2xl">40 000 <small className="text-xs">XAF</small></div><div className="stat-desc">3 transactions</div></div><div className="stat rounded-3xl border border-base-200 bg-base-100 p-5"><div className="stat-figure text-accent"><TrendingUp className="size-5" /></div><div className="stat-title text-xs font-bold">Taux de réussite</div><div className="stat-value font-display text-2xl">98,4%</div><div className="stat-desc">Sur vos transferts</div></div></div>
+    <section><SectionTitle action={<Link to="/dashboard/transactions" className="btn btn-ghost btn-sm rounded-full text-primary">Voir tout <ChevronRight className="size-4" /></Link>}>Transactions récentes</SectionTitle><div className="overflow-hidden rounded-[1.75rem] border border-base-200 bg-base-100">{demoTransactions.slice(0, 3).map((transaction) => <div key={transaction.id} className="flex items-center gap-3 border-b border-base-200 p-4 last:border-0 sm:p-5"><div className={`flex size-10 shrink-0 items-center justify-center rounded-2xl text-xs font-extrabold ${transaction.tone}`}>{transaction.initials}</div><div className="min-w-0 flex-1"><p className="truncate text-sm font-bold">{transaction.name}</p><p className="text-xs text-base-content/45">{transaction.date}</p></div><div className="text-right"><p className="text-sm font-extrabold">{transaction.amount}</p><span className={`text-[10px] font-extrabold uppercase ${transaction.tone.split(' ')[1]}`}>{transaction.status}</span></div></div>)}</div></section>
+    <div className="flex flex-wrap gap-3"><Link to="/dashboard/send" className="btn btn-primary rounded-2xl"><Plus className="size-4" /> Nouvel envoi</Link><Link to="/dashboard/payment-methods" className="btn btn-outline rounded-2xl"><WalletCards className="size-4" /> Ajouter un moyen</Link></div>
+  </div></DashboardLayout>
 }
