@@ -3,108 +3,51 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   ArrowUpRight,
   CheckCircle2,
+  Coins,
+  ExternalLink,
   Globe2,
+  Layers,
   MapPin,
   Network,
   Sparkles,
 } from 'lucide-react'
 import { AFRICA_COUNTRIES } from './africa-data'
-
-type CountryId = 'MA' | 'NG' | 'RW' | 'KE' | 'ZA'
-
-interface Market {
-  id: CountryId
-  country: string
-  city: string
-  badge: string
-  title: string
-  description: string
-  methods: string[]
-  color: string
-}
-
-const markets: readonly Market[] = [
-  {
-    id: 'MA',
-    country: 'Maroc',
-    city: 'Casablanca',
-    badge: 'Marché envisagé',
-    title: 'Porte d’entrée vers l’Afrique du Nord',
-    description:
-      'Le Maroc représente un marché stratégique à explorer pour connecter les utilisateurs et les différents moyens de paiement.',
-    methods: ['Carte bancaire', 'Virement bancaire'],
-    color: '#F59E0B',
-  },
-  {
-    id: 'NG',
-    country: 'Nigéria',
-    city: 'Lagos',
-    badge: 'Marché envisagé',
-    title: 'Un marché numérique majeur',
-    description:
-      'Le Nigéria constitue un marché particulièrement important grâce à son écosystème fintech et son volume élevé de transactions.',
-    methods: ['Bank Transfer', 'USSD', 'Cartes bancaires'],
-    color: '#10B981',
-  },
-  {
-    id: 'RW',
-    country: 'Rwanda',
-    city: 'Kigali',
-    badge: 'À confirmer',
-    title: 'Un hub technologique africain',
-    description:
-      'Le Rwanda est un marché intéressant à explorer pour les paiements numériques et les services financiers modernes.',
-    methods: ['MTN Mobile Money', 'Airtel Money'],
-    color: '#8B5CF6',
-  },
-  {
-    id: 'KE',
-    country: 'Kenya',
-    city: 'Nairobi',
-    badge: 'À confirmer',
-    title: 'Écosystème Mobile Money avancé',
-    description:
-      'Le Kenya est l’un des marchés africains les plus importants pour les paiements mobiles et les transferts numériques.',
-    methods: ['M-Pesa', 'Virement bancaire', 'Cartes bancaires'],
-    color: '#EF4444',
-  },
-  {
-    id: 'ZA',
-    country: 'Afrique du Sud',
-    city: 'Johannesburg',
-    badge: 'À confirmer',
-    title: 'Infrastructure financière développée',
-    description:
-      'L’Afrique du Sud représente un marché important grâce à son infrastructure bancaire et financière avancée.',
-    methods: ['EFT', 'Cartes bancaires', 'Virement bancaire'],
-    color: '#3B82F6',
-  },
-] as const
+import { MONEROO_MARKETS, type MonerooMarket } from './moneroo-coverage'
 
 interface HoverInfo {
   id: string
   name: string
-  market?: Market
+  market?: MonerooMarket
   x: number
   y: number
 }
 
 export function AfricaMapSection() {
-  const [activeCountryId, setActiveCountryId] = useState<CountryId>('NG')
+  const [activeCountryId, setActiveCountryId] = useState<string>('NG')
+  const [viewMode, setViewMode] = useState<'primary' | 'all'>('primary')
   const [hoveredInfo, setHoveredInfo] = useState<HoverInfo | null>(null)
   const mapContainerRef = useRef<HTMLDivElement>(null)
 
-  const activeMarket = useMemo(
-    () =>
-      markets.find((market) => market.id === activeCountryId) ?? markets[0],
-    [activeCountryId]
-  )
-
   const marketsMap = useMemo(() => {
-    const map = new Map<string, Market>()
-    markets.forEach((m) => map.set(m.id, m))
+    const map = new Map<string, MonerooMarket>()
+    MONEROO_MARKETS.forEach((m) => map.set(m.id, m))
     return map
   }, [])
+
+  const activeMarket = useMemo(
+    () =>
+      marketsMap.get(activeCountryId) ??
+      MONEROO_MARKETS.find((m) => m.id === 'NG') ??
+      MONEROO_MARKETS[0],
+    [activeCountryId, marketsMap]
+  )
+
+  const displayedMarkets = useMemo(() => {
+    if (viewMode === 'primary') {
+      return MONEROO_MARKETS.filter((m) => m.isPrimary)
+    }
+    return MONEROO_MARKETS
+  }, [viewMode])
 
   const handleCountryHover = (
     country: (typeof AFRICA_COUNTRIES)[number],
@@ -165,7 +108,7 @@ export function AfricaMapSection() {
           <div className="mb-5 flex justify-center">
             <span className="badge badge-primary badge-outline gap-2 px-4 py-3 text-xs font-bold tracking-wide">
               <Globe2 className="size-4" />
-              Expansion africaine
+              Expansion & Infrastructure
             </span>
           </div>
 
@@ -175,16 +118,16 @@ export function AfricaMapSection() {
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-base-content/65 sm:text-lg">
-            NexPay ambitionne de faciliter les transferts et les paiements entre
-            différents marchés africains. Passez la souris sur les pays de la
-            carte pour découvrir notre vision pour chaque marché.
+            NexPay s’appuie sur les infrastructures de paiement les plus fiables
+            pour connecter plus de 24 marchés africains. Survolez la carte pour
+            découvrir la couverture et les méthodes disponibles pour chaque pays.
           </p>
         </div>
 
         <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
           {/* ================= LEFT ================= */}
           <div className="space-y-6">
-            {/* Stats */}
+            {/* Stats / Network cards */}
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
               <div className="rounded-3xl border border-base-200 bg-base-200/30 p-6 backdrop-blur">
                 <div className="flex items-center justify-between">
@@ -192,37 +135,53 @@ export function AfricaMapSection() {
                     <Globe2 className="size-6" />
                   </div>
                   <span className="text-xs font-bold uppercase tracking-widest text-base-content/40">
-                    Expansion
+                    Couverture
                   </span>
                 </div>
 
                 <div className="mt-5">
                   <div className="text-4xl font-black text-primary">
-                    {markets.length}
+                    24+
                   </div>
                   <div className="mt-1 text-sm text-base-content/60">
-                    Marchés ciblés
+                    Pays africains couverts
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-base-200 bg-base-200/30 p-6 backdrop-blur">
+              {/* Clickable Moneroo Network card */}
+              <a
+                href="https://moneroo.io/fr/coverage"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Consulter la couverture officielle sur Moneroo.io (s'ouvre dans un nouvel onglet)"
+                className="group rounded-3xl border border-secondary/20 bg-gradient-to-br from-base-200/50 to-secondary/5 p-6 backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:border-secondary/40 hover:bg-base-200/80 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-secondary/50"
+              >
                 <div className="flex items-center justify-between">
-                  <div className="rounded-2xl bg-secondary/10 p-3 text-secondary">
+                  <div className="rounded-2xl bg-secondary/15 p-3 text-secondary transition-colors group-hover:bg-secondary group-hover:text-white">
                     <Network className="size-6" />
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-widest text-base-content/40">
+
+                  <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-secondary transition-colors group-hover:text-secondary-content">
                     Network
+                    <ExternalLink className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </span>
                 </div>
 
                 <div className="mt-5">
-                  <div className="text-2xl font-black">Moneroo</div>
-                  <div className="mt-2 text-sm text-base-content/60">
-                    Provider envisagé
+                  <div className="flex items-center gap-2 text-2xl font-black transition-colors group-hover:text-secondary">
+                    Moneroo
+                    <ArrowUpRight className="size-5 text-secondary opacity-70 transition-all group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:opacity-100" />
+                  </div>
+
+                  <div className="mt-2 flex items-center gap-1.5 text-sm font-medium text-base-content/70 group-hover:text-base-content">
+                    <span>Provider envisagé</span>
+                    <span className="badge badge-secondary badge-xs font-bold">
+                      Voir couverture ↗
+                    </span>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
 
             {/* Active market card */}
@@ -253,13 +212,18 @@ export function AfricaMapSection() {
                     </div>
 
                     <h3 className="text-2xl font-black">{activeMarket.city}</h3>
-                    <p className="mt-1 font-medium text-base-content/55">
-                      {activeMarket.country}
+                    <p className="mt-1 flex items-center gap-2 font-medium text-base-content/65">
+                      <span>{activeMarket.country}</span>
+                      <span className="text-base-content/30">•</span>
+                      <span className="inline-flex items-center gap-1 rounded-md bg-base-200/70 px-2 py-0.5 text-xs font-bold text-base-content/70">
+                        <Coins className="size-3" />
+                        {activeMarket.currency}
+                      </span>
                     </p>
                   </div>
 
                   <span
-                    className="badge border-0 text-white shadow-sm"
+                    className="badge border-0 text-white shadow-sm font-bold text-xs px-3 py-3"
                     style={{ backgroundColor: activeMarket.color }}
                   >
                     {activeMarket.badge}
@@ -270,20 +234,24 @@ export function AfricaMapSection() {
                   <h4 className="font-bold text-base sm:text-lg">
                     {activeMarket.title}
                   </h4>
-                  <p className="mt-3 text-sm leading-relaxed text-base-content/65">
+                  <p className="mt-3 text-sm leading-relaxed text-base-content/70">
                     {activeMarket.description}
                   </p>
                 </div>
 
+                {/* Methods */}
                 <div className="mt-6">
-                  <div className="mb-3 text-xs font-bold uppercase tracking-widest text-base-content/45">
-                    Méthodes envisagées
+                  <div className="mb-3 flex items-center justify-between text-xs font-bold uppercase tracking-widest text-base-content/45">
+                    <span>Méthodes disponibles (via Moneroo)</span>
+                    <span className="text-[10px] font-semibold text-primary">
+                      {activeMarket.methods.length} options
+                    </span>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {activeMarket.methods.map((method) => (
                       <span
                         key={method}
-                        className="badge badge-lg gap-1.5 border-base-200 bg-base-200/40 font-medium"
+                        className="badge badge-lg gap-1.5 border-base-200 bg-base-200/50 text-xs font-medium"
                       >
                         <CheckCircle2 className="size-3.5 text-success" />
                         {method}
@@ -291,17 +259,65 @@ export function AfricaMapSection() {
                     ))}
                   </div>
                 </div>
+
+                {/* Gateways / ecosystem */}
+                {activeMarket.gateways && activeMarket.gateways.length > 0 && (
+                  <div className="mt-5 border-t border-base-200/60 pt-4">
+                    <div className="mb-2.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-base-content/45">
+                      <Layers className="size-3.5 text-secondary" />
+                      <span>Réseaux & Passerelles connectés</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {activeMarket.gateways.map((gw) => (
+                        <span
+                          key={gw}
+                          className="rounded-lg bg-secondary/10 px-2.5 py-1 text-[11px] font-bold text-secondary"
+                        >
+                          {gw}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </motion.div>
 
-            {/* Country selector */}
-            <div className="space-y-2">
-              <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-base-content/45">
-                Explorer les marchés
+            {/* Country selector & filter */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-base-content/45">
+                  Explorer les marchés
+                </div>
+
+                {/* Tabs */}
+                <div className="flex rounded-xl bg-base-200/60 p-1 text-xs">
+                  <button
+                    type="button"
+                    onClick={() => setViewMode('primary')}
+                    className={`rounded-lg px-2.5 py-1 font-bold transition-all ${
+                      viewMode === 'primary'
+                        ? 'bg-base-100 text-primary shadow-sm'
+                        : 'text-base-content/60 hover:text-base-content'
+                    }`}
+                  >
+                    Focus NexPay
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setViewMode('all')}
+                    className={`rounded-lg px-2.5 py-1 font-bold transition-all ${
+                      viewMode === 'all'
+                        ? 'bg-base-100 text-primary shadow-sm'
+                        : 'text-base-content/60 hover:text-base-content'
+                    }`}
+                  >
+                    Tous ({MONEROO_MARKETS.length})
+                  </button>
+                </div>
               </div>
 
-              <div className="grid gap-2 sm:grid-cols-2">
-                {markets.map((market) => {
+              <div className="grid max-h-[340px] gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
+                {displayedMarkets.map((market) => {
                   const isActive = market.id === activeCountryId
 
                   return (
@@ -310,7 +326,7 @@ export function AfricaMapSection() {
                       type="button"
                       onClick={() => setActiveCountryId(market.id)}
                       onMouseEnter={() => setActiveCountryId(market.id)}
-                      className={`group rounded-2xl border p-4 text-left transition-all duration-200 ${
+                      className={`group rounded-2xl border p-3.5 text-left transition-all duration-200 ${
                         isActive
                           ? 'border-transparent bg-base-200 shadow-md'
                           : 'border-base-200 bg-base-100 hover:bg-base-200/50'
@@ -329,25 +345,26 @@ export function AfricaMapSection() {
                             className="size-2.5 rounded-full transition-transform group-hover:scale-125"
                             style={{ backgroundColor: market.color }}
                           />
-                          <span className="font-bold">{market.country}</span>
+                          <span className="font-bold text-sm">
+                            {market.country}
+                          </span>
                         </div>
 
-                        <ArrowUpRight
-                          className={`size-4 transition-transform ${
-                            isActive
-                              ? 'translate-x-0.5 -translate-y-0.5'
-                              : 'opacity-40 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100'
-                          }`}
-                          style={
-                            isActive
-                              ? { color: market.color }
-                              : undefined
-                          }
-                        />
+                        <span className="text-[10px] font-bold text-base-content/50">
+                          {market.currency}
+                        </span>
                       </div>
 
-                      <div className="mt-1 pl-4.5 text-xs text-base-content/50">
-                        {market.city}
+                      <div className="mt-1 flex items-center justify-between pl-4.5 text-xs text-base-content/50">
+                        <span>{market.city}</span>
+                        <ArrowUpRight
+                          className={`size-3.5 transition-transform ${
+                            isActive
+                              ? 'translate-x-0.5 -translate-y-0.5'
+                              : 'opacity-0 group-hover:opacity-100'
+                          }`}
+                          style={isActive ? { color: market.color } : undefined}
+                        />
                       </div>
                     </button>
                   )
@@ -368,16 +385,20 @@ export function AfricaMapSection() {
                     Carte interactive
                   </div>
                   <h3 className="mt-1 text-xl font-black sm:text-2xl">
-                    Marchés ciblés en Afrique
+                    Couverture Moneroo en Afrique
                   </h3>
                 </div>
 
-                <div className="badge badge-success badge-outline gap-2 px-3 py-3 text-xs font-bold">
-                  <span className="relative flex size-2">
-                    <span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-75" />
-                    <span className="relative inline-flex size-2 rounded-full bg-success" />
-                  </span>
-                  {markets.length} marchés
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://moneroo.io/fr/coverage"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="badge badge-secondary badge-outline gap-1.5 px-3 py-3 text-xs font-bold transition-all hover:bg-secondary hover:text-white"
+                  >
+                    <ExternalLink className="size-3" />
+                    24+ marchés couverts
+                  </a>
                 </div>
               </div>
 
@@ -402,7 +423,7 @@ export function AfricaMapSection() {
                   {/* Watermark label */}
                   <div className="pointer-events-none absolute left-5 top-5 z-10 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400/80">
                     <Sparkles className="size-3 text-primary/60" />
-                    Africa
+                    Moneroo Coverage
                   </div>
 
                   {/* Active country badge in corner */}
@@ -415,7 +436,7 @@ export function AfricaMapSection() {
                       {activeMarket.country}
                     </span>
                     <span className="text-[10px] text-base-content/50">
-                      ({activeMarket.city})
+                      ({activeMarket.currency})
                     </span>
                   </div>
 
@@ -424,11 +445,28 @@ export function AfricaMapSection() {
                     viewBox="-2 -2 238 222"
                     preserveAspectRatio="xMidYMid meet"
                     className="relative z-10 h-full w-full select-none"
-                    aria-label="Carte interactive de l'Afrique avec les marchés ciblés"
+                    aria-label="Carte interactive de l'Afrique avec la couverture Moneroo"
                   >
+                    <defs>
+                      <filter
+                        id="active-glow"
+                        x="-20%"
+                        y="-20%"
+                        width="140%"
+                        height="140%"
+                      >
+                        <feDropShadow
+                          dx="0"
+                          dy="3"
+                          stdDeviation="4"
+                          floodOpacity="0.35"
+                        />
+                      </filter>
+                    </defs>
+
                     {AFRICA_COUNTRIES.map((country) => {
                       const market = marketsMap.get(country.id)
-                      const isTarget = !!market
+                      const isCovered = !!market
                       const isActive = activeCountryId === country.id
 
                       let fill = '#CBD5E1'
@@ -437,17 +475,21 @@ export function AfricaMapSection() {
                       let opacity = 0.85
                       let filter = 'none'
 
-                      if (isTarget) {
+                      if (isCovered) {
                         fill = market.color
                         if (isActive) {
                           opacity = 1
                           stroke = '#FFFFFF'
                           strokeWidth = '1.3'
                           filter = `drop-shadow(0px 3px 6px ${market.color}90)`
-                        } else {
-                          opacity = 0.75
+                        } else if (market.isPrimary) {
+                          opacity = 0.8
                           stroke = '#FFFFFF'
                           strokeWidth = '0.7'
+                        } else {
+                          opacity = 0.65
+                          stroke = '#FFFFFF'
+                          strokeWidth = '0.5'
                         }
                       }
 
@@ -463,11 +505,11 @@ export function AfricaMapSection() {
                           strokeLinecap="round"
                           opacity={opacity}
                           filter={filter}
-                          tabIndex={isTarget ? 0 : -1}
+                          tabIndex={isCovered ? 0 : -1}
                           role="button"
                           aria-label={
-                            isTarget
-                              ? `${market.country} - ${market.city}`
+                            isCovered
+                              ? `${market.country} - ${market.city} (${market.methods.join(', ')})`
                               : country.name
                           }
                           onMouseEnter={(e) => handleCountryHover(country, e)}
@@ -475,7 +517,7 @@ export function AfricaMapSection() {
                           onMouseLeave={() => setHoveredInfo(null)}
                           onClick={() => handleCountryClick(country.id)}
                           className={`transition-all duration-200 ease-out outline-none ${
-                            isTarget
+                            isCovered
                               ? 'cursor-pointer hover:opacity-100 hover:brightness-110'
                               : 'cursor-pointer hover:fill-slate-400 hover:opacity-95'
                           }`}
@@ -498,7 +540,7 @@ export function AfricaMapSection() {
                           top: hoveredInfo.y,
                         }}
                       >
-                        <div className="rounded-xl border border-base-200 bg-base-100/95 px-3 py-2 text-center shadow-xl backdrop-blur-md">
+                        <div className="min-w-[150px] max-w-[240px] rounded-xl border border-base-200 bg-base-100/95 p-2.5 text-center shadow-2xl backdrop-blur-md">
                           <div className="flex items-center justify-center gap-1.5">
                             {hoveredInfo.market && (
                               <span
@@ -513,14 +555,25 @@ export function AfricaMapSection() {
                             </span>
                           </div>
 
-                          {hoveredInfo.market && (
-                            <div className="mt-0.5 text-[10px] font-semibold text-base-content/60">
-                              {hoveredInfo.market.city} •{' '}
-                              <span
-                                style={{ color: hoveredInfo.market.color }}
-                              >
-                                {hoveredInfo.market.badge}
-                              </span>
+                          {hoveredInfo.market ? (
+                            <div className="mt-1 space-y-1">
+                              <div className="text-[10px] font-semibold text-base-content/70">
+                                {hoveredInfo.market.city} •{' '}
+                                <span
+                                  className="font-bold"
+                                  style={{ color: hoveredInfo.market.color }}
+                                >
+                                  {hoveredInfo.market.currency}
+                                </span>
+                              </div>
+                              <div className="line-clamp-2 text-[9px] text-base-content/50">
+                                {hoveredInfo.market.methods.slice(0, 3).join(', ')}
+                                {hoveredInfo.market.methods.length > 3 && '...'}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="mt-0.5 text-[9px] text-base-content/40">
+                              Marché en expansion
                             </div>
                           )}
                         </div>
@@ -537,7 +590,7 @@ export function AfricaMapSection() {
                       Autres pays
                     </div>
 
-                    {markets.map((market) => {
+                    {MONEROO_MARKETS.filter((m) => m.isPrimary).map((market) => {
                       const isActive = market.id === activeCountryId
                       return (
                         <button
@@ -569,11 +622,20 @@ export function AfricaMapSection() {
               </div>
 
               {/* Bottom helper */}
-              <div className="border-t border-base-200 bg-base-200/20 px-6 py-4">
-                <p className="text-center text-xs text-base-content/50">
-                  Passez la souris sur un pays ou cliquez dessus pour explorer
-                  la vision NexPay.
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-2 border-t border-base-200 bg-base-200/20 px-6 py-4">
+                <p className="text-center sm:text-left text-xs text-base-content/55">
+                  Survolez un pays pour explorer ses méthodes de paiement réelles
+                  sur Moneroo.
                 </p>
+                <a
+                  href="https://moneroo.io/fr/coverage"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-xs font-bold text-secondary hover:underline"
+                >
+                  Voir toute la couverture Moneroo
+                  <ExternalLink className="size-3" />
+                </a>
               </div>
             </div>
           </div>
