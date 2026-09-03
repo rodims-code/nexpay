@@ -176,7 +176,7 @@ export function AfricaMapSection() {
 
                   <div className="mt-2 flex items-center gap-1.5 text-sm font-medium text-base-content/70 group-hover:text-base-content">
                     <span>Provider envisagé</span>
-                    <span className="badge badge-secondary badge-xs font-bold">
+                    <span className="badge badge-secondary badge-xs font-bold font-mono uppercase tracking-widest transition-colors group-hover:bg-secondary group-hover:text-white">
                       Voir couverture ↗
                     </span>
                   </div>
