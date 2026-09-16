@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
@@ -20,6 +21,7 @@ import { Route as DashboardPaymentMethodsRouteImport } from './routes/dashboard/
 import { Route as DashboardSendRouteImport } from './routes/dashboard/send'
 import { Route as DashboardSettingsRouteImport } from './routes/dashboard/settings'
 import { Route as DashboardTransactionsRouteImport } from './routes/dashboard/transactions'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AuthForgotPasswordIndexRouteImport } from './routes/auth/forgot-password/index'
 import { Route as AuthLoginIndexRouteImport } from './routes/auth/login/index'
 import { Route as AuthRegisterIndexRouteImport } from './routes/auth/register/index'
@@ -27,11 +29,15 @@ import { Route as AuthRegisterCountryRouteImport } from './routes/auth/register/
 import { Route as AuthRegisterPersonalRouteImport } from './routes/auth/register/personal'
 import { Route as AuthRegisterPhoneRouteImport } from './routes/auth/register/phone'
 import { Route as AuthRegisterSecurityRouteImport } from './routes/auth/register/security'
-import { Route as AuthRegisterVerifyRouteImport } from './routes/auth/register/verify'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
@@ -55,33 +61,38 @@ const AuthRegisterRoute = AuthRegisterRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardContactsRoute = DashboardContactsRouteImport.update({
-  id: '/dashboard/contacts',
-  path: '/dashboard/contacts',
-  getParentRoute: () => rootRouteImport,
+  id: '/contacts',
+  path: '/contacts',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardPaymentMethodsRoute = DashboardPaymentMethodsRouteImport.update({
-  id: '/dashboard/payment-methods',
-  path: '/dashboard/payment-methods',
-  getParentRoute: () => rootRouteImport,
+  id: '/payment-methods',
+  path: '/payment-methods',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardSendRoute = DashboardSendRouteImport.update({
-  id: '/dashboard/send',
-  path: '/dashboard/send',
-  getParentRoute: () => rootRouteImport,
+  id: '/send',
+  path: '/send',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
-  id: '/dashboard/settings',
-  path: '/dashboard/settings',
-  getParentRoute: () => rootRouteImport,
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardTransactionsRoute = DashboardTransactionsRouteImport.update({
-  id: '/dashboard/transactions',
-  path: '/dashboard/transactions',
+  id: '/transactions',
+  path: '/transactions',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthForgotPasswordIndexRoute = AuthForgotPasswordIndexRouteImport.update({
@@ -119,14 +130,10 @@ const AuthRegisterSecurityRoute = AuthRegisterSecurityRouteImport.update({
   path: '/security',
   getParentRoute: () => AuthRegisterRoute,
 } as any)
-const AuthRegisterVerifyRoute = AuthRegisterVerifyRouteImport.update({
-  id: '/verify',
-  path: '/verify',
-  getParentRoute: () => AuthRegisterRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
@@ -137,11 +144,11 @@ export interface FileRoutesByFullPath {
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/transactions': typeof DashboardTransactionsRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/auth/register/country': typeof AuthRegisterCountryRoute
   '/auth/register/personal': typeof AuthRegisterPersonalRoute
   '/auth/register/phone': typeof AuthRegisterPhoneRoute
   '/auth/register/security': typeof AuthRegisterSecurityRoute
-  '/auth/register/verify': typeof AuthRegisterVerifyRoute
   '/auth/forgot-password/': typeof AuthForgotPasswordIndexRoute
   '/auth/login/': typeof AuthLoginIndexRoute
   '/auth/register/': typeof AuthRegisterIndexRoute
@@ -157,11 +164,11 @@ export interface FileRoutesByTo {
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/transactions': typeof DashboardTransactionsRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/auth/register/country': typeof AuthRegisterCountryRoute
   '/auth/register/personal': typeof AuthRegisterPersonalRoute
   '/auth/register/phone': typeof AuthRegisterPhoneRoute
   '/auth/register/security': typeof AuthRegisterSecurityRoute
-  '/auth/register/verify': typeof AuthRegisterVerifyRoute
   '/auth/forgot-password': typeof AuthForgotPasswordIndexRoute
   '/auth/login': typeof AuthLoginIndexRoute
   '/auth/register': typeof AuthRegisterIndexRoute
@@ -169,6 +176,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
@@ -179,11 +187,11 @@ export interface FileRoutesById {
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/transactions': typeof DashboardTransactionsRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/auth/register/country': typeof AuthRegisterCountryRoute
   '/auth/register/personal': typeof AuthRegisterPersonalRoute
   '/auth/register/phone': typeof AuthRegisterPhoneRoute
   '/auth/register/security': typeof AuthRegisterSecurityRoute
-  '/auth/register/verify': typeof AuthRegisterVerifyRoute
   '/auth/forgot-password/': typeof AuthForgotPasswordIndexRoute
   '/auth/login/': typeof AuthLoginIndexRoute
   '/auth/register/': typeof AuthRegisterIndexRoute
@@ -192,6 +200,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/register'
@@ -202,11 +211,11 @@ export interface FileRouteTypes {
     | '/dashboard/settings'
     | '/dashboard/transactions'
     | '/dashboard/'
+    | '/api/auth/$'
     | '/auth/register/country'
     | '/auth/register/personal'
     | '/auth/register/phone'
     | '/auth/register/security'
-    | '/auth/register/verify'
     | '/auth/forgot-password/'
     | '/auth/login/'
     | '/auth/register/'
@@ -222,17 +231,18 @@ export interface FileRouteTypes {
     | '/dashboard/settings'
     | '/dashboard/transactions'
     | '/dashboard'
+    | '/api/auth/$'
     | '/auth/register/country'
     | '/auth/register/personal'
     | '/auth/register/phone'
     | '/auth/register/security'
-    | '/auth/register/verify'
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/register'
   id:
     | '__root__'
     | '/'
+    | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/register'
@@ -243,11 +253,11 @@ export interface FileRouteTypes {
     | '/dashboard/settings'
     | '/dashboard/transactions'
     | '/dashboard/'
+    | '/api/auth/$'
     | '/auth/register/country'
     | '/auth/register/personal'
     | '/auth/register/phone'
     | '/auth/register/security'
-    | '/auth/register/verify'
     | '/auth/forgot-password/'
     | '/auth/login/'
     | '/auth/register/'
@@ -255,16 +265,12 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
   AuthRegisterRoute: typeof AuthRegisterRouteWithChildren
-  DashboardContactsRoute: typeof DashboardContactsRoute
-  DashboardPaymentMethodsRoute: typeof DashboardPaymentMethodsRoute
-  DashboardSendRoute: typeof DashboardSendRoute
-  DashboardSettingsRoute: typeof DashboardSettingsRoute
-  DashboardTransactionsRoute: typeof DashboardTransactionsRoute
-  DashboardIndexRoute: typeof DashboardIndexRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   AuthForgotPasswordIndexRoute: typeof AuthForgotPasswordIndexRoute
   AuthLoginIndexRoute: typeof AuthLoginIndexRoute
 }
@@ -276,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forgot-password': {
@@ -308,44 +321,51 @@ declare module '@tanstack/react-router' {
     }
     '/dashboard/': {
       id: '/dashboard/'
-      path: '/dashboard'
+      path: '/'
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/dashboard/contacts': {
       id: '/dashboard/contacts'
-      path: '/dashboard/contacts'
+      path: '/contacts'
       fullPath: '/dashboard/contacts'
       preLoaderRoute: typeof DashboardContactsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/dashboard/payment-methods': {
       id: '/dashboard/payment-methods'
-      path: '/dashboard/payment-methods'
+      path: '/payment-methods'
       fullPath: '/dashboard/payment-methods'
       preLoaderRoute: typeof DashboardPaymentMethodsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/dashboard/send': {
       id: '/dashboard/send'
-      path: '/dashboard/send'
+      path: '/send'
       fullPath: '/dashboard/send'
       preLoaderRoute: typeof DashboardSendRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/dashboard/settings': {
       id: '/dashboard/settings'
-      path: '/dashboard/settings'
+      path: '/settings'
       fullPath: '/dashboard/settings'
       preLoaderRoute: typeof DashboardSettingsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/dashboard/transactions': {
       id: '/dashboard/transactions'
-      path: '/dashboard/transactions'
+      path: '/transactions'
       fullPath: '/dashboard/transactions'
       preLoaderRoute: typeof DashboardTransactionsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/forgot-password/': {
@@ -397,22 +417,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRegisterSecurityRouteImport
       parentRoute: typeof AuthRegisterRoute
     }
-    '/auth/register/verify': {
-      id: '/auth/register/verify'
-      path: '/verify'
-      fullPath: '/auth/register/verify'
-      preLoaderRoute: typeof AuthRegisterVerifyRouteImport
-      parentRoute: typeof AuthRegisterRoute
-    }
   }
 }
+
+interface DashboardRouteChildren {
+  DashboardContactsRoute: typeof DashboardContactsRoute
+  DashboardPaymentMethodsRoute: typeof DashboardPaymentMethodsRoute
+  DashboardSendRoute: typeof DashboardSendRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardTransactionsRoute: typeof DashboardTransactionsRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardContactsRoute: DashboardContactsRoute,
+  DashboardPaymentMethodsRoute: DashboardPaymentMethodsRoute,
+  DashboardSendRoute: DashboardSendRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardTransactionsRoute: DashboardTransactionsRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
 
 interface AuthRegisterRouteChildren {
   AuthRegisterCountryRoute: typeof AuthRegisterCountryRoute
   AuthRegisterPersonalRoute: typeof AuthRegisterPersonalRoute
   AuthRegisterPhoneRoute: typeof AuthRegisterPhoneRoute
   AuthRegisterSecurityRoute: typeof AuthRegisterSecurityRoute
-  AuthRegisterVerifyRoute: typeof AuthRegisterVerifyRoute
   AuthRegisterIndexRoute: typeof AuthRegisterIndexRoute
 }
 
@@ -421,7 +455,6 @@ const AuthRegisterRouteChildren: AuthRegisterRouteChildren = {
   AuthRegisterPersonalRoute: AuthRegisterPersonalRoute,
   AuthRegisterPhoneRoute: AuthRegisterPhoneRoute,
   AuthRegisterSecurityRoute: AuthRegisterSecurityRoute,
-  AuthRegisterVerifyRoute: AuthRegisterVerifyRoute,
   AuthRegisterIndexRoute: AuthRegisterIndexRoute,
 }
 
@@ -431,16 +464,12 @@ const AuthRegisterRouteWithChildren = AuthRegisterRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
   AuthRegisterRoute: AuthRegisterRouteWithChildren,
-  DashboardContactsRoute: DashboardContactsRoute,
-  DashboardPaymentMethodsRoute: DashboardPaymentMethodsRoute,
-  DashboardSendRoute: DashboardSendRoute,
-  DashboardSettingsRoute: DashboardSettingsRoute,
-  DashboardTransactionsRoute: DashboardTransactionsRoute,
-  DashboardIndexRoute: DashboardIndexRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
   AuthForgotPasswordIndexRoute: AuthForgotPasswordIndexRoute,
   AuthLoginIndexRoute: AuthLoginIndexRoute,
 }

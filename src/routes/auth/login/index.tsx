@@ -8,11 +8,11 @@ import { FormField } from '#/components/auth/FormField'
 import { LoadingButton } from '#/components/auth/LoadingButton'
 import { ErrorMessage } from '#/components/auth/ErrorMessage'
 import {
-  mockAuthService,
   loginSchema,
   SUPPORTED_COUNTRIES,
   sanitizePhone,
 } from '#/components/auth/mockAuth'
+import { authClient, phoneLoginEmail } from '#/lib/auth-client'
 import { Lock } from 'lucide-react'
 
 export const Route = createFileRoute('/auth/login/')({
@@ -48,18 +48,14 @@ function LoginComponent() {
 
     setLoading(true)
     try {
-      const res = await mockAuthService.loginUser(fullPhone, password)
+      const { error: signInError } = await authClient.signIn.email({
+        email: phoneLoginEmail(fullPhone),
+        password,
+        rememberMe,
+      })
 
-      if (!res.success) {
-        if (res.errorType === 'not_found') {
-          setError(
-            "Ce numéro de téléphone n'est associé à aucun compte NexPay.",
-          )
-        } else if (res.errorType === 'incorrect_password') {
-          setError('Mot de passe incorrect. Veuillez réessayer.')
-        } else {
-          setError('Compte temporairement bloqué ou inaccessible.')
-        }
+      if (signInError) {
+        setError('Numéro de téléphone ou mot de passe incorrect.')
         setLoading(false)
         return
       }
@@ -94,17 +90,6 @@ function LoginComponent() {
         title="RAVI DE VOUS REVOIR 😁"
         subtitle="Connectez-vous pour continuer vers votre espace NexPay."
       >
-        {/* Test account notification */}
-        <div className="alert alert-info mb-1 flex min-w-0 flex-col items-start gap-1 rounded-2xl border border-primary/15 bg-primary/10 p-3 text-[11px] font-bold leading-relaxed text-primary sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-2 sm:gap-y-0">
-          <span className="w-full sm:w-auto">💡 Compte démo pour test :</span>
-          <span className="max-w-full break-words">
-            Tél : <span className="underline">+242 06 123 45 67</span>
-          </span>
-          <span className="max-w-full break-words">
-            MDP : <span className="underline">Password123!</span>
-          </span>
-        </div>
-
         <form onSubmit={handleSubmit} className="space-y-5">
           <FormField
             label="Numéro de téléphone"
