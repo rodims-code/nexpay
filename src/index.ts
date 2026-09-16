@@ -10,8 +10,6 @@ async function main() {
     name: 'John',
     age: 30,
     email: 'john@example.com',
-    numberPhone: '+243895652891',
-    contry: 'RDC',
   };
 
   await db.insert(usersTable).values(user);
