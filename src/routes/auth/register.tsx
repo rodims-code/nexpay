@@ -50,13 +50,6 @@ function RegisterLayout() {
           'Créez un mot de passe robuste pour protéger vos fonds et transactions.',
       }
     }
-    if (pathname.includes('/auth/register/verify')) {
-      return {
-        step: 5,
-        title: 'Vérifier votre téléphone',
-        subtitle: '', // will build dynamic message inside step 5 with custom formatting
-      }
-    }
     return {
       step: 1,
       title: 'Créer votre compte NexPay',
@@ -75,7 +68,6 @@ function RegisterLayout() {
     if (currentStep === 2) navigate({ to: '/auth/register/phone' })
     else if (currentStep === 3) navigate({ to: '/auth/register/personal' })
     else if (currentStep === 4) navigate({ to: '/auth/register/country' })
-    else if (currentStep === 5) navigate({ to: '/auth/register/security' })
   }
 
   return (

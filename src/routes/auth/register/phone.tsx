@@ -5,7 +5,6 @@ import { PhoneInput } from '#/components/auth/PhoneInput'
 import { FormField } from '#/components/auth/FormField'
 import { LoadingButton } from '#/components/auth/LoadingButton'
 import {
-  mockAuthService,
   phoneSchema,
   SUPPORTED_COUNTRIES,
   sanitizePhone,
@@ -16,7 +15,7 @@ export const Route = createFileRoute('/auth/register/phone')({
 })
 
 function PhoneStep() {
-  const { registrationData, updateData, setOtpCode } = useRegister()
+  const { registrationData, updateData } = useRegister()
   const [phoneNumber, setPhoneNumber] = useState(registrationData.phoneNumber)
   const [countryCode, setCountryCode] = useState(registrationData.countryCode)
   const [loading, setLoading] = useState(false)
@@ -53,20 +52,6 @@ function PhoneStep() {
 
     setLoading(true)
     try {
-      const fullPhone = country.callingCode + sanitized
-
-      // Check if phone number is already registered in DB
-      const exists = await mockAuthService.checkPhoneExists(fullPhone)
-      if (exists) {
-        setError('Ce numéro de téléphone est déjà enregistré chez NexPay.')
-        setLoading(false)
-        return
-      }
-
-      // Simulate sending OTP and store code in context for step 5 access
-      const code = await mockAuthService.sendOtp(fullPhone)
-      setOtpCode(code)
-
       // Save form data into parent Context
       updateData({
         phoneNumber: sanitized,
