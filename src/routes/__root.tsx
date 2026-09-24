@@ -35,7 +35,7 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" data-theme="caramellatte">
+    <html lang="fr" data-theme="bumblebee">
       <head>
         <HeadContent />
       </head>
