@@ -15,6 +15,7 @@ import {
   X,
 } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
+import { useSession, signOut } from '#/lib/auth-client'
 
 const navItems = [
   { label: 'Vue d’ensemble', to: '/dashboard', icon: House },
@@ -42,6 +43,32 @@ export function DashboardLayout({
 }) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
+  const { data: session } = useSession()
+
+  const userName = session?.user?.name || 'Mon Compte'
+  const displayName =
+    (session?.user as any)?.firstName ||
+    userName.split(' ')[0] ||
+    'Utilisateur'
+  const initials =
+    userName
+      .split(' ')
+      .filter(Boolean)
+      .map((part) => part[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase() || 'NP'
+
+  const handleSignOut = async () => {
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          window.location.href = '/auth/login'
+        },
+      },
+    })
+  }
+
   const links = (items: typeof navItems) =>
     items.map(({ label, to, icon: Icon }) => {
       const active =
@@ -110,7 +137,10 @@ export function DashboardLayout({
               Centre d’aide
             </button>
           </div>
-          <button className="mt-4 flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-base-content/55 hover:bg-base-200">
+          <button
+            onClick={handleSignOut}
+            className="mt-4 flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-base-content/55 transition hover:bg-error/10 hover:text-error"
+          >
             <LogOut className="size-[18px]" /> Se déconnecter
           </button>
         </aside>
@@ -150,20 +180,32 @@ export function DashboardLayout({
                 <button className="flex items-center gap-2 rounded-full p-1 pr-2 hover:bg-base-200">
                   <div className="avatar placeholder">
                     <div className="w-9 rounded-full bg-primary text-xs font-extrabold text-primary-content">
-                      DR
+                      {initials}
                     </div>
                   </div>
                   <span className="hidden text-sm font-bold sm:inline">
-                    Dieuveil
+                    {displayName}
                   </span>
                   <ChevronDown className="size-4 text-base-content/50" />
                 </button>
-                <ul className="menu dropdown-content z-[1] mt-3 w-48 rounded-2xl border border-base-200 bg-base-100 p-2 shadow-xl">
-                  <li>
-                    <Link to="/dashboard/settings">Mon profil</Link>
+                <ul className="menu dropdown-content z-[1] mt-3 w-56 rounded-2xl border border-base-200 bg-base-100 p-2 shadow-xl">
+                  <li className="px-4 py-2 border-b border-base-200/60 mb-1">
+                    <span className="font-bold text-base-content text-sm truncate block p-0">
+                      {userName}
+                    </span>
+                    <span className="text-xs text-base-content/50 font-normal truncate block p-0">
+                      {(session?.user as any)?.phone || session?.user?.email || 'Compte vérifié'}
+                    </span>
                   </li>
                   <li>
-                    <button>Se déconnecter</button>
+                    <Link to="/dashboard/settings" className="font-medium">
+                      <Settings className="size-4" /> Mon profil & paramètres
+                    </Link>
+                  </li>
+                  <li>
+                    <button onClick={handleSignOut} className="text-error font-medium">
+                      <LogOut className="size-4" /> Se déconnecter
+                    </button>
                   </li>
                 </ul>
               </div>
