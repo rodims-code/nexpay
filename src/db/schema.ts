@@ -64,3 +64,23 @@ export const verification = pgTable(
   },
   (table) => [index("verification_identifier_idx").on(table.identifier)],
 );
+
+export const paymentMethod = pgTable(
+  "payment_method",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+    type: text("type").notNull(), // 'mobile_money' | 'card' | 'bank'
+    provider: text("provider").notNull(), // 'mtn' | 'airtel' | 'visa' | 'mastercard' | 'other'
+    name: text("name").notNull(), // e.g. 'MTN Mobile Money'
+    accountNumber: text("account_number").notNull(), // phone number or card masked number
+    isDefault: boolean("is_default").default(false).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => new Date()).notNull(),
+  },
+  (table) => [index("payment_method_userId_idx").on(table.userId)],
+);
+
+export type PaymentMethod = typeof paymentMethod.$inferSelect;
+export type NewPaymentMethod = typeof paymentMethod.$inferInsert;
+

@@ -5,20 +5,18 @@ import {
   Check,
   CheckCircle2,
   Clock,
-  CreditCard,
   LockKeyhole,
   Phone,
   RotateCcw,
   Send,
   ShieldCheck,
-  Smartphone,
   User,
-  Wallet,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DashboardLayout } from '#/components/dashboard/dashboard-layout'
 import { demoContacts } from '#/components/dashboard/dashboard-data'
 import { useSession } from '#/lib/auth-client'
+import { getPaymentMethods } from '#/lib/payment-methods.functions'
 
 export const Route = createFileRoute('/dashboard/send')({
   component: SendPage,
@@ -34,7 +32,7 @@ function SendPage() {
   const { data: session } = useSession()
   const userPhone = (session?.user as any)?.phone || '+242 06 123 45 67'
 
-  const paymentMethods = [
+  const defaultMethods = [
     {
       id: 'mtn',
       name: 'MTN Mobile Money',
@@ -58,13 +56,59 @@ function SendPage() {
     },
   ]
 
-  // Form states
+  const [dbMethods, setDbMethods] = useState<any[]>([])
+  const [selectedMethodId, setSelectedMethodId] = useState(defaultMethods[0].id)
+
+  useEffect(() => {
+    getPaymentMethods()
+      .then((data) => {
+        if (data && data.length > 0) {
+          const mapped = data.map((m) => {
+            const pId = m.provider.toLowerCase()
+            const isMtn = pId.includes('mtn')
+            const isAirtel = pId.includes('airtel')
+            const isVisa = pId.includes('visa')
+            const isMc = pId.includes('mastercard') || pId.includes('mc')
+            return {
+              id: m.id,
+              name: m.name,
+              detail: m.accountNumber,
+              badge: isMtn
+                ? 'MTN'
+                : isAirtel
+                  ? 'Airtel'
+                  : isVisa
+                    ? 'VISA'
+                    : isMc
+                      ? 'MC'
+                      : m.provider.slice(0, 4).toUpperCase(),
+              badgeClass: isMtn
+                ? 'bg-[#ffcc00] text-black'
+                : isAirtel
+                  ? 'bg-[#ed1c24] text-white'
+                  : isVisa
+                    ? 'bg-[#172b85] text-white'
+                    : isMc
+                      ? 'bg-[#eb001b] text-white'
+                      : 'bg-primary/20 text-primary',
+            }
+          })
+          setDbMethods(mapped)
+          const def = data.find((d) => d.isDefault) || data[0]
+          setSelectedMethodId(def.id)
+        }
+      })
+      .catch(() => {})
+  }, [])
+
+  const paymentMethods = dbMethods.length > 0 ? dbMethods : defaultMethods
   const [recipientType, setRecipientType] = useState<'contact' | 'custom'>('contact')
-  const [selectedContactPhone, setSelectedContactPhone] = useState(demoContacts[0].phone)
+  const [selectedContactPhone, setSelectedContactPhone] = useState(
+    demoContacts[0]?.phone ?? '',
+  )
   const [customName, setCustomName] = useState('')
   const [customPhone, setCustomPhone] = useState('')
   const [amountStr, setAmountStr] = useState('10000')
-  const [selectedMethodId, setSelectedMethodId] = useState(paymentMethods[0].id)
   const [note, setNote] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [sentSuccessData, setSentSuccessData] = useState<{
@@ -418,9 +462,17 @@ function SendPage() {
 
                 {/* Step 3: Payment Method (Direct Debit Source) */}
                 <div className="space-y-3">
-                  <label className="text-xs font-extrabold uppercase tracking-wider text-base-content/70">
-                    3. Moyen de paiement (Source débitée)
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-extrabold uppercase tracking-wider text-base-content/70">
+                      3. Moyen de paiement (Source débitée)
+                    </label>
+                    <Link
+                      to="/dashboard/payment-methods"
+                      className="text-xs font-bold text-primary hover:underline"
+                    >
+                      + Gérer mes moyens
+                    </Link>
+                  </div>
                   <div className="grid gap-2.5">
                     {paymentMethods.map((method) => {
                       const isSelected = selectedMethodId === method.id
