@@ -84,3 +84,50 @@ export const paymentMethod = pgTable(
 export type PaymentMethod = typeof paymentMethod.$inferSelect;
 export type NewPaymentMethod = typeof paymentMethod.$inferInsert;
 
+export const contact = pgTable(
+  "contact",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    phone: text("phone").notNull(),
+    email: text("email"),
+    favorite: boolean("favorite").default(false).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => new Date()).notNull(),
+  },
+  (table) => [index("contact_userId_idx").on(table.userId)],
+);
+
+export type Contact = typeof contact.$inferSelect;
+export type NewContact = typeof contact.$inferInsert;
+
+export const transaction = pgTable(
+  "transaction",
+  {
+    id: text("id").primaryKey(),
+    reference: text("reference").notNull().unique(),
+    userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+    recipientName: text("recipient_name").notNull(),
+    recipientPhone: text("recipient_phone").notNull(),
+    amount: text("amount").notNull(),
+    fee: text("fee").notNull(),
+    total: text("total").notNull(),
+    currency: text("currency").default("XAF").notNull(),
+    paymentMethodName: text("payment_method_name").notNull(),
+    paymentMethodBadge: text("payment_method_badge").default("MTN").notNull(),
+    status: text("status").default("Terminée").notNull(),
+    note: text("note"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => new Date()).notNull(),
+  },
+  (table) => [
+    index("transaction_userId_idx").on(table.userId),
+    index("transaction_reference_idx").on(table.reference),
+  ],
+);
+
+export type Transaction = typeof transaction.$inferSelect;
+export type NewTransaction = typeof transaction.$inferInsert;
+
+
