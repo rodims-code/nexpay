@@ -1,0 +1,70 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="80" x2="1080" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#16351f"/>
+      <stop offset="0.5" stop-color="#2f7d32"/>
+      <stop offset="1" stop-color="#91c34a"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="300" y1="180" x2="860" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f5f7fb"/>
+    </linearGradient>
+    <linearGradient id="phone" x1="705" y1="250" x2="1000" y2="770" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e9eef6"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="1200" height="900" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="28" stdDeviation="28" flood-color="#102414" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="900" rx="48" fill="url(#bg)"/>
+  <circle cx="180" cy="160" r="130" fill="#ffffff" fill-opacity="0.12"/>
+  <circle cx="1040" cy="120" r="180" fill="#ffffff" fill-opacity="0.08"/>
+  <circle cx="980" cy="780" r="220" fill="#ffffff" fill-opacity="0.08"/>
+
+  <g filter="url(#shadow)">
+    <rect x="210" y="140" width="790" height="600" rx="40" fill="url(#panel)"/>
+  </g>
+
+  <rect x="268" y="206" width="255" height="436" rx="28" fill="#ffffff"/>
+  <rect x="560" y="186" width="378" height="470" rx="30" fill="#eef7ff"/>
+  <path d="M560 338L938 186V656H560V338Z" fill="#c8e6ff"/>
+  <path d="M560 338L710 280L860 365L938 320V656H560V338Z" fill="#e07d4f"/>
+  <path d="M560 338L710 280L786 320L938 245V656H560V338Z" fill="#b54f36"/>
+  <rect x="804" y="206" width="120" height="140" rx="10" fill="#ffffff" fill-opacity="0.75"/>
+  <rect x="806" y="208" width="116" height="136" rx="8" fill="#dfe9f2"/>
+  <rect x="824" y="222" width="24" height="108" rx="4" fill="#ffffff" fill-opacity="0.8"/>
+  <rect x="858" y="222" width="24" height="108" rx="4" fill="#ffffff" fill-opacity="0.8"/>
+  <rect x="892" y="222" width="24" height="108" rx="4" fill="#ffffff" fill-opacity="0.8"/>
+  <rect x="640" y="226" width="112" height="24" rx="12" fill="#ffffff" fill-opacity="0.8"/>
+
+  <g filter="url(#shadow)">
+    <rect x="726" y="292" width="236" height="448" rx="48" transform="rotate(8 726 292)" fill="url(#phone)"/>
+  </g>
+  <rect x="762" y="342" width="168" height="280" rx="30" transform="rotate(8 762 342)" fill="#ffffff"/>
+  <circle cx="852" cy="407" r="20" fill="#7bbf3f"/>
+  <path d="M844 411L851 398L858 411H844Z" fill="#ffffff"/>
+  <rect x="802" y="450" width="102" height="14" rx="7" transform="rotate(8 802 450)" fill="#94a3b8" fill-opacity="0.35"/>
+  <rect x="797" y="478" width="148" height="18" rx="9" transform="rotate(8 797 478)" fill="#3d7f32" fill-opacity="0.14"/>
+  <rect x="798" y="512" width="118" height="18" rx="9" transform="rotate(8 798 512)" fill="#3d7f32" fill-opacity="0.14"/>
+  <rect x="804" y="562" width="126" height="54" rx="27" transform="rotate(8 804 562)" fill="#5d9c2f"/>
+
+  <g opacity="0.9">
+    <circle cx="324" cy="296" r="18" fill="#5d9c2f"/>
+    <circle cx="374" cy="296" r="18" fill="#4f8f30"/>
+    <circle cx="424" cy="296" r="18" fill="#d4ff7a"/>
+    <rect x="324" y="338" width="180" height="12" rx="6" fill="#94a3b8" fill-opacity="0.45"/>
+    <rect x="324" y="364" width="122" height="12" rx="6" fill="#94a3b8" fill-opacity="0.3"/>
+    <rect x="324" y="418" width="190" height="68" rx="18" fill="#f4f7fb"/>
+    <rect x="348" y="438" width="142" height="10" rx="5" fill="#5d9c2f" fill-opacity="0.65"/>
+    <rect x="348" y="458" width="98" height="10" rx="5" fill="#94a3b8" fill-opacity="0.35"/>
+  </g>
+
+  <text x="270" y="720" fill="#ffffff" fill-opacity="0.92" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700">
+    Authentification NexPay
+  </text>
+  <text x="270" y="755" fill="#ffffff" fill-opacity="0.75" font-family="Inter, Arial, sans-serif" font-size="16">
+    Remplace ce fichier par ton image dans public/images/auth-hero.svg ou auth-hero.png
+  </text>
+</svg>
