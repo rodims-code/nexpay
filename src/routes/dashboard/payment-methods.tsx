@@ -8,7 +8,6 @@ import {
   Loader2,
   Plus,
   ShieldCheck,
-  Smartphone,
   Star,
   Trash2,
   X,

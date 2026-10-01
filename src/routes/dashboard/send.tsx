@@ -5,18 +5,19 @@ import {
   Check,
   CheckCircle2,
   Clock,
+  CreditCard,
   LockKeyhole,
   Phone,
   RotateCcw,
   Send,
   ShieldCheck,
   User,
+  UserX,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { DashboardLayout } from '#/components/dashboard/dashboard-layout'
-import { demoContacts } from '#/components/dashboard/dashboard-data'
-import { useSession } from '#/lib/auth-client'
 import { getPaymentMethods } from '#/lib/payment-methods.functions'
+import { getRecentRecipients, createTransaction } from '#/lib/transactions.functions'
 
 export const Route = createFileRoute('/dashboard/send')({
   component: SendPage,
@@ -28,84 +29,42 @@ function formatNumber(num: number): string {
   return new Intl.NumberFormat('fr-FR').format(num)
 }
 
+function getProviderStyle(provider: string) {
+  const p = provider.toLowerCase()
+  if (p.includes('mtn')) return { badge: 'MTN', cls: 'bg-[#ffcc00] text-black' }
+  if (p.includes('airtel')) return { badge: 'Airtel', cls: 'bg-[#ed1c24] text-white' }
+  if (p.includes('visa')) return { badge: 'VISA', cls: 'bg-[#172b85] text-white' }
+  if (p.includes('mastercard') || p.includes('mc')) return { badge: 'MC', cls: 'bg-[#eb001b] text-white' }
+  return { badge: provider.slice(0, 4).toUpperCase(), cls: 'bg-primary/20 text-primary' }
+}
+
+function getInitials(name: string) {
+  return name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+}
+
+const AVATAR_COLORS = [
+  'bg-blue-100 text-blue-700',
+  'bg-emerald-100 text-emerald-700',
+  'bg-purple-100 text-purple-700',
+  'bg-orange-100 text-orange-700',
+  'bg-pink-100 text-pink-700',
+  'bg-indigo-100 text-indigo-700',
+]
+
 function SendPage() {
-  const { data: session } = useSession()
-  const userPhone = (session?.user as any)?.phone || '+242 06 123 45 67'
+  const [paymentMethods, setPaymentMethods] = useState<any[]>([])
+  const [recentRecipients, setRecentRecipients] = useState<{ name: string; phone: string }[]>([])
+  const [loadingMethods, setLoadingMethods] = useState(true)
+  const [loadingRecipients, setLoadingRecipients] = useState(true)
 
-  const defaultMethods = [
-    {
-      id: 'mtn',
-      name: 'MTN Mobile Money',
-      detail: userPhone,
-      badge: 'MTN',
-      badgeClass: 'bg-[#ffcc00] text-black',
-    },
-    {
-      id: 'airtel',
-      name: 'Airtel Money',
-      detail: userPhone,
-      badge: 'Airtel',
-      badgeClass: 'bg-[#ed1c24] text-white',
-    },
-    {
-      id: 'card',
-      name: 'Carte Bancaire',
-      detail: '•••• 4242 (Visa)',
-      badge: 'VISA',
-      badgeClass: 'bg-[#172b85] text-white',
-    },
-  ]
-
-  const [dbMethods, setDbMethods] = useState<any[]>([])
-  const [selectedMethodId, setSelectedMethodId] = useState(defaultMethods[0].id)
-
-  useEffect(() => {
-    getPaymentMethods()
-      .then((data) => {
-        if (data && data.length > 0) {
-          const mapped = data.map((m) => {
-            const pId = m.provider.toLowerCase()
-            const isMtn = pId.includes('mtn')
-            const isAirtel = pId.includes('airtel')
-            const isVisa = pId.includes('visa')
-            const isMc = pId.includes('mastercard') || pId.includes('mc')
-            return {
-              id: m.id,
-              name: m.name,
-              detail: m.accountNumber,
-              badge: isMtn
-                ? 'MTN'
-                : isAirtel
-                  ? 'Airtel'
-                  : isVisa
-                    ? 'VISA'
-                    : isMc
-                      ? 'MC'
-                      : m.provider.slice(0, 4).toUpperCase(),
-              badgeClass: isMtn
-                ? 'bg-[#ffcc00] text-black'
-                : isAirtel
-                  ? 'bg-[#ed1c24] text-white'
-                  : isVisa
-                    ? 'bg-[#172b85] text-white'
-                    : isMc
-                      ? 'bg-[#eb001b] text-white'
-                      : 'bg-primary/20 text-primary',
-            }
-          })
-          setDbMethods(mapped)
-          const def = data.find((d) => d.isDefault) || data[0]
-          setSelectedMethodId(def.id)
-        }
-      })
-      .catch(() => {})
-  }, [])
-
-  const paymentMethods = dbMethods.length > 0 ? dbMethods : defaultMethods
+  const [selectedMethodId, setSelectedMethodId] = useState<string>('')
   const [recipientType, setRecipientType] = useState<'contact' | 'custom'>('contact')
-  const [selectedContactPhone, setSelectedContactPhone] = useState(
-    demoContacts[0]?.phone ?? '',
-  )
+  const [selectedRecipientPhone, setSelectedRecipientPhone] = useState('')
   const [customName, setCustomName] = useState('')
   const [customPhone, setCustomPhone] = useState('')
   const [amountStr, setAmountStr] = useState('10000')
@@ -122,44 +81,81 @@ function SendPage() {
     date: string
   } | null>(null)
 
-  // Derived recipient data
-  const activeContact = demoContacts.find((c) => c.phone === selectedContactPhone)
+  useEffect(() => {
+    getPaymentMethods()
+      .then((data) => {
+        const mapped = data.map((m) => {
+          const style = getProviderStyle(m.provider)
+          return {
+            id: m.id,
+            name: m.name,
+            detail: m.accountNumber,
+            badge: style.badge,
+            badgeClass: style.cls,
+            rawBadge: style.badge,
+          }
+        })
+        setPaymentMethods(mapped)
+        const def = data.find((d) => d.isDefault) || data[0]
+        if (def) setSelectedMethodId(def.id)
+      })
+      .catch(() => {})
+      .finally(() => setLoadingMethods(false))
+
+    getRecentRecipients()
+      .then((data) => {
+        setRecentRecipients(data)
+        if (data.length > 0) setSelectedRecipientPhone(data[0].phone)
+      })
+      .catch(() => {})
+      .finally(() => setLoadingRecipients(false))
+  }, [])
+
+  const activeRecipient = recentRecipients.find((r) => r.phone === selectedRecipientPhone)
   const recipientName =
     recipientType === 'contact'
-      ? activeContact?.name || 'Destinataire'
+      ? activeRecipient?.name || 'Destinataire'
       : customName.trim() || 'Destinataire direct'
   const recipientPhone =
-    recipientType === 'contact'
-      ? activeContact?.phone || ''
-      : customPhone.trim()
+    recipientType === 'contact' ? activeRecipient?.phone || '' : customPhone.trim()
 
-  const currentMethod =
-    paymentMethods.find((m) => m.id === selectedMethodId) || paymentMethods[0]
+  const currentMethod = paymentMethods.find((m) => m.id === selectedMethodId) || paymentMethods[0]
 
   const rawAmount = parseInt(amountStr.replace(/\D/g, '') || '0', 10)
-  // Transparent gateway fee: 2% of amount (min 200 XAF)
   const fee = rawAmount > 0 ? Math.max(200, Math.round(rawAmount * 0.02)) : 0
   const totalAmount = rawAmount + fee
 
   const handleAmountChange = (val: string) => {
-    const cleaned = val.replace(/\D/g, '')
-    setAmountStr(cleaned)
+    setAmountStr(val.replace(/\D/g, ''))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (rawAmount < 500) return
+    if (rawAmount < 500 || !currentMethod) return
 
     setIsSubmitting(true)
-    setTimeout(() => {
-      setIsSubmitting(false)
+    try {
+      const tx = await createTransaction({
+        data: {
+          recipientName,
+          recipientPhone: recipientPhone || 'Non spécifié',
+          amount: rawAmount.toString(),
+          fee: fee.toString(),
+          total: totalAmount.toString(),
+          currency: 'XAF',
+          paymentMethodName: currentMethod.name,
+          paymentMethodBadge: currentMethod.rawBadge,
+          note: note.trim() || undefined,
+        },
+      })
+
       const now = new Intl.DateTimeFormat('fr-FR', {
         dateStyle: 'medium',
         timeStyle: 'short',
       }).format(new Date())
 
       setSentSuccessData({
-        txId: `NP-${Math.floor(100000 + Math.random() * 900000)}`,
+        txId: tx.reference,
         recipientName,
         recipientPhone: recipientPhone || 'Non spécifié',
         amount: rawAmount,
@@ -168,7 +164,11 @@ function SendPage() {
         methodName: currentMethod.name,
         date: now,
       })
-    }, 600)
+    } catch {
+      // TODO: afficher une vraie erreur
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const resetForm = () => {
@@ -177,9 +177,12 @@ function SendPage() {
     setNote('')
   }
 
+  const noMethods = !loadingMethods && paymentMethods.length === 0
+  const noRecipients = !loadingRecipients && recentRecipients.length === 0
+
   return (
     <DashboardLayout
-      title="Envoyer de l’argent"
+      title="Envoyer de l'argent"
       eyebrow="Passerelle instantanée · Transfert direct"
     >
       <div className="mx-auto max-w-5xl space-y-6 pb-12">
@@ -213,14 +216,11 @@ function SendPage() {
               </h2>
               <p className="mt-2 text-sm text-base-content/65">
                 Acheminement direct vers{' '}
-                <strong className="text-base-content">
-                  {sentSuccessData.recipientName}
-                </strong>
+                <strong className="text-base-content">{sentSuccessData.recipientName}</strong>
                 {sentSuccessData.recipientPhone && ` (${sentSuccessData.recipientPhone})`}
               </p>
             </div>
 
-            {/* Transaction Receipt Card */}
             <div className="mt-8 rounded-3xl border border-base-200 bg-base-200/40 p-6 text-sm">
               <div className="space-y-3.5">
                 <div className="flex items-center justify-between">
@@ -232,12 +232,8 @@ function SendPage() {
                   <span className="font-medium">{sentSuccessData.date}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-base-content/60">Moyen de débit (Source)</span>
+                  <span className="text-base-content/60">Moyen de débit</span>
                   <span className="font-bold">{sentSuccessData.methodName}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-base-content/60">Mode de transfert</span>
-                  <span className="badge badge-outline badge-primary font-bold">Passerelle directe</span>
                 </div>
                 <div className="divider my-2" />
                 <div className="flex items-center justify-between">
@@ -245,8 +241,8 @@ function SendPage() {
                   <span className="font-bold">{formatNumber(sentSuccessData.amount)} XAF</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-base-content/60">Frais de passerelle NexPay</span>
-                  <span className="font-bold text-base-content">{formatNumber(sentSuccessData.fee)} XAF</span>
+                  <span className="text-base-content/60">Frais NexPay</span>
+                  <span className="font-bold">{formatNumber(sentSuccessData.fee)} XAF</span>
                 </div>
                 <div className="flex items-center justify-between text-base font-extrabold">
                   <span>Total débité</span>
@@ -255,15 +251,14 @@ function SendPage() {
               </div>
             </div>
 
-            {/* Direct Bridge clarification */}
             <div className="mt-6 flex items-start gap-3 rounded-2xl bg-primary/5 p-4 text-xs text-base-content/75">
               <Clock className="mt-0.5 size-4 shrink-0 text-primary" />
               <span>
-                Les fonds transitent directement d’opérateur à opérateur en temps réel. Le destinataire reçoit une notification SMS instantanée dès la validation par son opérateur.
+                Les fonds transitent directement d'opérateur à opérateur. Le destinataire reçoit
+                une notification SMS dès validation.
               </span>
             </div>
 
-            {/* Action buttons */}
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <button
                 onClick={resetForm}
@@ -282,7 +277,6 @@ function SendPage() {
             </div>
           </div>
         ) : (
-          /* Main Transfer Form Layout */
           <div className="grid gap-8 lg:grid-cols-[1.25fr_0.95fr] lg:items-start">
             {/* Form Column */}
             <div className="space-y-6 rounded-[2.5rem] border border-base-200/80 bg-base-100 p-6 shadow-xl shadow-base-content/5 sm:p-8">
@@ -296,14 +290,14 @@ function SendPage() {
                       Nouveau transfert
                     </h2>
                     <p className="text-xs text-base-content/55 sm:text-sm">
-                      Envoyez des fonds directement sans rechargement de solde préalable.
+                      Envoyez des fonds directement sans rechargement préalable.
                     </p>
                   </div>
                 </div>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Step 1: Recipient Selection */}
+                {/* Step 1: Recipient */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <label className="text-xs font-extrabold uppercase tracking-wider text-base-content/70">
@@ -319,7 +313,7 @@ function SendPage() {
                             : 'text-base-content/60 hover:text-base-content'
                         }`}
                       >
-                        Contacts
+                        Récents
                       </button>
                       <button
                         type="button"
@@ -336,50 +330,85 @@ function SendPage() {
                   </div>
 
                   {recipientType === 'contact' ? (
-                    <div className="space-y-2">
-                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                        {demoContacts.map((contact) => {
-                          const isSelected = selectedContactPhone === contact.phone
-                          return (
-                            <button
-                              key={contact.phone}
-                              type="button"
-                              onClick={() => setSelectedContactPhone(contact.phone)}
-                              className={`flex flex-col items-center rounded-2xl border p-3 text-center transition ${
-                                isSelected
-                                  ? 'border-primary bg-primary/10 shadow-sm ring-2 ring-primary/20'
-                                  : 'border-base-200 bg-base-100 hover:border-base-300 hover:bg-base-200/50'
-                              }`}
-                            >
-                              <div
-                                className={`flex size-10 items-center justify-center rounded-xl text-xs font-extrabold ${contact.color}`}
-                              >
-                                {contact.initials}
-                              </div>
-                              <span className="mt-2 w-full truncate text-xs font-bold text-base-content">
-                                {contact.name.split(' ')[0]}
-                              </span>
-                              <span className="w-full truncate text-[10px] text-base-content/50">
-                                {contact.phone.slice(-4)}
-                              </span>
-                            </button>
-                          )
-                        })}
-                      </div>
-
-                      <select
-                        aria-label="Sélectionner un contact"
-                        value={selectedContactPhone}
-                        onChange={(e) => setSelectedContactPhone(e.target.value)}
-                        className="select select-bordered w-full rounded-2xl text-sm font-medium"
-                      >
-                        {demoContacts.map((contact) => (
-                          <option key={contact.phone} value={contact.phone}>
-                            {contact.name} ({contact.phone})
-                          </option>
+                    loadingRecipients ? (
+                      <div className="grid grid-cols-4 gap-2">
+                        {[1, 2, 3, 4].map((i) => (
+                          <div
+                            key={i}
+                            className="h-20 animate-pulse rounded-2xl border border-base-200 bg-base-200"
+                          />
                         ))}
-                      </select>
-                    </div>
+                      </div>
+                    ) : noRecipients ? (
+                      /* Empty state destinataires */
+                      <div className="flex flex-col items-center gap-3 rounded-3xl border border-dashed border-base-300 bg-base-50 p-6 text-center">
+                        <div className="flex size-12 items-center justify-center rounded-2xl bg-base-200 text-base-content/40">
+                          <UserX className="size-6" />
+                        </div>
+                        <div>
+                          <p className="font-bold text-sm text-base-content">
+                            Aucun destinataire
+                          </p>
+                          <p className="mt-0.5 text-xs text-base-content/55">
+                            Vous n'avez encore envoyé de l'argent à personne. Utilisez "Nouveau numéro" pour envoyer directement.
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setRecipientType('custom')}
+                          className="btn btn-outline btn-sm rounded-2xl gap-2 font-bold"
+                        >
+                          Saisir un numéro
+                          <ArrowRight className="size-3.5" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                          {recentRecipients.slice(0, 4).map((r, idx) => {
+                            const isSelected = selectedRecipientPhone === r.phone
+                            const colorCls = AVATAR_COLORS[idx % AVATAR_COLORS.length]
+                            return (
+                              <button
+                                key={r.phone}
+                                type="button"
+                                onClick={() => setSelectedRecipientPhone(r.phone)}
+                                className={`flex flex-col items-center rounded-2xl border p-3 text-center transition ${
+                                  isSelected
+                                    ? 'border-primary bg-primary/10 shadow-sm ring-2 ring-primary/20'
+                                    : 'border-base-200 bg-base-100 hover:border-base-300 hover:bg-base-200/50'
+                                }`}
+                              >
+                                <div
+                                  className={`flex size-10 items-center justify-center rounded-xl text-xs font-extrabold ${colorCls}`}
+                                >
+                                  {getInitials(r.name)}
+                                </div>
+                                <span className="mt-2 w-full truncate text-xs font-bold text-base-content">
+                                  {r.name.split(' ')[0]}
+                                </span>
+                                <span className="w-full truncate text-[10px] text-base-content/50">
+                                  {r.phone.slice(-4)}
+                                </span>
+                              </button>
+                            )
+                          })}
+                        </div>
+
+                        <select
+                          aria-label="Sélectionner un destinataire"
+                          value={selectedRecipientPhone}
+                          onChange={(e) => setSelectedRecipientPhone(e.target.value)}
+                          className="select select-bordered w-full rounded-2xl text-sm font-medium"
+                        >
+                          {recentRecipients.map((r) => (
+                            <option key={r.phone} value={r.phone}>
+                              {r.name} ({r.phone})
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )
                   ) : (
                     <div className="grid gap-3 sm:grid-cols-2">
                       <div>
@@ -416,15 +445,13 @@ function SendPage() {
                   )}
                 </div>
 
-                {/* Step 2: Amount to Send */}
+                {/* Step 2: Amount */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <label className="text-xs font-extrabold uppercase tracking-wider text-base-content/70">
                       2. Montant à envoyer
                     </label>
-                    <span className="text-xs font-semibold text-base-content/50">
-                      Min: 500 XAF
-                    </span>
+                    <span className="text-xs font-semibold text-base-content/50">Min: 500 XAF</span>
                   </div>
 
                   <div className="relative">
@@ -441,7 +468,6 @@ function SendPage() {
                     </div>
                   </div>
 
-                  {/* Quick amount chips */}
                   <div className="flex flex-wrap gap-2 pt-1">
                     {QUICK_AMOUNTS.map((amt) => (
                       <button
@@ -460,11 +486,11 @@ function SendPage() {
                   </div>
                 </div>
 
-                {/* Step 3: Payment Method (Direct Debit Source) */}
+                {/* Step 3: Payment Method */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <label className="text-xs font-extrabold uppercase tracking-wider text-base-content/70">
-                      3. Moyen de paiement (Source débitée)
+                      3. Moyen de paiement
                     </label>
                     <Link
                       to="/dashboard/payment-methods"
@@ -473,47 +499,77 @@ function SendPage() {
                       + Gérer mes moyens
                     </Link>
                   </div>
-                  <div className="grid gap-2.5">
-                    {paymentMethods.map((method) => {
-                      const isSelected = selectedMethodId === method.id
-                      return (
-                        <label
-                          key={method.id}
-                          className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition ${
-                            isSelected
-                              ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
-                              : 'border-base-200 bg-base-100 hover:border-base-300 hover:bg-base-200/40'
-                          }`}
-                        >
-                          <div className="flex items-center gap-3.5">
-                            <span
-                              className={`flex size-10 shrink-0 items-center justify-center rounded-xl text-xs font-black uppercase ${method.badgeClass}`}
-                            >
-                              {method.badge}
-                            </span>
-                            <div>
-                              <p className="font-bold text-sm text-base-content">
-                                {method.name}
-                              </p>
-                              <p className="text-xs text-base-content/50">
-                                {method.detail}
-                              </p>
+
+                  {loadingMethods ? (
+                    <div className="space-y-2">
+                      {[1, 2].map((i) => (
+                        <div
+                          key={i}
+                          className="h-16 animate-pulse rounded-2xl border border-base-200 bg-base-200"
+                        />
+                      ))}
+                    </div>
+                  ) : noMethods ? (
+                    /* Empty state moyens de paiement */
+                    <div className="flex flex-col items-center gap-3 rounded-3xl border border-dashed border-base-300 bg-base-50 p-6 text-center">
+                      <div className="flex size-12 items-center justify-center rounded-2xl bg-base-200 text-base-content/40">
+                        <CreditCard className="size-6" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-sm text-base-content">
+                          Aucun moyen de paiement
+                        </p>
+                        <p className="mt-0.5 text-xs text-base-content/55">
+                          Ajoutez un compte MTN MoMo, Airtel Money ou une carte avant d'envoyer.
+                        </p>
+                      </div>
+                      <Link
+                        to="/dashboard/payment-methods"
+                        className="btn btn-primary btn-sm rounded-2xl gap-2 font-bold"
+                      >
+                        Ajouter un moyen
+                        <ArrowRight className="size-3.5" />
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="grid gap-2.5">
+                      {paymentMethods.map((method) => {
+                        const isSelected = selectedMethodId === method.id
+                        return (
+                          <label
+                            key={method.id}
+                            className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition ${
+                              isSelected
+                                ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
+                                : 'border-base-200 bg-base-100 hover:border-base-300 hover:bg-base-200/40'
+                            }`}
+                          >
+                            <div className="flex items-center gap-3.5">
+                              <span
+                                className={`flex size-10 shrink-0 items-center justify-center rounded-xl text-xs font-black uppercase ${method.badgeClass}`}
+                              >
+                                {method.badge}
+                              </span>
+                              <div>
+                                <p className="font-bold text-sm text-base-content">{method.name}</p>
+                                <p className="text-xs text-base-content/50">{method.detail}</p>
+                              </div>
                             </div>
-                          </div>
-                          <input
-                            type="radio"
-                            name="paymentMethod"
-                            checked={isSelected}
-                            onChange={() => setSelectedMethodId(method.id)}
-                            className="radio radio-primary radio-sm"
-                          />
-                        </label>
-                      )
-                    })}
-                  </div>
+                            <input
+                              type="radio"
+                              name="paymentMethod"
+                              checked={isSelected}
+                              onChange={() => setSelectedMethodId(method.id)}
+                              className="radio radio-primary radio-sm"
+                            />
+                          </label>
+                        )
+                      })}
+                    </div>
+                  )}
                 </div>
 
-                {/* Optional Note */}
+                {/* Note */}
                 <div>
                   <label className="mb-1.5 block text-xs font-semibold text-base-content/60">
                     Motif ou message (optionnel)
@@ -527,18 +583,19 @@ function SendPage() {
                   />
                 </div>
 
-                {/* Submit Button */}
+                {/* Submit */}
                 <div className="pt-2">
                   <button
                     type="submit"
-                    disabled={rawAmount < 500 || isSubmitting}
+                    disabled={rawAmount < 500 || isSubmitting || noMethods || (recipientType === 'contact' && noRecipients && !selectedRecipientPhone)}
                     className="btn btn-primary h-14 w-full rounded-2xl text-base font-bold shadow-xl shadow-primary/25 transition disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <span className="loading loading-spinner" />
                     ) : (
                       <>
-                        Confirmer et envoyer {rawAmount > 0 ? `${formatNumber(totalAmount)} XAF` : ''}
+                        Confirmer et envoyer{' '}
+                        {rawAmount > 0 ? `${formatNumber(totalAmount)} XAF` : ''}
                         <ArrowRight className="size-5" />
                       </>
                     )}
@@ -551,9 +608,8 @@ function SendPage() {
               </form>
             </div>
 
-            {/* Sidebar Column: Live Recap & Bridge Information */}
+            {/* Sidebar */}
             <div className="space-y-5">
-              {/* Dynamic Live Summary Card */}
               <div className="rounded-[2.5rem] border border-base-200/80 bg-base-100 p-6 shadow-xl shadow-base-content/5 sm:p-7">
                 <div className="mb-5 flex items-center justify-between border-b border-base-200 pb-4">
                   <h3 className="font-display font-bold text-lg text-base-content">
@@ -566,14 +622,16 @@ function SendPage() {
                   <div className="flex items-center justify-between">
                     <span className="text-base-content/60">Destinataire</span>
                     <span className="font-bold text-right text-base-content truncate max-w-[180px]">
-                      {recipientName}
+                      {recipientType === 'custom'
+                        ? customName.trim() || '—'
+                        : activeRecipient?.name || '—'}
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <span className="text-base-content/60">Moyen débité</span>
                     <span className="font-bold text-base-content">
-                      {currentMethod.name.split(' ')[0]} ({currentMethod.badge})
+                      {currentMethod ? `${currentMethod.name.split(' ')[0]} (${currentMethod.badge})` : '—'}
                     </span>
                   </div>
 
@@ -581,19 +639,15 @@ function SendPage() {
 
                   <div className="flex items-center justify-between">
                     <span className="text-base-content/60">Montant envoyé</span>
-                    <span className="font-bold text-base-content">
-                      {formatNumber(rawAmount)} XAF
-                    </span>
+                    <span className="font-bold text-base-content">{formatNumber(rawAmount)} XAF</span>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1 text-base-content/60">
-                      <span>Frais de passerelle</span>
+                      <span>Frais passerelle</span>
                       <span className="badge badge-ghost badge-xs">NexPay</span>
                     </div>
-                    <span className="font-bold text-base-content">
-                      {formatNumber(fee)} XAF
-                    </span>
+                    <span className="font-bold text-base-content">{formatNumber(fee)} XAF</span>
                   </div>
 
                   <div className="flex items-center justify-between rounded-2xl bg-base-200/60 p-3.5">
@@ -602,7 +656,7 @@ function SendPage() {
                         Total à débiter
                       </span>
                       <span className="text-[11px] text-base-content/50">
-                        Débité sur votre compte {currentMethod.badge}
+                        Débité sur {currentMethod?.badge || '—'}
                       </span>
                     </div>
                     <span className="font-display text-xl font-extrabold text-primary">
@@ -611,38 +665,35 @@ function SendPage() {
                   </div>
 
                   <div className="flex items-center justify-between text-xs text-emerald-600 font-semibold px-1">
-                    <span>Montant net reçu par le bénéficiaire</span>
+                    <span>Net reçu par le bénéficiaire</span>
                     <span>{formatNumber(rawAmount)} XAF</span>
                   </div>
                 </div>
               </div>
 
-              {/* Legal & Architectural Bridge Card */}
               <div className="rounded-[2rem] border border-primary/20 bg-primary/5 p-6 text-sm">
                 <div className="flex items-start gap-3">
                   <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                     <ShieldCheck className="size-5" />
                   </div>
                   <div className="space-y-1">
-                    <p className="font-bold text-base-content">
-                      Passerelle directe sans rétention de fonds
-                    </p>
+                    <p className="font-bold text-base-content">Passerelle directe sans rétention</p>
                     <p className="text-xs leading-relaxed text-base-content/70">
-                      NexPay n’est pas un compte de dépôt ou une banque. Nous connectons directement vos comptes opérateurs (MTN MoMo, Airtel, etc.) pour réaliser le pont sans stocker votre argent.
+                      NexPay connecte directement vos comptes opérateurs (MTN MoMo, Airtel, etc.)
+                      sans stocker votre argent.
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Guarantees */}
               <div className="rounded-[2rem] border border-base-200 bg-base-100 p-5 text-xs text-base-content/60 space-y-2.5">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
-                  <span>Zéro frais cachés, taux et montants transparents</span>
+                  <span>Zéro frais cachés, taux transparents</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
-                  <span>Validation sécurisée par invite USSD / SMS sur votre mobile</span>
+                  <span>Validation sécurisée par USSD / SMS</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
