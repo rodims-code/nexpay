@@ -1,0 +1,1 @@
+import{S as e}from"./index-BliuBnNW.js";var t=e;export{t as component};

@@ -1,0 +1,24 @@
+{
+  "version": 3,
+  "framework": {
+    "name": "nitro",
+    "version": "3.0.1-20260923-001540-22b17bb3"
+  },
+  "overrides": {},
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/__server"
+    }
+  ]
+}
