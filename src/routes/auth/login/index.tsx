@@ -25,6 +25,7 @@ function LoginComponent() {
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [redirecting, setRedirecting] = useState(false)
   const [error, setError] = useState<string | undefined>(undefined)
 
   const navigate = useNavigate()
@@ -60,12 +61,31 @@ function LoginComponent() {
         return
       }
 
-      // Success, route to secure user dashboard
-      navigate({ to: '/dashboard' })
+      // Afficher l'overlay de transition avant de naviguer
+      setRedirecting(true)
+      await navigate({ to: '/dashboard' })
     } catch (err) {
       setError('Une erreur de réseau est survenue. Veuillez réessayer.')
       setLoading(false)
     }
+  }
+
+  // Overlay de chargement post-login
+  if (redirecting) {
+    return (
+      <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 bg-base-100">
+        <img src="/images/nexpay-icon.png" alt="NexPay" className="size-16 animate-pulse" />
+        <div className="text-center">
+          <p className="font-display text-xl font-bold tracking-tight text-base-content">
+            Chargement de votre espace…
+          </p>
+          <p className="mt-1 text-sm text-base-content/50">
+            Préparation de votre tableau de bord NexPay
+          </p>
+        </div>
+        <span className="loading loading-ring loading-lg text-primary" />
+      </div>
+    )
   }
 
   return (
