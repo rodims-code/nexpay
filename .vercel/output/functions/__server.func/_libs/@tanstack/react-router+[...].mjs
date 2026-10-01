@@ -3706,7 +3706,11 @@ async function loadServerRoute(router, opts) {
 	router._commitPromise = void 0;
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/utils.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/utils.js
+>>>>>>> main
 var import_react = /* @__PURE__ */ __toESM(require_react(), 1);
 /**
 * React.use if available (React 19+), undefined otherwise.
@@ -3978,7 +3982,11 @@ var require_jsx_runtime = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = require_react_jsx_runtime_production();
 }));
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/CatchBoundary.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/CatchBoundary.js
+>>>>>>> main
 var import_jsx_runtime = require_jsx_runtime();
 var CatchBoundary = class extends import_react.Component {
 	constructor(..._args) {
@@ -4057,7 +4065,11 @@ function ErrorComponent({ error }) {
 	});
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/ClientOnly.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/ClientOnly.js
+>>>>>>> main
 var getSnapshot = () => true;
 var getServerSnapshot = () => false;
 /**
@@ -4088,10 +4100,17 @@ function subscribe() {
 	return () => {};
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/routerContext.js
+var routerContext = import_react.createContext(null);
+//#endregion
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/useRouter.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/routerContext.js
 var routerContext = import_react.createContext(null);
 //#endregion
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/useRouter.js
+>>>>>>> main
 /**
 * Access the current TanStack Router instance from React context.
 * Must be used within a `RouterProvider`.
@@ -4108,7 +4127,11 @@ function useRouter(opts) {
 	return value;
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/matchContext.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/matchContext.js
+>>>>>>> main
 var matchContext = import_react.createContext(void 0);
 var dummyMatchContext = import_react.createContext(void 0);
 //#endregion
@@ -4464,7 +4487,11 @@ function useMatch(opts) {
 	}
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/useLoaderData.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/useLoaderData.js
+>>>>>>> main
 /**
 * Read and select the current route's loader data with type‑safety.
 *
@@ -4487,7 +4514,11 @@ function useLoaderData(opts) {
 	});
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/useLoaderDeps.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/useLoaderDeps.js
+>>>>>>> main
 /**
 * Read and select the current route's loader dependencies object.
 *
@@ -4509,7 +4540,11 @@ function useLoaderDeps(opts) {
 	});
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/useParams.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/useParams.js
+>>>>>>> main
 /**
 * Access the current route's path parameters with type-safety.
 *
@@ -4535,7 +4570,11 @@ function useParams(opts) {
 	});
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/useSearch.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/useSearch.js
+>>>>>>> main
 /**
 * Read and select the current route's search parameters with type-safety.
 *
@@ -4560,7 +4599,11 @@ function useSearch(opts) {
 	});
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/useNavigate.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/useNavigate.js
+>>>>>>> main
 /**
 * Imperative navigation hook.
 *
@@ -4585,7 +4628,11 @@ function useNavigate(_defaultOpts) {
 	}, [_defaultOpts?.from, router]);
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/useRouteContext.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/useRouteContext.js
+>>>>>>> main
 function useRouteContext(opts) {
 	return useMatch({
 		...opts,
@@ -4725,7 +4772,11 @@ function areLinkPropsEqual(prev, next) {
 	return extraKeys === 0;
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/route.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/route.js
+>>>>>>> main
 var Route = class extends BaseRoute {
 	/**
 	* @deprecated Use the `createRoute` function instead.
@@ -4862,7 +4913,11 @@ function createRootRoute(options) {
 	return new RootRoute(options);
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/fileRoute.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/fileRoute.js
+>>>>>>> main
 /**
 * Creates a file-based Route factory for a given path.
 *
@@ -4882,7 +4937,11 @@ function createFileRoute(path) {
 	};
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/lazyRouteComponent.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/lazyRouteComponent.js
+>>>>>>> main
 /**
 * Wrap a dynamic import to create a route component that supports
 * `.preload()` and friendly reload-on-module-missing behavior.
@@ -4921,7 +4980,11 @@ function lazyRouteComponent(importer, exportName) {
 	return lazyComp;
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/not-found.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/not-found.js
+>>>>>>> main
 function CatchNotFound(props) {
 	const router = useRouter();
 	{
@@ -4944,7 +5007,11 @@ function DefaultGlobalNotFound() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Not Found" });
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/ScriptOnce.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/ScriptOnce.js
+>>>>>>> main
 /**
 * Server-only helper to emit a script tag exactly once during SSR.
 */
@@ -4956,12 +5023,20 @@ function ScriptOnce({ children }) {
 	});
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/SafeFragment.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/SafeFragment.js
+>>>>>>> main
 function SafeFragment(props) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: props.children });
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/renderRouteNotFound.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/renderRouteNotFound.js
+>>>>>>> main
 /**
 * Renders a not found component for a route when no matching route is found.
 *
@@ -4997,14 +5072,22 @@ function getScrollRestorationScriptForRouter(router) {
 	return getScrollRestorationScript(userKey);
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/scroll-restoration.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/scroll-restoration.js
+>>>>>>> main
 function ScrollRestoration() {
 	const script = getScrollRestorationScriptForRouter(useRouter());
 	if (!script) return null;
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ScriptOnce, { children: script });
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/Match.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/Match.js
+>>>>>>> main
 function renderPending(router, route) {
 	const PendingComponent = route?.options.pendingComponent ?? router.options.defaultPendingComponent;
 	if (!PendingComponent) return null;
@@ -5128,14 +5211,22 @@ var Outlet = import_react.memo(function OutletImpl() {
 	return nextMatch;
 });
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/Transitioner.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/Transitioner.js
+>>>>>>> main
 function settleOwner(owner, rendered) {
 	const settle = owner[1];
 	owner.length = 0;
 	settle?.(rendered);
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/Matches.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/Matches.js
+>>>>>>> main
 /**
 * Internal component that renders the router's active match tree with
 * suspense, error, and not-found boundaries. Rendered by `RouterProvider`.
@@ -5171,7 +5262,11 @@ function MatchesInner() {
 	});
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/routerStores.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/routerStores.js
+>>>>>>> main
 var getStoreFactory = (opts) => {
 	return {
 		createMutableStore: createNonReactiveMutableStore,
@@ -5180,7 +5275,11 @@ var getStoreFactory = (opts) => {
 	};
 };
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/router.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/router.js
+>>>>>>> main
 /**
 * Creates a new Router instance for React.
 *
@@ -5201,7 +5300,11 @@ var Router = class extends RouterCore {
 	}
 };
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/RouterProvider.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/RouterProvider.js
+>>>>>>> main
 /**
 * Low-level provider that places the router into React context and optionally
 * updates router options from props. Most apps should use `RouterProvider`.
@@ -5239,7 +5342,11 @@ function RouterProvider({ router, ...rest }) {
 	});
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/useLocation.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/useLocation.js
+>>>>>>> main
 /**
 * Read the current location from the router state with optional selection.
 * Useful for subscribing to just the pieces of location you care about.
@@ -5259,7 +5366,11 @@ function useLocation(opts) {
 	}
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/Asset.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/Asset.js
+>>>>>>> main
 var noopScriptHandler = () => {};
 function setScriptAttrs(script, attrs) {
 	if (!attrs) return;
@@ -5355,7 +5466,11 @@ function Script({ attrs, children, preventScriptHoist }) {
 	return null;
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/headContentUtils.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/headContentUtils.js
+>>>>>>> main
 function buildTagsFromMatches(router, nonce, matches, assetCrossOrigin) {
 	matches = _getAssetMatches(matches);
 	const routeMeta = matches.map((match) => match.meta).filter((meta) => meta !== void 0);
@@ -5485,7 +5600,11 @@ var useTags = (assetCrossOrigin) => {
 	return buildTagsFromMatches(router, nonce, router.stores.matches.get(), assetCrossOrigin);
 };
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/HeadContent.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/HeadContent.js
+>>>>>>> main
 /**
 * Render route-managed head tags (title, meta, links, styles, head scripts).
 * Place inside the document head of your app shell.
@@ -5501,7 +5620,11 @@ function HeadContent(props) {
 	})) });
 }
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/Scripts.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/Scripts.js
+>>>>>>> main
 var routeScriptAttrs = { suppressHydrationWarning: true };
 /**
 * Render body script tags collected from route matches and SSR manifests.
@@ -14610,7 +14733,11 @@ function isBot(userAgent) {
 }
 var isbot = isBot;
 //#endregion
+<<<<<<< HEAD
+//#region node_modules/.pnpm/@tanstack+react-router@1.170.39_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/ssr/renderRouterToStream.js
+=======
 //#region node_modules/.pnpm/@tanstack+react-router@1.17_3aa3484ff06dbd38ab056563fd05d783/node_modules/@tanstack/react-router/dist/esm/ssr/renderRouterToStream.js
+>>>>>>> main
 var renderRouterToStream = async ({ request, router, responseHeaders, children }) => {
 	const signal = request.signal;
 	if (signal.aborted) {
