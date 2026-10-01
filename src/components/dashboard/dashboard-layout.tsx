@@ -1,4 +1,4 @@
-import { Link, useLocation } from '@tanstack/react-router'
+import { Link, useLocation, useRouterState } from '@tanstack/react-router'
 import {
   Bell,
   ChevronDown,
@@ -44,6 +44,7 @@ export function DashboardLayout({
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
   const { data: session } = useSession()
+  const isNavigating = useRouterState({ select: (s) => s.status === 'pending' })
 
   const userName = session?.user?.name || 'Mon Compte'
   const displayName =
@@ -211,7 +212,20 @@ export function DashboardLayout({
               </div>
             </div>
           </header>
-          <main className="min-h-0 flex-1 overflow-y-auto p-5 sm:p-8">
+          <main className="relative min-h-0 flex-1 overflow-y-auto p-5 sm:p-8">
+            {/* Overlay transition de navigation */}
+            <div
+              className={`pointer-events-none absolute inset-0 z-10 bg-base-100/60 backdrop-blur-[1px] transition-opacity duration-200 ${
+                isNavigating ? 'opacity-100' : 'opacity-0'
+              }`}
+              aria-hidden="true"
+            >
+              {isNavigating && (
+                <div className="flex h-full items-center justify-center">
+                  <span className="loading loading-ring loading-lg text-primary" />
+                </div>
+              )}
+            </div>
             {children}
           </main>
         </section>

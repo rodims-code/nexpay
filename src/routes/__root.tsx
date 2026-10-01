@@ -1,4 +1,4 @@
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import { HeadContent, Outlet, Scripts, createRootRoute, useRouterState } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
@@ -15,12 +15,12 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'Nexpay | Infrastructure de paiement pour l’Afrique',
+        title: "Nexpay | Infrastructure de paiement pour l'Afrique",
       },
       {
         name: 'description',
         content:
-          'Nexpay orchestre les paiements, les paiements sortants et la réconciliation pour les équipes qui opèrent à travers l’Afrique.',
+          "Nexpay orchestre les paiements, les paiements sortants et la réconciliation pour les équipes qui opèrent à travers l'Afrique.",
       },
     ],
     links: [
@@ -31,7 +31,36 @@ export const Route = createRootRoute({
     ],
   }),
   shellComponent: RootDocument,
+  component: RootComponent,
 })
+
+/** Barre de progression fine en haut de page pendant chaque navigation */
+function NavProgressBar() {
+  const isLoading = useRouterState({ select: (s) => s.status === 'pending' })
+
+  return (
+    <div
+      className="pointer-events-none fixed inset-x-0 top-0 z-[9999] h-[3px] overflow-hidden"
+      aria-hidden="true"
+    >
+      <div
+        className={`h-full bg-primary shadow-[0_0_8px_2px] shadow-primary/60 transition-all ease-in-out ${
+          isLoading ? 'w-[85%] opacity-100' : 'w-full opacity-0'
+        }`}
+        style={{ transitionDuration: isLoading ? '2000ms' : '150ms' }}
+      />
+    </div>
+  )
+}
+
+function RootComponent() {
+  return (
+    <>
+      <NavProgressBar />
+      <Outlet />
+    </>
+  )
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
