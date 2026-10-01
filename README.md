@@ -945,7 +945,6 @@ Possible infrastructure:
 
 - Cloudflare
 - Railway
-- Vercel
 - PostgreSQL hosting
 - Object storage
 

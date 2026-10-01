@@ -3843,7 +3843,11 @@ var RawStream = class {
 * the dev styles URL for route-scoped CSS collection.
 */
 async function getStartManifest(matchedRoutes) {
+<<<<<<< HEAD
 	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-Cs5hwCBu.mjs");
+=======
+	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-C0oPOLHr.mjs");
+>>>>>>> main
 	const startManifest = tsrStartManifest();
 	let routes = startManifest.routes;
 	routes[rootRouteId];
@@ -3865,6 +3869,7 @@ async function getStartManifest(matchedRoutes) {
 var manifest = {
 	"0f01b10d06cd0d8d605a0a4a413fdb145217be40b891ef0a45488da35e4efdb8": {
 		functionName: "updatePaymentMethod_createServerFn_handler",
+<<<<<<< HEAD
 		importer: () => import("./payment-methods.functions-iJohNvX7.mjs")
 	},
 	"26e0ad3ba15d26c3b3b635e9ae69050cad62771506c0759c530e586fe4f370ac": {
@@ -3894,6 +3899,37 @@ var manifest = {
 	"e6b4c2156f69930488e9d0032986979bdb013fe3adabe0de1ac32537913ec766": {
 		functionName: "updateUserProfile_createServerFn_handler",
 		importer: () => import("./user.functions-DX5RzVMT.mjs")
+=======
+		importer: () => import("./payment-methods.functions-DhYQgEeI.mjs")
+	},
+	"26e0ad3ba15d26c3b3b635e9ae69050cad62771506c0759c530e586fe4f370ac": {
+		functionName: "getPaymentMethods_createServerFn_handler",
+		importer: () => import("./payment-methods.functions-DhYQgEeI.mjs")
+	},
+	"55fc0484b9941926147081b475de8d7569a7391edff13c9e7550b50cc47da0d3": {
+		functionName: "deletePaymentMethod_createServerFn_handler",
+		importer: () => import("./payment-methods.functions-DhYQgEeI.mjs")
+	},
+	"6cde012380237819c6e1a83c6f79fe57d0597615ff010dd411942f522f1b1ca1": {
+		functionName: "createPaymentMethod_createServerFn_handler",
+		importer: () => import("./payment-methods.functions-DhYQgEeI.mjs")
+	},
+	"753fb13391a5b0328ea3344426a11caf1f07e6f28fcdc91937757498d31af961": {
+		functionName: "getSession_createServerFn_handler",
+		importer: () => import("./auth.functions-B8hjwavy.mjs")
+	},
+	"acf5cc2d5f5e9e0ae23b4e99a879145db74c7cf7d824c122bb5233c78bfd3f43": {
+		functionName: "setDefaultPaymentMethod_createServerFn_handler",
+		importer: () => import("./payment-methods.functions-DhYQgEeI.mjs")
+	},
+	"af5d3ae08facf078bb6074fd53165549a73a36a7ac99d524928721375dc224d4": {
+		functionName: "getUserProfile_createServerFn_handler",
+		importer: () => import("./user.functions-A3tgLnhN.mjs")
+	},
+	"e6b4c2156f69930488e9d0032986979bdb013fe3adabe0de1ac32537913ec766": {
+		functionName: "updateUserProfile_createServerFn_handler",
+		importer: () => import("./user.functions-A3tgLnhN.mjs")
+>>>>>>> main
 	}
 };
 async function getServerFnById(id, access) {
@@ -6512,9 +6548,15 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
 	const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
+<<<<<<< HEAD
 		import("./router-5dHOOvT4.mjs").then((n) => n.router_exports),
 		import("./start-mQ9ZKqHb.mjs"),
 		import("./empty-plugin-adapters-DXDwBipW.mjs")
+=======
+		import("./router-6dFSP1yS.mjs").then((n) => n.router_exports),
+		import("./start-Cn6PeQJI.mjs"),
+		import("./empty-plugin-adapters-BZzM6zDf.mjs")
+>>>>>>> main
 	]);
 	return {
 		routerEntry,

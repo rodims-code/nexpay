@@ -1,11 +1,19 @@
 import { __toESM } from "../_runtime.mjs";
 import { require_jsx_runtime, require_react } from "./@tanstack/react-router+[...].mjs";
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/context/LayoutGroupContext.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/context/LayoutGroupContext.mjs
+>>>>>>> main
 var import_jsx_runtime = require_jsx_runtime();
 var import_react = /* @__PURE__ */ __toESM(require_react(), 1);
 var LayoutGroupContext = (0, import_react.createContext)({});
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/utils/use-constant.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/utils/use-constant.mjs
+>>>>>>> main
 /**
 * Creates a constant value over the lifecycle of a component.
 *
@@ -19,10 +27,17 @@ function useConstant(init) {
 	return ref.current;
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/utils/use-isomorphic-effect.mjs
 var useIsomorphicLayoutEffect = typeof window !== "undefined" ? import_react.useLayoutEffect : import_react.useEffect;
 //#endregion
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/context/PresenceContext.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/utils/use-isomorphic-effect.mjs
+var useIsomorphicLayoutEffect = typeof window !== "undefined" ? import_react.useLayoutEffect : import_react.useEffect;
+//#endregion
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/context/PresenceContext.mjs
+>>>>>>> main
 /**
 * @public
 */
@@ -7220,7 +7235,11 @@ var HTMLProjectionNode = createProjectionNode$1({
 	checkIsScrollRoot: (instance) => Boolean(window.getComputedStyle(instance).position === "fixed")
 });
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/context/MotionConfigContext.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/context/MotionConfigContext.mjs
+>>>>>>> main
 /**
 * @public
 */
@@ -7230,7 +7249,11 @@ var MotionConfigContext = (0, import_react.createContext)({
 	reducedMotion: "never"
 });
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/utils/use-composed-ref.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/utils/use-composed-ref.mjs
+>>>>>>> main
 /**
 * Taken from https://github.com/radix-ui/primitives/blob/main/packages/react/compose-refs/src/compose-refs.tsx
 */
@@ -7271,7 +7294,11 @@ function useComposedRefs(...refs) {
 	return import_react.useCallback(composeRefs(...refs), refs);
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/components/AnimatePresence/PopChild.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/components/AnimatePresence/PopChild.mjs
+>>>>>>> main
 /**
 * Measurement functionality has to be within a separate component
 * to leverage snapshot lifecycle.
@@ -7360,7 +7387,11 @@ function PopChild({ children, isPresent, anchorX, anchorY, root, pop }) {
 	});
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/components/AnimatePresence/PresenceChild.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/components/AnimatePresence/PresenceChild.mjs
+>>>>>>> main
 var PresenceChild = ({ children, initial, isPresent, onExitComplete, custom, presenceAffectsLayout, mode, anchorX, anchorY, root }) => {
 	const presenceChildren = useConstant(newChildrenMap);
 	const id = (0, import_react.useId)();
@@ -7429,7 +7460,11 @@ function newChildrenMap() {
 	return /* @__PURE__ */ new Map();
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence.mjs
+>>>>>>> main
 /**
 * When a component is the child of `AnimatePresence`, it can use `usePresence`
 * to access information about whether it's still present in the React tree.
@@ -7469,7 +7504,11 @@ function usePresence(subscribe = true) {
 	return !isPresent && onExitComplete ? [false, safeToRemove] : [true];
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/components/AnimatePresence/utils.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/components/AnimatePresence/utils.mjs
+>>>>>>> main
 var getChildKey = (child) => child.key || "";
 function onlyElements(children) {
 	const filtered = [];
@@ -7479,7 +7518,11 @@ function onlyElements(children) {
 	return filtered;
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs
+>>>>>>> main
 /**
 * `AnimatePresence` enables the animation of components that have been removed from the tree.
 *
@@ -7652,10 +7695,17 @@ var AnimatePresence = ({ children, custom, initial = true, onExitComplete, prese
 	}) });
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/context/LazyContext.mjs
 var LazyContext = (0, import_react.createContext)({ strict: false });
 //#endregion
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/features/definitions.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/context/LazyContext.mjs
+var LazyContext = (0, import_react.createContext)({ strict: false });
+//#endregion
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/features/definitions.mjs
+>>>>>>> main
 var featureProps = {
 	animation: [
 		"animate",
@@ -7714,7 +7764,11 @@ function getInitializedFeatureDefinitions() {
 	return getFeatureDefinitions();
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/features/load-features.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/features/load-features.mjs
+>>>>>>> main
 function loadFeatures(features) {
 	const featureDefinitions = getInitializedFeatureDefinitions();
 	for (const key in features) featureDefinitions[key] = {
@@ -7724,10 +7778,17 @@ function loadFeatures(features) {
 	setFeatureDefinitions(featureDefinitions);
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/context/MotionContext/index.mjs
 var MotionContext = /* @__PURE__ */ (0, import_react.createContext)({});
 //#endregion
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/context/MotionContext/utils.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/context/MotionContext/index.mjs
+var MotionContext = /* @__PURE__ */ (0, import_react.createContext)({});
+//#endregion
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/context/MotionContext/utils.mjs
+>>>>>>> main
 function getCurrentTreeVariants(props, context) {
 	if (isControllingVariants(props)) {
 		const { initial, animate } = props;
@@ -7739,7 +7800,11 @@ function getCurrentTreeVariants(props, context) {
 	return props.inherit !== false ? context : {};
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/context/MotionContext/create.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/context/MotionContext/create.mjs
+>>>>>>> main
 function useCreateMotionContext(props) {
 	const { initial, animate } = getCurrentTreeVariants(props, (0, import_react.useContext)(MotionContext));
 	return (0, import_react.useMemo)(() => ({
@@ -7751,7 +7816,11 @@ function variantLabelsAsDependency(prop) {
 	return Array.isArray(prop) ? prop.join(" ") : prop;
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/render/html/utils/create-render-state.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/render/html/utils/create-render-state.mjs
+>>>>>>> main
 var createHtmlRenderState = () => ({
 	style: {},
 	transform: {},
@@ -7759,7 +7828,11 @@ var createHtmlRenderState = () => ({
 	vars: {}
 });
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/render/html/use-props.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/render/html/use-props.mjs
+>>>>>>> main
 function copyRawValuesOnly(target, source, props) {
 	for (const key in source) if (!isMotionValue(source[key]) && !isForcedMotionValue(key, props)) target[key] = source[key];
 }
@@ -7793,13 +7866,21 @@ function useHTMLProps(props, visualState) {
 	return htmlProps;
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/render/svg/utils/create-render-state.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/render/svg/utils/create-render-state.mjs
+>>>>>>> main
 var createSvgRenderState = () => ({
 	...createHtmlRenderState(),
 	attrs: {}
 });
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/render/svg/use-props.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/render/svg/use-props.mjs
+>>>>>>> main
 function useSVGProps(props, visualState, _isStatic, Component) {
 	const visualProps = (0, import_react.useMemo)(() => {
 		const state = createSvgRenderState();
@@ -7820,7 +7901,11 @@ function useSVGProps(props, visualState, _isStatic, Component) {
 	return visualProps;
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/utils/valid-prop.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/utils/valid-prop.mjs
+>>>>>>> main
 /**
 * A list of all valid MotionProps.
 *
@@ -7872,7 +7957,11 @@ function isValidMotionProp(key) {
 	return key.startsWith("while") || key.startsWith("drag") && key !== "draggable" || key.startsWith("layout") || key.startsWith("onTap") || key.startsWith("onPan") || key.startsWith("onLayout") || validMotionProps.has(key);
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/render/dom/utils/filter-props.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/render/dom/utils/filter-props.mjs
+>>>>>>> main
 function shouldForward(key, isValidProp) {
 	return key.startsWith("on") ? !isValidMotionProp(key) : isValidProp?.(key) ?? !isValidMotionProp(key);
 }
@@ -7893,7 +7982,11 @@ function filterProps(props, isDom, forwardMotionProps, isValidProp) {
 	return filteredProps;
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/render/svg/lowercase-elements.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/render/svg/lowercase-elements.mjs
+>>>>>>> main
 /**
 * We keep these listed separately as we use the lowercase tag names as part
 * of the runtime bundle to detect SVG components
@@ -7926,14 +8019,22 @@ var lowercaseSVGElements = [
 	"view"
 ];
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/render/dom/utils/is-svg-component.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/render/dom/utils/is-svg-component.mjs
+>>>>>>> main
 function isSVGComponent(Component) {
 	if (typeof Component !== "string" || Component.includes("-")) return false;
 	else if (lowercaseSVGElements.indexOf(Component) > -1 || /[A-Z]/u.test(Component)) return true;
 	return false;
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/render/dom/use-render.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/render/dom/use-render.mjs
+>>>>>>> main
 function useRender(Component, props, ref, { latestValues }, isStatic, forwardMotionProps = false, isSVG, isValidProp) {
 	const visualProps = (isSVG ?? isSVGComponent(Component) ? useSVGProps : useHTMLProps)(props, latestValues, isStatic, Component);
 	const filteredProps = filterProps(props, typeof Component === "string", forwardMotionProps, isValidProp);
@@ -7955,7 +8056,11 @@ function useRender(Component, props, ref, { latestValues }, isStatic, forwardMot
 	});
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/utils/use-visual-state.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/utils/use-visual-state.mjs
+>>>>>>> main
 function makeState({ scrapeMotionValuesFromProps, createRenderState }, props, context, presenceContext) {
 	return {
 		latestValues: makeLatestValues(props, context, presenceContext, scrapeMotionValuesFromProps),
@@ -8007,22 +8112,37 @@ var makeUseVisualState = (config) => (props, isStatic) => {
 	return isStatic ? make() : useConstant(make);
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/render/html/use-html-visual-state.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/render/html/use-html-visual-state.mjs
+>>>>>>> main
 var useHTMLVisualState = /*@__PURE__*/ makeUseVisualState({
 	scrapeMotionValuesFromProps: scrapeMotionValuesFromProps$1,
 	createRenderState: createHtmlRenderState
 });
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/render/svg/use-svg-visual-state.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/render/svg/use-svg-visual-state.mjs
+>>>>>>> main
 var useSVGVisualState = /*@__PURE__*/ makeUseVisualState({
 	scrapeMotionValuesFromProps,
 	createRenderState: createSvgRenderState
 });
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/utils/symbol.mjs
 var motionComponentSymbol = Symbol.for("motionComponentSymbol");
 //#endregion
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/utils/use-motion-ref.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/utils/symbol.mjs
+var motionComponentSymbol = Symbol.for("motionComponentSymbol");
+//#endregion
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/utils/use-motion-ref.mjs
+>>>>>>> main
 /**
 * Creates a ref function that, when called, hydrates the provided
 * external ref and VisualElement.
@@ -8056,18 +8176,30 @@ function useMotionRef(visualState, visualElement, externalRef) {
 	}, [visualElement]);
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/context/SwitchLayoutGroupContext.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/context/SwitchLayoutGroupContext.mjs
+>>>>>>> main
 /**
 * Internal, exported only for usage in Framer
 */
 var SwitchLayoutGroupContext = (0, import_react.createContext)({});
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/utils/is-ref-object.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/utils/is-ref-object.mjs
+>>>>>>> main
 function isRefObject(ref) {
 	return ref && typeof ref === "object" && Object.prototype.hasOwnProperty.call(ref, "current");
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs
+>>>>>>> main
 function useVisualElement(Component, visualState, props, createVisualElement, ProjectionNodeConstructor, isSVG) {
 	const { visualElement: parent } = (0, import_react.useContext)(MotionContext);
 	const lazyContext = (0, import_react.useContext)(LazyContext);
@@ -8193,7 +8325,11 @@ function getClosestProjectingNode(visualElement) {
 	return visualElement.options.allowProjection !== false ? visualElement.projection : getClosestProjectingNode(visualElement.parent);
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/index.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/index.mjs
+>>>>>>> main
 /**
 * Create a `motion` component.
 *
@@ -8275,7 +8411,11 @@ function getProjectionFunctionality(props) {
 	};
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/render/components/create-proxy.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/render/components/create-proxy.mjs
+>>>>>>> main
 function createMotionProxy(preloadedFeatures, createVisualElement) {
 	if (typeof Proxy === "undefined") return createMotionComponent;
 	/**
@@ -8308,12 +8448,20 @@ get: (_target, key) => {
 	} });
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/render/dom/create-visual-element.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/render/dom/create-visual-element.mjs
+>>>>>>> main
 var createDomVisualElement = (Component, options) => {
 	return options.isSVG ?? isSVGComponent(Component) ? new SVGVisualElement(options) : new HTMLVisualElement(options, { allowProjection: Component !== import_react.Fragment });
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/features/animation/index.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/features/animation/index.mjs
+>>>>>>> main
 var AnimationFeature = class extends Feature {
 	/**
 	* We dynamically generate the AnimationState manager as it contains a reference
@@ -8345,7 +8493,11 @@ var AnimationFeature = class extends Feature {
 	}
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/features/animation/exit.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/features/animation/exit.mjs
+>>>>>>> main
 var id = 0;
 var ExitAnimationFeature = class extends Feature {
 	constructor() {
@@ -8393,13 +8545,21 @@ var ExitAnimationFeature = class extends Feature {
 	unmount() {}
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/features/animations.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/features/animations.mjs
+>>>>>>> main
 var animations = {
 	animation: { Feature: AnimationFeature },
 	exit: { Feature: ExitAnimationFeature }
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/events/event-info.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/events/event-info.mjs
+>>>>>>> main
 function extractEventInfo(event) {
 	return { point: {
 		x: event.pageX,
@@ -8408,17 +8568,29 @@ function extractEventInfo(event) {
 }
 var addPointerInfo = (handler) => (event) => isPrimaryPointer(event) && handler(event, extractEventInfo(event));
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/events/add-pointer-event.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/events/add-pointer-event.mjs
+>>>>>>> main
 function addPointerEvent(target, eventName, handler, options) {
 	return addDomEvent(target, eventName, addPointerInfo(handler), options);
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/utils/get-context-window.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/utils/get-context-window.mjs
+>>>>>>> main
 var getContextWindow = ({ current }) => {
 	return current ? current.ownerDocument.defaultView : null;
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/utils/distance.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/utils/distance.mjs
+>>>>>>> main
 var distance = (a, b) => Math.abs(a - b);
 function distance2D(a, b) {
 	const xDelta = distance(a.x, b.x);
@@ -8426,7 +8598,11 @@ function distance2D(a, b) {
 	return Math.sqrt(xDelta ** 2 + yDelta ** 2);
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/gestures/pan/PanSession.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/gestures/pan/PanSession.mjs
+>>>>>>> main
 var overflowStyles = /*#__PURE__*/ new Set(["auto", "scroll"]);
 /**
 * @internal
@@ -8665,7 +8841,11 @@ function getVelocity(history, timeDelta) {
 	return currentVelocity;
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/gestures/drag/utils/constraints.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/gestures/drag/utils/constraints.mjs
+>>>>>>> main
 /**
 * Apply constraints to a point. These constraints are both physical along an
 * axis, and an elastic factor that determines how much to constrain the point
@@ -8761,7 +8941,11 @@ function resolvePointElastic(dragElastic, label) {
 	return typeof dragElastic === "number" ? dragElastic : dragElastic[label] || 0;
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/gestures/drag/VisualElementDragControls.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/gestures/drag/VisualElementDragControls.mjs
+>>>>>>> main
 var elementDragControls = /* @__PURE__ */ new WeakMap();
 var VisualElementDragControls = class {
 	constructor(visualElement) {
@@ -9249,7 +9433,11 @@ function getCurrentDirection(offset, lockThreshold = 10) {
 	return direction;
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/gestures/drag/index.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/gestures/drag/index.mjs
+>>>>>>> main
 var DragGesture = class extends Feature {
 	constructor(node) {
 		super(node);
@@ -9287,7 +9475,11 @@ var DragGesture = class extends Feature {
 	}
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/gestures/pan/index.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/gestures/pan/index.mjs
+>>>>>>> main
 var asyncHandler = (handler) => (event, info) => {
 	if (handler) frame.update(() => handler(event, info), false, true);
 };
@@ -9326,7 +9518,11 @@ var PanGesture = class extends Feature {
 	}
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/features/layout/MeasureLayout.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/features/layout/MeasureLayout.mjs
+>>>>>>> main
 /**
 * Track whether we've taken any snapshots yet. If not,
 * we can safely skip notification of didUpdate.
@@ -9435,7 +9631,11 @@ function MeasureLayout(props) {
 	});
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/features/drag.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/features/drag.mjs
+>>>>>>> main
 var drag = {
 	pan: { Feature: PanGesture },
 	drag: {
@@ -9445,7 +9645,11 @@ var drag = {
 	}
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/gestures/hover.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/gestures/hover.mjs
+>>>>>>> main
 function handleHoverEvent(node, event, lifecycle) {
 	const { props } = node;
 	if (node.animationState && props.whileHover) node.animationState.setActive("whileHover", lifecycle === "Start");
@@ -9464,7 +9668,11 @@ var HoverGesture = class extends Feature {
 	unmount() {}
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/gestures/focus.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/gestures/focus.mjs
+>>>>>>> main
 var FocusGesture = class extends Feature {
 	constructor() {
 		super(...arguments);
@@ -9498,7 +9706,11 @@ var FocusGesture = class extends Feature {
 	unmount() {}
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/gestures/press.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/gestures/press.mjs
+>>>>>>> main
 function handlePressEvent(node, event, lifecycle) {
 	const { props } = node;
 	if (node.current instanceof HTMLButtonElement && node.current.disabled) return;
@@ -9522,7 +9734,11 @@ var PressGesture = class extends Feature {
 	unmount() {}
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/features/viewport/observers.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/features/viewport/observers.mjs
+>>>>>>> main
 /**
 * Map an IntersectionHandler callback to an element. We only ever make one handler for one
 * element, so even though these handlers might all be triggered by different
@@ -9570,7 +9786,11 @@ function observeIntersection(element, options, callback) {
 	};
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/features/viewport/index.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/features/viewport/index.mjs
+>>>>>>> main
 var thresholdNames = {
 	some: 0,
 	all: 1
@@ -9636,7 +9856,11 @@ function hasViewportOptionChanged({ viewport = {} }, { viewport: prevViewport = 
 	return (name) => viewport[name] !== prevViewport[name];
 }
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/features/gestures.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/features/gestures.mjs
+>>>>>>> main
 var gestureAnimations = {
 	inView: { Feature: InViewFeature },
 	tap: { Feature: PressGesture },
@@ -9644,13 +9868,21 @@ var gestureAnimations = {
 	hover: { Feature: HoverGesture }
 };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/motion/features/layout.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/motion/features/layout.mjs
+>>>>>>> main
 var layout = { layout: {
 	ProjectionNode: HTMLProjectionNode,
 	MeasureLayout
 } };
 //#endregion
+<<<<<<< HEAD
 //#region node_modules/.pnpm/framer-motion@13.1.1_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs
+=======
+//#region node_modules/.pnpm/framer-motion@13.1.1_react-_fb4451f6530bac14a7f1f16c45cbddde/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs
+>>>>>>> main
 var motion = /*@__PURE__*/ createMotionProxy({
 	...animations,
 	...gestureAnimations,
