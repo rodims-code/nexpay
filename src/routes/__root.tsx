@@ -15,12 +15,12 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: "Nexpay | Infrastructure de paiement pour l'Afrique",
+        title: "Sending money should be as easy as sending a message.",
       },
       {
         name: 'description',
         content:
-          "Nexpay orchestre les paiements, les paiements sortants et la réconciliation pour les équipes qui opèrent à travers l'Afrique.",
+          "Payment Orchestration & Money Transfer Platform for Africa",
       },
     ],
     links: [
