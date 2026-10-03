@@ -15,7 +15,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: "Sending money should be as easy as sending a message.",
+        title: "NexPay | Sending money should be as easy as sending a message.",
       },
       {
         name: 'description',
