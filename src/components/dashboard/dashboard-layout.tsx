@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { useSession, signOut } from '#/lib/auth-client'
+import { SandboxBanner } from '#/components/sandbox-banner'
 
 const navItems = [
   { label: 'Vue d’ensemble', to: '/dashboard', icon: House },
@@ -137,6 +138,9 @@ export function DashboardLayout({
             <Link to="/aide" className="btn btn-outline btn-primary btn-xs rounded-full">
               Centre d’aide
             </Link>
+          </div>
+          <div className="mt-4">
+            <SandboxBanner />
           </div>
           <button
             onClick={handleSignOut}

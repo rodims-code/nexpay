@@ -1,7 +1,6 @@
 import { HeadContent, Outlet, Scripts, createRootRoute, useRouterState } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-import { SandboxBanner } from '#/components/sandbox-banner'
 
 import appCss from '../styles.css?url'
 
@@ -70,7 +69,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <SandboxBanner />
         {children}
         <TanStackDevtools
           config={{
