@@ -1,4 +1,4 @@
-import { boolean, index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, index, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -129,5 +129,12 @@ export const transaction = pgTable(
 
 export type Transaction = typeof transaction.$inferSelect;
 export type NewTransaction = typeof transaction.$inferInsert;
+
+export const waitlist = pgTable("waitlist", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  email: text("email").notNull().unique(),
+  country: text("country").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
 
 

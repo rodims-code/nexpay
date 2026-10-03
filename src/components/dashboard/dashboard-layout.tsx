@@ -134,9 +134,9 @@ export function DashboardLayout({
             <p className="mb-3 text-xs leading-relaxed text-base-content/50">
               Notre équipe est disponible pour vous accompagner.
             </p>
-            <button className="btn btn-outline btn-primary btn-xs rounded-full">
+            <Link to="/aide" className="btn btn-outline btn-primary btn-xs rounded-full">
               Centre d’aide
-            </button>
+            </Link>
           </div>
           <button
             onClick={handleSignOut}

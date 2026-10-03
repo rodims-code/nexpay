@@ -10,10 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AideRouteImport } from './routes/aide'
+import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as SandboxRouteImport } from './routes/sandbox'
+import { Route as SecuriteRouteImport } from './routes/securite'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardContactsRouteImport } from './routes/dashboard/contacts'
@@ -35,6 +40,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AideRoute = AideRouteImport.update({
+  id: '/aide',
+  path: '/aide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
+  id: '/confidentialite',
+  path: '/confidentialite',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -50,9 +65,24 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
+  id: '/mentions-legales',
+  path: '/mentions-legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SandboxRoute = SandboxRouteImport.update({
+  id: '/sandbox',
+  path: '/sandbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SecuriteRoute = SecuriteRouteImport.update({
+  id: '/securite',
+  path: '/securite',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
@@ -133,10 +163,15 @@ const AuthRegisterSecurityRoute = AuthRegisterSecurityRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/aide': typeof AideRoute
+  '/confidentialite': typeof ConfidentialiteRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
   '/register': typeof RegisterRoute
+  '/sandbox': typeof SandboxRoute
+  '/securite': typeof SecuriteRoute
   '/auth/register': typeof AuthRegisterRouteWithChildren
   '/dashboard/contacts': typeof DashboardContactsRoute
   '/dashboard/payment-methods': typeof DashboardPaymentMethodsRoute
@@ -155,9 +190,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/aide': typeof AideRoute
+  '/confidentialite': typeof ConfidentialiteRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
   '/register': typeof RegisterRoute
+  '/sandbox': typeof SandboxRoute
+  '/securite': typeof SecuriteRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
   '/dashboard/payment-methods': typeof DashboardPaymentMethodsRoute
   '/dashboard/send': typeof DashboardSendRoute
@@ -176,10 +216,15 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/aide': typeof AideRoute
+  '/confidentialite': typeof ConfidentialiteRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
   '/register': typeof RegisterRoute
+  '/sandbox': typeof SandboxRoute
+  '/securite': typeof SecuriteRoute
   '/auth/register': typeof AuthRegisterRouteWithChildren
   '/dashboard/contacts': typeof DashboardContactsRoute
   '/dashboard/payment-methods': typeof DashboardPaymentMethodsRoute
@@ -200,10 +245,15 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/aide'
+    | '/confidentialite'
     | '/dashboard'
     | '/forgot-password'
     | '/login'
+    | '/mentions-legales'
     | '/register'
+    | '/sandbox'
+    | '/securite'
     | '/auth/register'
     | '/dashboard/contacts'
     | '/dashboard/payment-methods'
@@ -222,9 +272,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/aide'
+    | '/confidentialite'
     | '/forgot-password'
     | '/login'
+    | '/mentions-legales'
     | '/register'
+    | '/sandbox'
+    | '/securite'
     | '/dashboard/contacts'
     | '/dashboard/payment-methods'
     | '/dashboard/send'
@@ -242,10 +297,15 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/aide'
+    | '/confidentialite'
     | '/dashboard'
     | '/forgot-password'
     | '/login'
+    | '/mentions-legales'
     | '/register'
+    | '/sandbox'
+    | '/securite'
     | '/auth/register'
     | '/dashboard/contacts'
     | '/dashboard/payment-methods'
@@ -265,10 +325,15 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AideRoute: typeof AideRoute
+  ConfidentialiteRoute: typeof ConfidentialiteRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
+  MentionsLegalesRoute: typeof MentionsLegalesRoute
   RegisterRoute: typeof RegisterRoute
+  SandboxRoute: typeof SandboxRoute
+  SecuriteRoute: typeof SecuriteRoute
   AuthRegisterRoute: typeof AuthRegisterRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   AuthForgotPasswordIndexRoute: typeof AuthForgotPasswordIndexRoute
@@ -282,6 +347,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aide': {
+      id: '/aide'
+      path: '/aide'
+      fullPath: '/aide'
+      preLoaderRoute: typeof AideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/confidentialite': {
+      id: '/confidentialite'
+      path: '/confidentialite'
+      fullPath: '/confidentialite'
+      preLoaderRoute: typeof ConfidentialiteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -305,11 +384,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mentions-legales': {
+      id: '/mentions-legales'
+      path: '/mentions-legales'
+      fullPath: '/mentions-legales'
+      preLoaderRoute: typeof MentionsLegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sandbox': {
+      id: '/sandbox'
+      path: '/sandbox'
+      fullPath: '/sandbox'
+      preLoaderRoute: typeof SandboxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/securite': {
+      id: '/securite'
+      path: '/securite'
+      fullPath: '/securite'
+      preLoaderRoute: typeof SecuriteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/register': {
@@ -464,10 +564,15 @@ const AuthRegisterRouteWithChildren = AuthRegisterRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AideRoute: AideRoute,
+  ConfidentialiteRoute: ConfidentialiteRoute,
   DashboardRoute: DashboardRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
+  MentionsLegalesRoute: MentionsLegalesRoute,
   RegisterRoute: RegisterRoute,
+  SandboxRoute: SandboxRoute,
+  SecuriteRoute: SecuriteRoute,
   AuthRegisterRoute: AuthRegisterRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   AuthForgotPasswordIndexRoute: AuthForgotPasswordIndexRoute,

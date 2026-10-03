@@ -116,12 +116,11 @@ export function CtaFooterSection() {
                   <Mail className="size-4" />
                   hello@nexpay.africa
                 </a>
-                <a className="link link-hover" href="#">
-                  Projet en sandbox
-                </a>
-                <a className="link link-hover" href="#">
-                  Mentions réglementaires
-                </a>
+                <Link className="link link-hover" to="/sandbox">Projet en sandbox</Link>
+                <Link className="link link-hover" to="/aide">Aide</Link>
+                <Link className="link link-hover" to="/securite">Sécurité</Link>
+                <Link className="link link-hover" to="/confidentialite">Confidentialité</Link>
+                <Link className="link link-hover" to="/mentions-legales">Mentions légales</Link>
               </nav>
             </footer>
           </div>
