@@ -6,6 +6,7 @@ import { ImpactBanner } from './impact-banner'
 import { SiteHeader } from './site-header'
 import { SavingsSection } from './savings-section'
 import { TransferFlowsSection } from './transfer-flows'
+import { WaitlistHelpSection } from './waitlist-help'
 
 export function LandingPage() {
   return (
@@ -18,6 +19,7 @@ export function LandingPage() {
       <HowItWorksSection />
       <SavingsSection />
       <AfricaMapSection />
+      <WaitlistHelpSection />
       <CtaFooterSection />
     </main>
   )

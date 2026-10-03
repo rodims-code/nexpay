@@ -48,9 +48,8 @@ function DashboardPage() {
                   <span className="text-xs font-extrabold uppercase tracking-wider opacity-80">
                     Solde de stockage
                   </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-2.5 py-0.5 text-[11px] font-bold backdrop-blur-sm">
-                    <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Passerelle directe
+                  <span className="badge badge-warning text-[11px] font-bold">
+                    Sandbox
                   </span>
                 </div>
                 <div className="flex items-baseline gap-3">
@@ -64,7 +63,7 @@ function DashboardPage() {
               </div>
               <div className="mt-6 flex items-center gap-2 text-xs font-bold opacity-90">
                 <ShieldCheck className="size-4 shrink-0" />
-                <span>Zéro rétention de dépôts · Pont sécurisé en direct</span>
+                <span>Zéro rétention de dépôts · Mode démonstration</span>
               </div>
             </div>
             <div className="absolute -right-8 -top-12 size-48 rounded-full border-[24px] border-white/10" />
@@ -79,7 +78,7 @@ function DashboardPage() {
                 Envoyer de l’argent
               </h2>
               <p className="mt-2 max-w-sm text-sm leading-relaxed text-base-content/55">
-                Transférez de l’argent à vos proches en quelques secondes.
+                Testez l'envoi d'argent en mode simulation.
               </p>
             </div>
             <Link
@@ -95,7 +94,7 @@ function DashboardPage() {
             <div className="stat-figure text-primary">
               <Send className="size-5" />
             </div>
-            <div className="stat-title text-xs font-bold">Envoyé ce mois</div>
+            <div className="stat-title flex items-center gap-2 text-xs font-bold">Envoyé ce mois <span className="badge badge-warning badge-outline badge-xs">Données de démonstration</span></div>
             <div className="stat-value font-display text-2xl">
               85 500 <small className="text-xs">XAF</small>
             </div>
@@ -116,8 +115,8 @@ function DashboardPage() {
               <TrendingUp className="size-5" />
             </div>
             <div className="stat-title text-xs font-bold">Taux de réussite</div>
-            <div className="stat-value font-display text-2xl">98,4%</div>
-            <div className="stat-desc">Sur vos transferts</div>
+            <div className="stat-value font-display text-2xl">—</div>
+            <div className="stat-desc">Disponible après les premières transactions réelles</div>
           </div>
         </div>
         <section>
@@ -131,7 +130,7 @@ function DashboardPage() {
               </Link>
             }
           >
-            Transactions récentes
+            <span className="inline-flex items-center gap-2">Transactions récentes <span className="badge badge-warning badge-outline badge-sm">Données de démonstration</span></span>
           </SectionTitle>
           <div className="overflow-hidden rounded-[1.75rem] border border-base-200 bg-base-100">
             {demoTransactions.slice(0, 3).map((transaction) => (
