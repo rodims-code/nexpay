@@ -869,7 +869,7 @@ NexPay uses a **TypeScript-first full-stack architecture**.
 - TanStack Query
 - TanStack Form
 - Tailwind CSS
-- shadcn/ui
+- daisyUI
 
 ---
 
