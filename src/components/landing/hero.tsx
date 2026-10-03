@@ -30,10 +30,10 @@ export function HeroSection() {
           <div className="flex flex-wrap items-center gap-3">
             <span className="badge badge-outline badge-lg gap-2">
               <Sparkles className="size-3.5" />
-              Paiements africains, simplifiés
+               Payment Orchestration & Money Transfer Platform for Africa
             </span>
             <span className="badge badge-warning badge-lg">
-              MVP en développement
+              Projet en Sandbox : simulation, aucun argent réel
             </span>
           </div>
           <div className="space-y-5">
