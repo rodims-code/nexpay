@@ -32,8 +32,8 @@ export function HeroSection() {
               <Sparkles className="size-3.5" />
                Payment Orchestration & Money Transfer Platform for Africa
             </span>
-            <span className="badge badge-warning badge-lg">
-              Projet en Sandbox : simulation, aucun argent réel
+            <span className="badge badge-warning badge-lg uppercase">
+              Projet en Sandbox 📥
             </span>
           </div>
           <div className="space-y-5">

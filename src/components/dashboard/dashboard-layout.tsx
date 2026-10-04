@@ -94,7 +94,7 @@ export function DashboardLayout({
     <div className="h-screen overflow-hidden p-3 sm:p-5 lg:p-7">
       <div className="mx-auto flex h-full max-w-[1500px] gap-4">
         <aside
-          className={`fixed inset-y-3 left-3 z-50 flex w-[280px] flex-col rounded-[2rem] border border-base-300/70 bg-base-100 p-5 shadow-xl shadow-base-content/5 transition-transform sm:inset-y-5 sm:left-5 lg:static lg:translate-x-0 lg:shadow-lg ${mobileOpen ? 'translate-x-0' : '-translate-x-[115%]'}`}
+          className={`fixed inset-y-3 left-3 z-50 flex w-[280px] flex-col overflow-y-auto rounded-[2rem] border border-base-300/70 bg-base-100 p-5 shadow-xl shadow-base-content/5 transition-transform sm:inset-y-5 sm:left-5 lg:static lg:translate-x-0 lg:shadow-lg ${mobileOpen ? 'translate-x-0' : '-translate-x-[115%]'}`}
         >
           <div className="mb-8 flex items-center justify-between px-2">
             <Link to="/dashboard" className="flex items-center gap-3">

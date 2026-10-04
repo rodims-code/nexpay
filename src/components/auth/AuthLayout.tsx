@@ -120,24 +120,9 @@ export function AuthLayout({
             <div className="relative z-10 flex flex-col gap-3 border-t border-base-300/70 pt-4 text-center text-xs text-base-content/45 sm:flex-row sm:items-center sm:justify-between sm:text-left">
               <p>© {new Date().getFullYear()} NexPay. Tous droits réservés.</p>
               <div className="flex flex-wrap justify-center gap-4 sm:justify-end">
-                <a
-                  href="#"
-                  className="transition-colors hover:text-base-content/75"
-                >
-                  Aide
-                </a>
-                <a
-                  href="#"
-                  className="transition-colors hover:text-base-content/75"
-                >
-                  Sécurité
-                </a>
-                <a
-                  href="#"
-                  className="transition-colors hover:text-base-content/75"
-                >
-                  Confidentialité
-                </a>
+                <Link className="link link-hover" to="/aide">Aide</Link>
+                <Link className="link link-hover" to="/securite">Sécurité</Link>
+                <Link className="link link-hover" to="/confidentialite">Confidentialité</Link>
               </div>
             </div>
           </div>

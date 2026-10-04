@@ -9,7 +9,7 @@ interface AuthCardProps {
 export function AuthCard({ children, title, subtitle }: AuthCardProps) {
   return (
     <div className="card w-full rounded-[2rem] border border-base-300/60 bg-base-100/85 shadow-2xl shadow-base-300/10 backdrop-blur-md">
-      <div className="card-body min-h-0 gap-5 p-5 sm:gap-6 sm:p-8 rou">
+      <div className="card-body min-h-0 gap-5 p-5 sm:gap-6 sm:p-8 rounded-2xl">
         <div className="space-y-2 text-center sm:text-left">
           <h2 className="card-title text-2xl font-black tracking-tight text-base-content/90 sm:text-4xl">
             {title}
