@@ -375,7 +375,7 @@ function MentionsLegales() {
 
             <div className="alert mt-4">
               <span>
-                📍 Juridiction compétente : à compléter.
+                📍 Juridiction compétente : en cours de rédaction...
               </span>
             </div>
 
