@@ -2,22 +2,21 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import {
   ArrowLeft,
   ArrowRight,
-  Check,
-  CheckCircle2,
-  Clock,
-  CreditCard,
   LockKeyhole,
   Phone,
-  RotateCcw,
   Send,
   ShieldCheck,
   User,
   UserX,
+  CheckCircle2,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { DashboardLayout } from '#/components/dashboard/dashboard-layout'
-import { getPaymentMethods } from '#/lib/payment-methods.functions'
-import { getRecentRecipients, createTransaction } from '#/lib/transactions.functions'
+import { getRecentRecipients } from '#/lib/transactions.functions'
+// Pourquoi createPayment et non createTransaction : createPayment crée le transfert
+// en statut 'awaiting_payment', appelle Moneroo et retourne le checkoutUrl.
+// Le transfert ne passe en 'paid' qu'après confirmation via webhook ou page de retour.
+import { createPayment } from '#/lib/payments.functions'
 
 export const Route = createFileRoute('/dashboard/send')({
   component: SendPage,
@@ -27,15 +26,6 @@ const QUICK_AMOUNTS = [5000, 10000, 25000, 50000, 100000]
 
 function formatNumber(num: number): string {
   return new Intl.NumberFormat('fr-FR').format(num)
-}
-
-function getProviderStyle(provider: string) {
-  const p = provider.toLowerCase()
-  if (p.includes('mtn')) return { badge: 'MTN', cls: 'bg-[#ffcc00] text-black' }
-  if (p.includes('airtel')) return { badge: 'Airtel', cls: 'bg-[#ed1c24] text-white' }
-  if (p.includes('visa')) return { badge: 'VISA', cls: 'bg-[#172b85] text-white' }
-  if (p.includes('mastercard') || p.includes('mc')) return { badge: 'MC', cls: 'bg-[#eb001b] text-white' }
-  return { badge: provider.slice(0, 4).toUpperCase(), cls: 'bg-primary/20 text-primary' }
 }
 
 function getInitials(name: string) {
@@ -57,12 +47,10 @@ const AVATAR_COLORS = [
 ]
 
 function SendPage() {
-  const [paymentMethods, setPaymentMethods] = useState<any[]>([])
   const [recentRecipients, setRecentRecipients] = useState<{ name: string; phone: string }[]>([])
-  const [loadingMethods, setLoadingMethods] = useState(true)
   const [loadingRecipients, setLoadingRecipients] = useState(true)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
-  const [selectedMethodId, setSelectedMethodId] = useState<string>('')
   const [recipientType, setRecipientType] = useState<'contact' | 'custom'>('contact')
   const [selectedRecipientPhone, setSelectedRecipientPhone] = useState('')
   const [customName, setCustomName] = useState('')
@@ -70,38 +58,8 @@ function SendPage() {
   const [amountStr, setAmountStr] = useState('10000')
   const [note, setNote] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [sentSuccessData, setSentSuccessData] = useState<{
-    txId: string
-    recipientName: string
-    recipientPhone: string
-    amount: number
-    fee: number
-    total: number
-    methodName: string
-    date: string
-  } | null>(null)
 
   useEffect(() => {
-    getPaymentMethods()
-      .then((data) => {
-        const mapped = data.map((m) => {
-          const style = getProviderStyle(m.provider)
-          return {
-            id: m.id,
-            name: m.name,
-            detail: m.accountNumber,
-            badge: style.badge,
-            badgeClass: style.cls,
-            rawBadge: style.badge,
-          }
-        })
-        setPaymentMethods(mapped)
-        const def = data.find((d) => d.isDefault) || data[0]
-        if (def) setSelectedMethodId(def.id)
-      })
-      .catch(() => {})
-      .finally(() => setLoadingMethods(false))
-
     getRecentRecipients()
       .then((data) => {
         setRecentRecipients(data)
@@ -119,65 +77,45 @@ function SendPage() {
   const recipientPhone =
     recipientType === 'contact' ? activeRecipient?.phone || '' : customPhone.trim()
 
-  const currentMethod = paymentMethods.find((m) => m.id === selectedMethodId) || paymentMethods[0]
-
   const rawAmount = parseInt(amountStr.replace(/\D/g, '') || '0', 10)
-  const fee = rawAmount > 0 ? Math.max(200, Math.round(rawAmount * 0.02)) : 0
-  const totalAmount = rawAmount + fee
+  // NOTE : frais affichés à titre indicatif seulement. Le montant final est calculé
+  // côté serveur (paymentConfig.fixedFee = 0 en sandbox — voir src/server/payments/config.ts).
+  const displayFee = 0
+  const displayTotal = rawAmount + displayFee
 
   const handleAmountChange = (val: string) => {
     setAmountStr(val.replace(/\D/g, ''))
   }
 
+  /**
+   * Pourquoi : on appelle createPayment (server function) qui crée le transfert
+   * en 'awaiting_payment', appelle Moneroo, et retourne checkoutUrl.
+   * On redirige vers Moneroo — le statut final arrive via webhook ou /payment/return.
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (rawAmount < 500 || !currentMethod) return
+    setSubmitError(null)
+    if (rawAmount < 500) return
 
     setIsSubmitting(true)
     try {
-      const tx = await createTransaction({
+      const result = await createPayment({
         data: {
+          amount: rawAmount,
           recipientName,
           recipientPhone: recipientPhone || 'Non spécifié',
-          amount: rawAmount.toString(),
-          fee: fee.toString(),
-          total: totalAmount.toString(),
-          currency: 'XAF',
-          paymentMethodName: currentMethod.name,
-          paymentMethodBadge: currentMethod.rawBadge,
           note: note.trim() || undefined,
         },
       })
 
-      const now = new Intl.DateTimeFormat('fr-FR', {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-      }).format(new Date())
-
-      setSentSuccessData({
-        txId: tx.reference,
-        recipientName,
-        recipientPhone: recipientPhone || 'Non spécifié',
-        amount: rawAmount,
-        fee,
-        total: totalAmount,
-        methodName: currentMethod.name,
-        date: now,
-      })
-    } catch {
-      // TODO: afficher une vraie erreur
-    } finally {
+      // Redirection vers Moneroo. Le retour se fait sur /payment/return?paymentId=...
+      window.location.href = result.checkoutUrl
+    } catch (err) {
+      setSubmitError((err as Error).message || 'Une erreur est survenue. Veuillez réessayer.')
       setIsSubmitting(false)
     }
   }
 
-  const resetForm = () => {
-    setSentSuccessData(null)
-    setAmountStr('10000')
-    setNote('')
-  }
-
-  const noMethods = !loadingMethods && paymentMethods.length === 0
   const noRecipients = !loadingRecipients && recentRecipients.length === 0
 
   return (
@@ -201,83 +139,15 @@ function SendPage() {
           </div>
         </div>
 
-        {/* Success screen */}
-        {sentSuccessData ? (
-          <div className="mx-auto max-w-2xl overflow-hidden rounded-[2.5rem] border border-primary/20 bg-base-100 p-6 shadow-2xl sm:p-10">
-            <div className="text-center">
-              <div className="mx-auto mb-5 flex size-20 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500 ring-8 ring-emerald-500/5">
-                <Check className="size-10 stroke-[2.5]" />
-              </div>
-              <span className="badge badge-success badge-sm gap-1.5 font-bold uppercase tracking-wider text-white">
-                <CheckCircle2 className="size-3" /> Transfert initié avec succès
-              </span>
-              <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
-                {formatNumber(sentSuccessData.amount)} XAF
-              </h2>
-              <p className="mt-2 text-sm text-base-content/65">
-                Acheminement direct vers{' '}
-                <strong className="text-base-content">{sentSuccessData.recipientName}</strong>
-                {sentSuccessData.recipientPhone && ` (${sentSuccessData.recipientPhone})`}
-              </p>
-            </div>
 
-            <div className="mt-8 rounded-3xl border border-base-200 bg-base-200/40 p-6 text-sm">
-              <div className="space-y-3.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-base-content/60">Référence transaction</span>
-                  <span className="font-mono font-bold">{sentSuccessData.txId}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-base-content/60">Date et heure</span>
-                  <span className="font-medium">{sentSuccessData.date}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-base-content/60">Moyen de débit</span>
-                  <span className="font-bold">{sentSuccessData.methodName}</span>
-                </div>
-                <div className="divider my-2" />
-                <div className="flex items-center justify-between">
-                  <span className="text-base-content/60">Montant net transféré</span>
-                  <span className="font-bold">{formatNumber(sentSuccessData.amount)} XAF</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-base-content/60">Frais NexPay</span>
-                  <span className="font-bold">{formatNumber(sentSuccessData.fee)} XAF</span>
-                </div>
-                <div className="flex items-center justify-between text-base font-extrabold">
-                  <span>Total débité</span>
-                  <span className="text-primary">{formatNumber(sentSuccessData.total)} XAF</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-6 flex items-start gap-3 rounded-2xl bg-primary/5 p-4 text-xs text-base-content/75">
-              <Clock className="mt-0.5 size-4 shrink-0 text-primary" />
-              <span>
-                Les fonds transitent directement d'opérateur à opérateur. Le destinataire reçoit
-                une notification SMS dès validation.
-              </span>
-            </div>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <button
-                onClick={resetForm}
-                className="btn btn-outline flex-1 rounded-2xl gap-2 font-bold"
-              >
-                <RotateCcw className="size-4" />
-                Nouveau transfert
-              </button>
-              <Link
-                to="/dashboard/transactions"
-                className="btn btn-primary flex-1 rounded-2xl gap-2 font-bold shadow-lg shadow-primary/25"
-              >
-                Voir les transactions
-                <ArrowRight className="size-4" />
-              </Link>
-            </div>
+        {/* Message d'erreur si createPayment échoue */}
+        {submitError && (
+          <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {submitError}
           </div>
-        ) : (
-          <div className="grid gap-8 lg:grid-cols-[1.25fr_0.95fr] lg:items-start">
+        )}
+
+        <div className="grid gap-8 lg:grid-cols-[1.25fr_0.95fr] lg:items-start">
             {/* Form Column */}
             <div className="space-y-6 rounded-[2.5rem] border border-base-200/80 bg-base-100 p-6 shadow-xl shadow-base-content/5 sm:p-8">
               <div className="border-b border-base-200 pb-5">
@@ -486,87 +356,22 @@ function SendPage() {
                   </div>
                 </div>
 
-                {/* Step 3: Payment Method */}
+                {/* Step 3: Passerelle de paiement */}
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <label className="text-xs font-extrabold uppercase tracking-wider text-base-content/70">
-                      3. Moyen de paiement
-                    </label>
-                    <Link
-                      to="/dashboard/payment-methods"
-                      className="text-xs font-bold text-primary hover:underline"
-                    >
-                      + Gérer mes moyens
-                    </Link>
+                  <label className="text-xs font-extrabold uppercase tracking-wider text-base-content/70">
+                    3. Mode de règlement
+                  </label>
+                  <div className="flex items-center gap-3.5 rounded-2xl border border-primary/20 bg-primary/5 p-4">
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-content text-xs font-black uppercase">
+                      MNR
+                    </span>
+                    <div>
+                      <p className="font-bold text-sm text-base-content">Passerelle sécurisée Moneroo</p>
+                      <p className="text-xs text-base-content/60">
+                        Choix du moyen (Mobile Money, Carte) sur la page de paiement
+                      </p>
+                    </div>
                   </div>
-
-                  {loadingMethods ? (
-                    <div className="space-y-2">
-                      {[1, 2].map((i) => (
-                        <div
-                          key={i}
-                          className="h-16 animate-pulse rounded-2xl border border-base-200 bg-base-200"
-                        />
-                      ))}
-                    </div>
-                  ) : noMethods ? (
-                    /* Empty state moyens de paiement */
-                    <div className="flex flex-col items-center gap-3 rounded-3xl border border-dashed border-base-300 bg-base-50 p-6 text-center">
-                      <div className="flex size-12 items-center justify-center rounded-2xl bg-base-200 text-base-content/40">
-                        <CreditCard className="size-6" />
-                      </div>
-                      <div>
-                        <p className="font-bold text-sm text-base-content">
-                          Aucun moyen de paiement
-                        </p>
-                        <p className="mt-0.5 text-xs text-base-content/55">
-                          Ajoutez un compte MTN MoMo, Airtel Money ou une carte avant d'envoyer.
-                        </p>
-                      </div>
-                      <Link
-                        to="/dashboard/payment-methods"
-                        className="btn btn-primary btn-sm rounded-2xl gap-2 font-bold"
-                      >
-                        Ajouter un moyen
-                        <ArrowRight className="size-3.5" />
-                      </Link>
-                    </div>
-                  ) : (
-                    <div className="grid gap-2.5">
-                      {paymentMethods.map((method) => {
-                        const isSelected = selectedMethodId === method.id
-                        return (
-                          <label
-                            key={method.id}
-                            className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition ${
-                              isSelected
-                                ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
-                                : 'border-base-200 bg-base-100 hover:border-base-300 hover:bg-base-200/40'
-                            }`}
-                          >
-                            <div className="flex items-center gap-3.5">
-                              <span
-                                className={`flex size-10 shrink-0 items-center justify-center rounded-xl text-xs font-black uppercase ${method.badgeClass}`}
-                              >
-                                {method.badge}
-                              </span>
-                              <div>
-                                <p className="font-bold text-sm text-base-content">{method.name}</p>
-                                <p className="text-xs text-base-content/50">{method.detail}</p>
-                              </div>
-                            </div>
-                            <input
-                              type="radio"
-                              name="paymentMethod"
-                              checked={isSelected}
-                              onChange={() => setSelectedMethodId(method.id)}
-                              className="radio radio-primary radio-sm"
-                            />
-                          </label>
-                        )
-                      })}
-                    </div>
-                  )}
                 </div>
 
                 {/* Note */}
@@ -587,22 +392,22 @@ function SendPage() {
                 <div className="pt-2">
                   <button
                     type="submit"
-                    disabled={rawAmount < 500 || isSubmitting || noMethods || (recipientType === 'contact' && noRecipients && !selectedRecipientPhone)}
+                    disabled={rawAmount < 500 || isSubmitting || (recipientType === 'contact' && noRecipients && !selectedRecipientPhone)}
                     className="btn btn-primary h-14 w-full rounded-2xl text-base font-bold shadow-xl shadow-primary/25 transition disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <span className="loading loading-spinner" />
                     ) : (
                       <>
-                        Confirmer et envoyer{' '}
-                        {rawAmount > 0 ? `${formatNumber(totalAmount)} XAF` : ''}
+                        Payer et envoyer{' '}
+                        {rawAmount > 0 ? `${formatNumber(displayTotal)} XAF` : ''}
                         <ArrowRight className="size-5" />
                       </>
                     )}
                   </button>
                   <div className="mt-3.5 flex items-center justify-center gap-2 text-xs font-medium text-base-content/50">
                     <LockKeyhole className="size-3.5 text-primary" />
-                    <span>Sécurisé de bout en bout · Validation par PIN opérateur</span>
+                    <span>Redirection sécurisée vers la passerelle Moneroo</span>
                   </div>
                 </div>
               </form>
@@ -629,10 +434,8 @@ function SendPage() {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-base-content/60">Moyen débité</span>
-                    <span className="font-bold text-base-content">
-                      {currentMethod ? `${currentMethod.name.split(' ')[0]} (${currentMethod.badge})` : '—'}
-                    </span>
+                    <span className="text-base-content/60">Passerelle</span>
+                    <span className="font-bold text-base-content">Moneroo</span>
                   </div>
 
                   <div className="divider my-1" />
@@ -644,28 +447,28 @@ function SendPage() {
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1 text-base-content/60">
-                      <span>Frais passerelle</span>
-                      <span className="badge badge-ghost badge-xs">NexPay</span>
+                      <span>Frais de passerelle</span>
+                      <span className="badge badge-ghost badge-xs">Sandbox</span>
                     </div>
-                    <span className="font-bold text-base-content">{formatNumber(fee)} XAF</span>
+                    <span className="font-bold text-base-content">{formatNumber(displayFee)} XAF</span>
                   </div>
 
                   <div className="flex items-center justify-between rounded-2xl bg-base-200/60 p-3.5">
                     <div>
                       <span className="text-xs font-bold text-base-content/70 block">
-                        Total à débiter
+                        Total à régler
                       </span>
                       <span className="text-[11px] text-base-content/50">
-                        Débité sur {currentMethod?.badge || '—'}
+                        Via Moneroo Checkout
                       </span>
                     </div>
                     <span className="font-display text-xl font-extrabold text-primary">
-                      {formatNumber(totalAmount)} XAF
+                      {formatNumber(displayTotal)} XAF
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between text-xs text-emerald-600 font-semibold px-1">
-                    <span>Net reçu par le bénéficiaire</span>
+                    <span>Net prévu pour le bénéficiaire</span>
                     <span>{formatNumber(rawAmount)} XAF</span>
                   </div>
                 </div>
@@ -679,7 +482,7 @@ function SendPage() {
                   <div className="space-y-1">
                     <p className="font-bold text-base-content">Passerelle directe sans rétention</p>
                     <p className="text-xs leading-relaxed text-base-content/70">
-                      NexPay connecte directement vos comptes opérateurs (MTN MoMo, Airtel, etc.)
+                      NexPay connecte directement vos comptes opérateurs via Moneroo
                       sans stocker votre argent.
                     </p>
                   </div>
@@ -693,7 +496,7 @@ function SendPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
-                  <span>Validation sécurisée par USSD / SMS</span>
+                  <span>Validation sécurisée par Moneroo</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
@@ -702,8 +505,7 @@ function SendPage() {
               </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
     </DashboardLayout>
   )
 }

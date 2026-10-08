@@ -1,4 +1,4 @@
-import { boolean, index, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { boolean, index, integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -129,6 +129,22 @@ export const transaction = pgTable(
 
 export type Transaction = typeof transaction.$inferSelect;
 export type NewTransaction = typeof transaction.$inferInsert;
+
+/** Paiement d'encaissement séparé du transfert : le payout reste hors périmètre. */
+export const paymentTransaction = pgTable("payment_transaction", {
+  id: text("id").primaryKey(),
+  transactionId: text("transaction_id").notNull().references(() => transaction.id, { onDelete: "cascade" }),
+  provider: text("provider").notNull(),
+  providerReference: text("provider_reference").unique(),
+  amount: integer("amount").notNull(),
+  currency: text("currency").notNull(),
+  status: text("status").notNull().default("pending"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => new Date()).notNull(),
+}, (table) => [index("payment_transaction_transaction_id_idx").on(table.transactionId)]);
+
+export type PaymentTransaction = typeof paymentTransaction.$inferSelect;
+export type NewPaymentTransaction = typeof paymentTransaction.$inferInsert;
 
 export const waitlist = pgTable("waitlist", {
   id: uuid("id").defaultRandom().primaryKey(),

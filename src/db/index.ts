@@ -1,3 +1,4 @@
+import '@tanstack/react-start/server-only';
 import { drizzle } from "drizzle-orm/node-postgres";
 
 if (!process.env.DATABASE_URL) {
