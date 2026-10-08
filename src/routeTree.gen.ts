@@ -26,7 +26,9 @@ import { Route as DashboardPaymentMethodsRouteImport } from './routes/dashboard/
 import { Route as DashboardSendRouteImport } from './routes/dashboard/send'
 import { Route as DashboardSettingsRouteImport } from './routes/dashboard/settings'
 import { Route as DashboardTransactionsRouteImport } from './routes/dashboard/transactions'
+import { Route as PaymentReturnRouteImport } from './routes/payment/return'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ApiWebhooksMonerooRouteImport } from './routes/api/webhooks/moneroo'
 import { Route as AuthForgotPasswordIndexRouteImport } from './routes/auth/forgot-password/index'
 import { Route as AuthLoginIndexRouteImport } from './routes/auth/login/index'
 import { Route as AuthRegisterIndexRouteImport } from './routes/auth/register/index'
@@ -120,9 +122,19 @@ const DashboardTransactionsRoute = DashboardTransactionsRouteImport.update({
   path: '/transactions',
   getParentRoute: () => DashboardRoute,
 } as any)
+const PaymentReturnRoute = PaymentReturnRouteImport.update({
+  id: '/payment/return',
+  path: '/payment/return',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWebhooksMonerooRoute = ApiWebhooksMonerooRouteImport.update({
+  id: '/api/webhooks/moneroo',
+  path: '/api/webhooks/moneroo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthForgotPasswordIndexRoute = AuthForgotPasswordIndexRouteImport.update({
@@ -178,8 +190,10 @@ export interface FileRoutesByFullPath {
   '/dashboard/send': typeof DashboardSendRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/transactions': typeof DashboardTransactionsRoute
+  '/payment/return': typeof PaymentReturnRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/webhooks/moneroo': typeof ApiWebhooksMonerooRoute
   '/auth/register/country': typeof AuthRegisterCountryRoute
   '/auth/register/personal': typeof AuthRegisterPersonalRoute
   '/auth/register/phone': typeof AuthRegisterPhoneRoute
@@ -203,8 +217,10 @@ export interface FileRoutesByTo {
   '/dashboard/send': typeof DashboardSendRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/transactions': typeof DashboardTransactionsRoute
+  '/payment/return': typeof PaymentReturnRoute
   '/dashboard': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/webhooks/moneroo': typeof ApiWebhooksMonerooRoute
   '/auth/register/country': typeof AuthRegisterCountryRoute
   '/auth/register/personal': typeof AuthRegisterPersonalRoute
   '/auth/register/phone': typeof AuthRegisterPhoneRoute
@@ -231,8 +247,10 @@ export interface FileRoutesById {
   '/dashboard/send': typeof DashboardSendRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/transactions': typeof DashboardTransactionsRoute
+  '/payment/return': typeof PaymentReturnRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/webhooks/moneroo': typeof ApiWebhooksMonerooRoute
   '/auth/register/country': typeof AuthRegisterCountryRoute
   '/auth/register/personal': typeof AuthRegisterPersonalRoute
   '/auth/register/phone': typeof AuthRegisterPhoneRoute
@@ -260,8 +278,10 @@ export interface FileRouteTypes {
     | '/dashboard/send'
     | '/dashboard/settings'
     | '/dashboard/transactions'
+    | '/payment/return'
     | '/dashboard/'
     | '/api/auth/$'
+    | '/api/webhooks/moneroo'
     | '/auth/register/country'
     | '/auth/register/personal'
     | '/auth/register/phone'
@@ -285,8 +305,10 @@ export interface FileRouteTypes {
     | '/dashboard/send'
     | '/dashboard/settings'
     | '/dashboard/transactions'
+    | '/payment/return'
     | '/dashboard'
     | '/api/auth/$'
+    | '/api/webhooks/moneroo'
     | '/auth/register/country'
     | '/auth/register/personal'
     | '/auth/register/phone'
@@ -312,8 +334,10 @@ export interface FileRouteTypes {
     | '/dashboard/send'
     | '/dashboard/settings'
     | '/dashboard/transactions'
+    | '/payment/return'
     | '/dashboard/'
     | '/api/auth/$'
+    | '/api/webhooks/moneroo'
     | '/auth/register/country'
     | '/auth/register/personal'
     | '/auth/register/phone'
@@ -335,7 +359,9 @@ export interface RootRouteChildren {
   SandboxRoute: typeof SandboxRoute
   SecuriteRoute: typeof SecuriteRoute
   AuthRegisterRoute: typeof AuthRegisterRouteWithChildren
+  PaymentReturnRoute: typeof PaymentReturnRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiWebhooksMonerooRoute: typeof ApiWebhooksMonerooRoute
   AuthForgotPasswordIndexRoute: typeof AuthForgotPasswordIndexRoute
   AuthLoginIndexRoute: typeof AuthLoginIndexRoute
 }
@@ -461,11 +487,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardTransactionsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/payment/return': {
+      id: '/payment/return'
+      path: '/payment/return'
+      fullPath: '/payment/return'
+      preLoaderRoute: typeof PaymentReturnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/webhooks/moneroo': {
+      id: '/api/webhooks/moneroo'
+      path: '/api/webhooks/moneroo'
+      fullPath: '/api/webhooks/moneroo'
+      preLoaderRoute: typeof ApiWebhooksMonerooRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/forgot-password/': {
@@ -574,7 +614,9 @@ const rootRouteChildren: RootRouteChildren = {
   SandboxRoute: SandboxRoute,
   SecuriteRoute: SecuriteRoute,
   AuthRegisterRoute: AuthRegisterRouteWithChildren,
+  PaymentReturnRoute: PaymentReturnRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiWebhooksMonerooRoute: ApiWebhooksMonerooRoute,
   AuthForgotPasswordIndexRoute: AuthForgotPasswordIndexRoute,
   AuthLoginIndexRoute: AuthLoginIndexRoute,
 }
