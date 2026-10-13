@@ -13,10 +13,12 @@ import {
   Users,
   WalletCards,
   X,
+  Palette,
 } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { useSession, signOut } from '#/lib/auth-client'
 import { SandboxBanner } from '#/components/sandbox-banner'
+import { useTheme } from '#/lib/theme'
 
 const navItems = [
   { label: 'Vue d’ensemble', to: '/dashboard', icon: House },
@@ -46,12 +48,11 @@ export function DashboardLayout({
   const location = useLocation()
   const { data: session } = useSession()
   const isNavigating = useRouterState({ select: (s) => s.status === 'pending' })
+  const { theme, setTheme, themes } = useTheme()
 
   const userName = session?.user?.name || 'Mon Compte'
   const displayName =
-    (session?.user as any)?.firstName ||
-    userName.split(' ')[0] ||
-    'Utilisateur'
+    (session?.user as any)?.firstName || userName.split(' ')[0] || 'Utilisateur'
   const initials =
     userName
       .split(' ')
@@ -135,7 +136,10 @@ export function DashboardLayout({
             <p className="mb-3 text-xs leading-relaxed text-base-content/50">
               Notre équipe est disponible pour vous accompagner.
             </p>
-            <Link to="/aide" className="btn btn-outline btn-primary btn-xs rounded-full">
+            <Link
+              to="/aide"
+              className="btn btn-outline btn-primary btn-xs rounded-full"
+            >
               Centre d’aide
             </Link>
           </div>
@@ -174,8 +178,55 @@ export function DashboardLayout({
                   {title}
                 </h1>
               </div>
-            </div>
+            </div> 
             <div className="flex items-center gap-2 sm:gap-4">
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-sm gap-2 rounded-2xl border border-base-300 font-bold"
+                  aria-label="Changer de thème"
+                >
+                  <Palette className="size-4 text-primary" />
+                  <span className="hidden text-xs sm:inline">
+                    {themes.find((t) => t.id === theme)?.label ?? 'Thème'}
+                  </span>
+                  <ChevronDown className="size-3.5 opacity-60" />
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu z-50 mt-2 w-52 rounded-2xl border border-base-200 bg-base-100 p-2 shadow-2xl"
+                >
+                  <li className="menu-title text-[10px] uppercase font-bold tracking-wider text-base-content/40 px-2 py-1">
+                    Sélectionner un thème
+                  </li>
+                  {themes.map((t) => (
+                    <li key={t.id}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setTheme(t.id)
+                          // fermer le dropdown en retirant le focus
+                          if (document.activeElement instanceof HTMLElement) {
+                            document.activeElement.blur()
+                          }
+                        }}
+                        className={`flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold ${
+                          theme === t.id
+                            ? 'bg-primary text-primary-content font-bold'
+                            : 'hover:bg-base-200 text-base-content'
+                        }`}
+                      >
+                        <span>{t.label}</span>
+                        {theme === t.id && (
+                          <span className="badge badge-xs badge-neutral">Actif</span>
+                        )}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
               <button className="btn btn-ghost btn-circle relative">
                 <Bell className="size-5" />
                 <span className="absolute right-2 top-2 size-2 rounded-full bg-secondary ring-2 ring-base-100" />
@@ -199,7 +250,9 @@ export function DashboardLayout({
                       {userName}
                     </span>
                     <span className="text-xs text-base-content/50 font-normal truncate block p-0">
-                      {(session?.user as any)?.phone || session?.user?.email || 'Compte vérifié'}
+                      {(session?.user as any)?.phone ||
+                        session?.user?.email ||
+                        'Compte vérifié'}
                     </span>
                   </li>
                   <li>
@@ -208,7 +261,10 @@ export function DashboardLayout({
                     </Link>
                   </li>
                   <li>
-                    <button onClick={handleSignOut} className="text-error font-medium">
+                    <button
+                      onClick={handleSignOut}
+                      className="text-error font-medium"
+                    >
                       <LogOut className="size-4" /> Se déconnecter
                     </button>
                   </li>

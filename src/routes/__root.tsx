@@ -64,8 +64,20 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" data-theme="bumblebee">
+    <html lang="fr" data-theme="bumblebee" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function() {
+  try {
+    var saved = localStorage.getItem('nexpay-theme');
+    if (saved) {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  } catch (e) {}
+})();`,
+          }}
+        />
         <HeadContent />
       </head>
       <body>
