@@ -13,10 +13,12 @@ import {
   Users,
   WalletCards,
   X,
+  Palette,
 } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { useSession, signOut } from '#/lib/auth-client'
 import { SandboxBanner } from '#/components/sandbox-banner'
+import { useTheme } from '#/lib/theme'
 
 const navItems = [
   { label: 'Vue d’ensemble', to: '/dashboard', icon: House },
@@ -46,6 +48,7 @@ export function DashboardLayout({
   const location = useLocation()
   const { data: session } = useSession()
   const isNavigating = useRouterState({ select: (s) => s.status === 'pending' })
+  const { theme, setTheme, themes } = useTheme()
 
   const userName = session?.user?.name || 'Mon Compte'
   const displayName =
@@ -177,68 +180,50 @@ export function DashboardLayout({
               </div>
             </div> 
             <div className="flex items-center gap-2 sm:gap-4">
-              <div className="dropdown">
-                <div tabIndex={0} role="button" className="btn m-1">
-                  Theme
-                  <svg
-                    width="12px"
-                    height="12px"
-                    className="inline-block h-2 w-2 fill-current opacity-60"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 2048 2048"
-                  >
-                    <path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
-                  </svg>
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-sm gap-2 rounded-2xl border border-base-300 font-bold"
+                  aria-label="Changer de thème"
+                >
+                  <Palette className="size-4 text-primary" />
+                  <span className="hidden text-xs sm:inline">
+                    {themes.find((t) => t.id === theme)?.label ?? 'Thème'}
+                  </span>
+                  <ChevronDown className="size-3.5 opacity-60" />
                 </div>
                 <ul
-                  tabIndex={-1}
-                  className="dropdown-content bg-base-300 rounded-box z-1 w-52 p-2 shadow-2xl"
+                  tabIndex={0}
+                  className="dropdown-content menu z-50 mt-2 w-52 rounded-2xl border border-base-200 bg-base-100 p-2 shadow-2xl"
                 >
-                  <li>
-                    <input
-                      type="radio"
-                      name="theme-dropdown"
-                      className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
-                      aria-label="Default"
-                      value="default"
-                    />
+                  <li className="menu-title text-[10px] uppercase font-bold tracking-wider text-base-content/40 px-2 py-1">
+                    Sélectionner un thème
                   </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="theme-dropdown"
-                      className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
-                      aria-label="caramellatte"
-                      value="caramellatte"
-                    />
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="theme-dropdown"
-                      className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
-                      aria-label="coffee"
-                      value="coffee"
-                    />
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="theme-dropdown"
-                      className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
-                      aria-label="cupcake"
-                      value="cupcake"
-                    />
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="theme-dropdown"
-                      className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
-                      aria-label="black"
-                      value="black"
-                    />
-                  </li>
+                  {themes.map((t) => (
+                    <li key={t.id}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setTheme(t.id)
+                          // fermer le dropdown en retirant le focus
+                          if (document.activeElement instanceof HTMLElement) {
+                            document.activeElement.blur()
+                          }
+                        }}
+                        className={`flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold ${
+                          theme === t.id
+                            ? 'bg-primary text-primary-content font-bold'
+                            : 'hover:bg-base-200 text-base-content'
+                        }`}
+                      >
+                        <span>{t.label}</span>
+                        {theme === t.id && (
+                          <span className="badge badge-xs badge-neutral">Actif</span>
+                        )}
+                      </button>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
