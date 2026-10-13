@@ -64,7 +64,7 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" data-theme="coffee">
+    <html lang="fr" data-theme="bumblebee">
       <head>
         <HeadContent />
       </head>

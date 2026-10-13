@@ -18,6 +18,8 @@
 import crypto from 'node:crypto'
 import type { PaymentInput, PaymentProvider, PaymentStatus, VerifiedPayment } from '../types.ts'
 
+const isSandbox = process.env.PAYMENTS_ENV === 'sandbox'
+
 const API_BASE_URL = 'https://api.moneroo.io/v1'
 
 // ─── Helpers privés ────────────────────────────────────────────────────────────
@@ -113,6 +115,10 @@ export const monerooProvider: PaymentProvider = {
           last_name: input.customer.lastName,
         },
         metadata: input.metadata,
+        // Pourquoi : en sandbox, on force la méthode de démo Moneroo pour que
+        // la page de checkout affiche uniquement le formulaire de test.
+        // En production, ce champ est absent — Moneroo affiche les vrais moyens.
+        ...(isSandbox && { methods: ['moneroo_payment_demo'] }),
       }),
     })
 

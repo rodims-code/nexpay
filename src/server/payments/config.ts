@@ -6,29 +6,41 @@
  *         ni appel externe. L'utilisateur reçoit une erreur explicite.
  *
  * SANDBOX — valeurs modifiables :
- *   - currency : devise imposée par le serveur (le navigateur ne la choisit pas)
+ *   - currency : déterminée par PAYMENTS_ENV (sandbox → USD, sinon TODO live)
  *   - minimumAmount / maximumAmount : limites de montant acceptées
- *   - decimalPlaces : 0 = montants entiers uniquement (XAF, XOF...)
+ *   - decimalPlaces : 0 = montants entiers uniquement
  *   - fixedFee : frais NexPay en plus du montant (0 pour le sandbox)
+ *
+ * TODO : conversion XAF/USD à définir avant le live — tant qu'elle n'existe pas,
+ *        toute la page /dashboard/send est en USD en mode sandbox.
  */
+
+const isSandbox = process.env.PAYMENTS_ENV === 'sandbox'
+
 export const paymentConfig = {
-  /** Devise imposée par le serveur. Le navigateur envoie seulement un montant. */
-  currency: 'USD',
+  /**
+   * Devise imposée par le serveur selon l'environnement.
+   * En sandbox : USD (requis par Moneroo demo).
+   * En production : TODO — définir la devise live (ex. XAF).
+   */
+  currency: isSandbox
+    ? 'USD'
+    : (process.env.PAYMENTS_LIVE_CURRENCY ?? 'XAF'), // TODO : devise live à définir
 
   /** Montant minimum accepté (en unité entière selon decimalPlaces). */
-  minimumAmount: 500,
+  minimumAmount: isSandbox ? 1 : 5,
 
   /** Montant maximum accepté (protège contre les tests ou erreurs de saisie). */
-  maximumAmount: 1_000_000,
+  maximumAmount: isSandbox ? 10_000 : 1_000_000,
 
   /**
    * Nombre de décimales autorisées.
-   * 0 = montant entier (ex. XAF, XOF qui n'ont pas de centime).
+   * 0 = montant entier (USD sandbox : on arrondit avec Math.round).
    */
   decimalPlaces: 0,
 
   /**
-   * Frais fixes NexPay ajoutés au montant (en XAF).
+   * Frais fixes NexPay ajoutés au montant.
    * 0 en sandbox — à modifier quand la politique tarifaire sera définie.
    */
   fixedFee: 0,
@@ -38,9 +50,10 @@ export const paymentConfig = {
  * Pourquoi : centraliser le calcul du total pour que le navigateur
  * ne puisse jamais choisir ou manipuler le montant final débité.
  * C'est ce total qui est envoyé à Moneroo et comparé dans le webhook.
+ * Math.round : Moneroo exige un montant entier (doc sandbox USD).
  */
 export function calculatePaymentTotal(amount: number): number {
-  return amount + paymentConfig.fixedFee
+  return Math.round(amount + paymentConfig.fixedFee)
 }
 
 /**

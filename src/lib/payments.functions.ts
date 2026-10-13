@@ -1,16 +1,37 @@
-/**
- * Rôle : Server Functions TanStack Start pour les paiements.
- * Ce fichier est destiné à être importé aussi bien côté client que côté serveur.
- * Grâce au suffixe `.functions.ts` et à `createServerFn`, TanStack Start génère
- * des stubs RPC pour le client et n'inclut aucun code serveur (ni Drizzle, ni pg)
- * dans le bundle du navigateur.
- */
 import { createServerFn } from '@tanstack/react-start'
 import { getRequest } from '@tanstack/react-start/server'
 import {
   getPaymentStatusServer,
   initiatePaymentServer,
 } from '#/server/payments/payments.server'
+import {
+  COMBINED_SCENARIOS,
+  PAYMENT_TEST_NUMBERS,
+  PAYOUT_TEST_NUMBERS,
+  SANDBOX_CONFIG,
+  SANDBOX_TRANSACTIONS,
+} from '#/server/payments/sandbox-data'
+
+// ─── Données sandbox (page /dashboard/send et /dashboard/transactions) ────────
+
+/**
+ * Pourquoi : exposer les données de test UNIQUEMENT si PAYMENTS_ENV === 'sandbox'.
+ * La décision est prise côté serveur : en production, le panneau de test
+ * ne s'affiche pas, même si quelqu'un modifie le bundle client.
+ */
+export const getSandboxData = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    if (process.env.PAYMENTS_ENV !== 'sandbox') return null
+
+    return {
+      config: SANDBOX_CONFIG,
+      paymentNumbers: PAYMENT_TEST_NUMBERS,
+      payoutNumbers: PAYOUT_TEST_NUMBERS,
+      scenarios: COMBINED_SCENARIOS,
+      transactions: SANDBOX_TRANSACTIONS,
+    }
+  },
+)
 
 // ─── Statut de retour de paiement (page /payment/return) ─────────────────────
 
