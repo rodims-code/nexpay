@@ -13,7 +13,7 @@
  */
 export const paymentConfig = {
   /** Devise imposée par le serveur. Le navigateur envoie seulement un montant. */
-  currency: 'XAF',
+  currency: 'USD',
 
   /** Montant minimum accepté (en unité entière selon decimalPlaces). */
   minimumAmount: 500,

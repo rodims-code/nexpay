@@ -52,10 +52,35 @@ function mapStatus(raw: string): PaymentStatus {
  * et relancer une erreur propre sans exposer le corps complet dans les logs.
  */
 async function readData(response: Response): Promise<Record<string, unknown>> {
-  const body = (await response.json()) as { data?: unknown }
-  if (!response.ok || !body.data) {
-    throw new Error(`Moneroo request failed: ${response.status}`)
+  // On lit d'abord le texte brut : si Moneroo renvoie autre chose que du JSON
+  // (page d'erreur, proxy...), response.json() planterait sans explication.
+  const raw = await response.text()
+  let body: { message?: string; data?: unknown; errors?: unknown } = {}
+  try {
+    body = JSON.parse(raw)
+  } catch {
+    // corps non JSON : on garde un extrait pour le diagnostic
+    console.error('[moneroo] réponse non JSON', response.status, raw.slice(0, 300))
+    throw new Error(`Moneroo response is not JSON: ${response.status}`)
   }
+
+  if (!response.ok || !body.data) {
+    // Le champ "errors" de Moneroo indique quel champ est refusé.
+    // On ne logue ni la clé, ni l'en-tête Authorization, ni le payload envoyé.
+    console.error(
+      '[moneroo] erreur',
+      response.status,
+      JSON.stringify({
+        message: body.message,
+        errors: body.errors,
+        extrait: body.message ? undefined : raw.slice(0, 300),
+      }),
+    )
+    throw new Error(
+      `Moneroo request failed: ${response.status} - ${body.message ?? 'réponse non JSON'}`,
+    )
+  }
+
   return body.data as Record<string, unknown>
 }
 
