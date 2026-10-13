@@ -49,9 +49,7 @@ export function DashboardLayout({
 
   const userName = session?.user?.name || 'Mon Compte'
   const displayName =
-    (session?.user as any)?.firstName ||
-    userName.split(' ')[0] ||
-    'Utilisateur'
+    (session?.user as any)?.firstName || userName.split(' ')[0] || 'Utilisateur'
   const initials =
     userName
       .split(' ')
@@ -135,7 +133,10 @@ export function DashboardLayout({
             <p className="mb-3 text-xs leading-relaxed text-base-content/50">
               Notre équipe est disponible pour vous accompagner.
             </p>
-            <Link to="/aide" className="btn btn-outline btn-primary btn-xs rounded-full">
+            <Link
+              to="/aide"
+              className="btn btn-outline btn-primary btn-xs rounded-full"
+            >
               Centre d’aide
             </Link>
           </div>
@@ -174,8 +175,73 @@ export function DashboardLayout({
                   {title}
                 </h1>
               </div>
-            </div>
+            </div> 
             <div className="flex items-center gap-2 sm:gap-4">
+              <div className="dropdown">
+                <div tabIndex={0} role="button" className="btn m-1">
+                  Theme
+                  <svg
+                    width="12px"
+                    height="12px"
+                    className="inline-block h-2 w-2 fill-current opacity-60"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 2048 2048"
+                  >
+                    <path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
+                  </svg>
+                </div>
+                <ul
+                  tabIndex={-1}
+                  className="dropdown-content bg-base-300 rounded-box z-1 w-52 p-2 shadow-2xl"
+                >
+                  <li>
+                    <input
+                      type="radio"
+                      name="theme-dropdown"
+                      className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
+                      aria-label="Default"
+                      value="default"
+                    />
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="theme-dropdown"
+                      className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
+                      aria-label="caramellatte"
+                      value="caramellatte"
+                    />
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="theme-dropdown"
+                      className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
+                      aria-label="coffee"
+                      value="coffee"
+                    />
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="theme-dropdown"
+                      className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
+                      aria-label="cupcake"
+                      value="cupcake"
+                    />
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="theme-dropdown"
+                      className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
+                      aria-label="black"
+                      value="black"
+                    />
+                  </li>
+                </ul>
+              </div>
+
               <button className="btn btn-ghost btn-circle relative">
                 <Bell className="size-5" />
                 <span className="absolute right-2 top-2 size-2 rounded-full bg-secondary ring-2 ring-base-100" />
@@ -199,7 +265,9 @@ export function DashboardLayout({
                       {userName}
                     </span>
                     <span className="text-xs text-base-content/50 font-normal truncate block p-0">
-                      {(session?.user as any)?.phone || session?.user?.email || 'Compte vérifié'}
+                      {(session?.user as any)?.phone ||
+                        session?.user?.email ||
+                        'Compte vérifié'}
                     </span>
                   </li>
                   <li>
@@ -208,7 +276,10 @@ export function DashboardLayout({
                     </Link>
                   </li>
                   <li>
-                    <button onClick={handleSignOut} className="text-error font-medium">
+                    <button
+                      onClick={handleSignOut}
+                      className="text-error font-medium"
+                    >
                       <LogOut className="size-4" /> Se déconnecter
                     </button>
                   </li>
