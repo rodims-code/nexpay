@@ -15,6 +15,7 @@ import {
   ArrowLeft,
   ArrowRight,
   ClipboardCopy,
+  Check,
   FlaskConical,
   LockKeyhole,
   Phone,
@@ -24,7 +25,7 @@ import {
   UserX,
   CheckCircle2,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { DashboardLayout } from '#/components/dashboard/dashboard-layout'
 import { getRecentRecipients } from '#/lib/transactions.functions'
 import { createPayment, getSandboxData } from '#/lib/payments.functions'
@@ -77,78 +78,90 @@ const AVATAR_COLORS = [
  * le composant principal. La copie via navigator.clipboard est gérée localement.
  */
 function TestNumberTable({
-  title,
   rows,
   valueKey,
   onPrefill,
-  prefillLabel,
+  prefillLabel = 'Utiliser',
 }: {
-  title: string
   rows: (PaymentTestNumber | PayoutTestNumber)[]
   valueKey: 'phone' | 'accountNumber'
   onPrefill?: (value: string) => void
   prefillLabel?: string
 }) {
   const [copied, setCopied] = useState<string | null>(null)
+const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const copy = (val: string) => {
-    navigator.clipboard.writeText(val).then(() => {
-      setCopied(val)
-      setTimeout(() => setCopied(null), 1500)
-    })
+// Nettoyage du timer au démontage
+useEffect(() => {
+  return () => {
+    if (timer.current) clearTimeout(timer.current)
   }
+}, [])
 
+const copy = async (val: string) => {
+  try {
+    await navigator.clipboard.writeText(val)
+    setCopied(val)
+    if (timer.current) clearTimeout(timer.current)
+    timer.current = setTimeout(() => setCopied(null), 1500)
+  } catch {
+    /* clipboard indisponible (http, permissions) : on ignore */
+  }
+}
   return (
-    <div>
-      <p className="mb-2 text-xs font-extrabold uppercase tracking-wider text-base-content/60">
-        {title}
-      </p>
-      <div className="overflow-x-auto rounded-xl border border-base-200">
-        <table className="table table-xs">
-          <thead>
-            <tr>
-              <th>Numéro</th>
-              <th>Résultat attendu</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => {
-              const val = valueKey === 'phone'
-                ? (row as PaymentTestNumber).phone
-                : (row as PayoutTestNumber).accountNumber
-              return (
-                <tr key={val}>
-                  <td className="font-mono text-xs">{val}</td>
-                  <td className="text-xs">{row.label}</td>
-                  <td className="flex gap-1">
-                    <button
-                      type="button"
-                      onClick={() => copy(val)}
-                      className="btn btn-ghost btn-xs gap-1 rounded-lg"
-                      title="Copier"
-                    >
-                      <ClipboardCopy className="size-3" />
-                      {copied === val ? 'Copié !' : 'Copier'}
-                    </button>
-                    {onPrefill && prefillLabel && (
-                      <button
-                        type="button"
-                        onClick={() => onPrefill(val)}
-                        className="btn btn-outline btn-xs rounded-lg"
-                        title={prefillLabel}
-                      >
-                        Utiliser
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <ul className="menu menu-sm w-full gap-1 p-0">
+      {rows.map((row) => {
+        const val =
+          valueKey === 'phone'
+            ? (row as PaymentTestNumber).phone
+            : (row as PayoutTestNumber).accountNumber
+        const isCopied = copied === val
+
+        return (
+          <li key={val} className="m-0">
+            <div className="flex items-center justify-between gap-2 rounded-box bg-base-200/50 px-3 py-2 hover:bg-base-200">
+              {/* Numéro + résultat attendu */}
+              <div className="min-w-0 space-y-0.5">
+                <p className="truncate font-mono text-xs font-semibold">{val}</p>
+                <p className="truncate text-[11px] text-base-content/60">
+                  {row.label}
+                </p>
+              </div>
+
+              {/* Actions */}
+              <div className="flex shrink-0 items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => copy(val)}
+                  className={`btn btn-square btn-ghost btn-xs ${
+                    isCopied ? 'text-success' : ''
+                  }`}
+                  aria-label={isCopied ? 'Copié' : `Copier ${val}`}
+                  title={isCopied ? 'Copié !' : 'Copier'}
+                >
+                  {isCopied ? (
+                    <Check className="size-3.5" />
+                  ) : (
+                    <ClipboardCopy className="size-3.5" />
+                  )}
+                </button>
+
+                {onPrefill && (
+                  <button
+                    type="button"
+                    onClick={() => onPrefill(val)}
+                    className="btn btn-primary btn-outline btn-xs"
+                    aria-label={`${prefillLabel} ${val}`}
+                  >
+                    {prefillLabel}
+                  </button>
+                )}
+              </div>
+            </div>
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 
@@ -272,77 +285,96 @@ function SendPage() {
           </div>
         </div>
 
-        {/* ── Bandeau Mode test (sandbox uniquement) ── */}
-        {isSandbox && sandboxData && (
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 space-y-4">
-            {/* En-tête du bandeau */}
-            <div className="flex items-center gap-2">
-              <FlaskConical className="size-5 text-amber-600 shrink-0" />
-              <div>
-                <p className="text-sm font-extrabold text-amber-800">
-                  Mode test · Aucun argent réel · Devise&nbsp;: {sandboxData.config.currency}
-                </p>
-                <p className="text-xs text-amber-700">
-                  Flux en 2 étapes :&nbsp;
-                  <strong>① Vous payez</strong> (numéro de paiement saisi sur la page Moneroo)
-                  &nbsp;→&nbsp;
-                  <strong>② Le destinataire reçoit</strong> (numéro payout = numéro destinataire
-                  dans ce formulaire). Le payout n'est pas encore implémenté — affichage seul.
-                </p>
-              </div>
-            </div>
+{/* ── Bandeau Mode test (sandbox uniquement) ── */}
+{isSandbox && sandboxData && (
+  <div className="collapse collapse-arrow rounded-box border border-warning/40 bg-warning/10">
+    <input type="checkbox" aria-label="Afficher les numéros de test" />
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              {/* Tableau numéros de PAIEMENT */}
-              <div>
-                <TestNumberTable
-                  title="① Numéros de PAIEMENT (saisir sur la page Moneroo)"
-                  rows={sandboxData.paymentNumbers}
-                  valueKey="phone"
-                />
-                <p className="mt-1.5 text-[11px] text-amber-700 italic">
-                  Ce numéro se saisit directement sur la page de paiement Moneroo,
-                  pas dans ce formulaire.
-                </p>
-              </div>
+    {/* Résumé toujours visible */}
+    <div className="collapse-title flex flex-wrap items-center gap-x-3 gap-y-1 pr-10">
+      <FlaskConical className="size-5 shrink-0 text-warning" />
+      <span className="text-sm font-bold">Mode test</span>
+      <span className="badge badge-warning badge-sm">
+        {sandboxData.config.currency}
+      </span>
+      <span className="text-xs text-base-content/60">
+        Aucun argent réel · Voir les numéros de test
+      </span>
+    </div>
 
-              {/* Tableau numéros de PAYOUT */}
-              <div>
-                <TestNumberTable
-                  title="② Numéros de PAYOUT (numéro destinataire)"
-                  rows={sandboxData.payoutNumbers}
-                  valueKey="accountNumber"
-                  onPrefill={prefillPayoutNumber}
-                  prefillLabel="Pré-remplir le champ destinataire"
-                />
-                <p className="mt-1.5 text-[11px] text-amber-700 italic">
-                  ⚠️ L'ordre échec/attente est <strong>inversé</strong> par rapport aux
-                  numéros de paiement. Utilisez "Utiliser" pour pré-remplir le champ
-                  téléphone du destinataire.
-                </p>
-              </div>
-            </div>
+    {/* Contenu déplié */}
+    <div className="collapse-content space-y-4">
+      {/* Explication courte en 2 étapes */}
+      <ul className="steps steps-vertical sm:steps-horizontal w-full text-xs">
+        <li className="step step-warning">
+          <span className="text-left sm:text-center">
+            Vous payez
+            <span className="block text-base-content/60">
+              numéro saisi sur Moneroo
+            </span>
+          </span>
+        </li>
+        <li className="step step-warning">
+          <span className="text-left sm:text-center">
+            Le destinataire reçoit
+            <span className="block text-base-content/60">
+              numéro de ce formulaire
+            </span>
+          </span>
+        </li>
+      </ul>
 
-            {/* Raccourcis payout */}
-            <div>
-              <p className="mb-2 text-xs font-extrabold uppercase tracking-wider text-amber-700">
-                Raccourcis — pré-remplir le destinataire
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {sandboxData.payoutNumbers.map((n) => (
-                  <button
-                    key={n.accountNumber}
-                    type="button"
-                    onClick={() => prefillPayoutNumber(n.accountNumber)}
-                    className="btn btn-xs rounded-xl border border-amber-300 bg-amber-100 text-amber-800 hover:bg-amber-200"
-                  >
-                    {n.accountNumber} — {n.label}
-                  </button>
-                ))}
-              </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        {/* ① Paiement */}
+        <div className="card card-border bg-base-100">
+          <div className="card-body gap-2 p-3 sm:p-4">
+            <h3 className="card-title text-sm">
+              <span className="badge badge-warning badge-sm">1</span>
+              Numéros de paiement
+            </h3>
+            <p className="text-xs text-base-content/60">
+              À saisir sur la page Moneroo.
+            </p>
+            <div className="overflow-x-auto">
+              <TestNumberTable
+                rows={sandboxData.paymentNumbers}
+                valueKey="phone"
+              />
             </div>
           </div>
-        )}
+        </div>
+
+        {/* ② Payout */}
+        <div className="card card-border bg-base-100">
+          <div className="card-body gap-2 p-3 sm:p-4">
+            <h3 className="card-title text-sm">
+              <span className="badge badge-warning badge-sm">2</span>
+              Numéros de payout
+            </h3>
+            <p className="text-xs text-base-content/60">
+              Cliquez sur « Utiliser » pour remplir le destinataire.
+            </p>
+            <div className="overflow-x-auto">
+              <TestNumberTable
+                rows={sandboxData.payoutNumbers}
+                valueKey="accountNumber"
+                onPrefill={prefillPayoutNumber}
+                prefillLabel="Utiliser"
+              />
+            </div>
+            <div role="alert" className="alert alert-warning alert-soft py-2 text-xs">
+              <span>L'ordre échec / attente est inversé par rapport au paiement.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p className="text-xs text-base-content/50">
+        Le payout n'est pas encore implémenté : affichage seul.
+      </p>
+    </div>
+  </div>
+)}
 
         {/* Message d'erreur si createPayment échoue */}
         {submitError && (
