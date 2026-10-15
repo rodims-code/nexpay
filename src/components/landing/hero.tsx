@@ -28,9 +28,9 @@ export function HeroSection() {
           className="space-y-8"
         >
           <div className="flex flex-wrap items-center gap-3">
-            <span className="badge badge-outline badge-lg gap-2">
-              <Sparkles className="size-3.5" />
-               Payment Orchestration & Money Transfer Platform for Africa
+            <span className="badge badge-outline badge-lg h-auto max-w-full gap-2 whitespace-normal py-2 text-left leading-tight">
+              <Sparkles className="size-3.5 shrink-0" />
+              Payment Orchestration & Money Transfer Platform for Africa
             </span>
             <span className="badge badge-warning badge-lg uppercase">
               Projet en Sandbox 📥

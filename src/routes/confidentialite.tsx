@@ -58,7 +58,7 @@ function Confidentialite() {
                 Privacy Center
               </div>
 
-              <h1 className="text-5xl font-extrabold">
+              <h1 className="text-4xl font-extrabold">
                 Vos données vous appartiennent
               </h1>
 

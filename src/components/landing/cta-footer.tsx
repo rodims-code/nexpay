@@ -87,20 +87,20 @@ export function CtaFooterSection() {
                 <h6 className="footer-title text-neutral-content">Réseaux</h6>
                 <a
                   className="link link-hover flex items-center gap-2"
-                  href="https://twitter.com"
+                  href="https://x.com/rodims_code"
                 >
                   <ArrowUpRight className="size-4" />X / Twitter
                 </a>
                 <a
                   className="link link-hover flex items-center gap-2"
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/dieuveil-rodim-s-777a5b354/"
                 >
                   <ArrowUpRight className="size-4" />
                   LinkedIn
                 </a>
                 <a
                   className="link link-hover flex items-center gap-2"
-                  href="https://github.com"
+                  href="https://github.com/rodims-code"
                 >
                   <ArrowUpRight className="size-4" />
                   GitHub

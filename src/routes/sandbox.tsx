@@ -106,13 +106,13 @@ function Sandbox() {
               </div>
 
               <h1 className="text-5xl font-extrabold">
-                Testez Moneroo avant son lancement
+                Testez Nexpay avant son lancement
               </h1>
 
               <p className="mt-6 text-lg opacity-90">
                 Simulez des transferts, explorez
                 l'expérience utilisateur et découvrez
-                l'écosystème Moneroo sans utiliser
+                l'écosystème Nexpay sans utiliser
                 d'argent réel.
               </p>
 
