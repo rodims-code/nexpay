@@ -81,12 +81,12 @@ function RegisterLayout() {
         heroImageAlt="Homme consultant son téléphone dans un espace de travail"
         heroTitle={
           <>
-            Construis ton avenir
+            Move Money 
             <br />
-            financier.
+            Connect Africa. 
           </>
         }
-        heroDescription="Créez votre compte NexPay et avancez avec une expérience pensée pour vos projets et vos paiements."
+        heroDescription="Envoyez de l'argent entre les réseaux Mobile Money, sans friction et même depuis l'étranger."
       >
         <AuthCard
           title={title}

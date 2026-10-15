@@ -99,12 +99,12 @@ function LoginComponent() {
       heroImageAlt="Femme utilisant son téléphone pendant sa journée"
       heroTitle={
         <>
-          Vos paiements,
+          Un seul compte, 
           <br />
-          toujours avec vous.
+          tous les réseaux.
         </>
       }
-      heroDescription="Retrouvez votre espace NexPay et gardez le contrôle de vos comptes, où que vous soyez."
+      heroDescription="Frais et taux affichés avant chaque envoi."
     >
       <AuthCard
         title="RAVI DE VOUS REVOIR 😁"
