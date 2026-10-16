@@ -40,8 +40,10 @@ function SecurityStep() {
     const country = SUPPORTED_COUNTRIES.find(
       (item) => item.code === registrationData.countryCode,
     )
+    const effectiveCallingCode = country?.callingCode || registrationData.callingCode || '+242'
+
     if (
-      !country ||
+      !registrationData.phoneNumber ||
       !registrationData.firstName ||
       !registrationData.lastName ||
       !registrationData.birthDate ||
@@ -53,7 +55,7 @@ function SecurityStep() {
     }
 
     updateData({ password })
-    const phone = country.callingCode + registrationData.phoneNumber
+    const phone = effectiveCallingCode + registrationData.phoneNumber
     const { error: signUpError } = await authClient.signUp.email({
       name: `${registrationData.firstName} ${registrationData.lastName}`,
       email: phoneLoginEmail(phone),

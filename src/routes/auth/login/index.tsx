@@ -22,6 +22,7 @@ export const Route = createFileRoute('/auth/login/')({
 function LoginComponent() {
   const [phone, setPhone] = useState('')
   const [countryCode, setCountryCode] = useState('CG') // default to Congo
+  const [callingCode, setCallingCode] = useState('+242')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -42,10 +43,10 @@ function LoginComponent() {
     }
 
     const country = SUPPORTED_COUNTRIES.find((c) => c.code === countryCode)
-    if (!country) return
+    const effectiveCallingCode = country?.callingCode || callingCode || '+242'
 
-    const sanitized = sanitizePhone(phone, country.callingCode)
-    const fullPhone = country.callingCode + sanitized
+    const sanitized = sanitizePhone(phone, effectiveCallingCode)
+    const fullPhone = effectiveCallingCode + sanitized
 
     setLoading(true)
     try {
@@ -121,6 +122,10 @@ function LoginComponent() {
               phoneNumber={phone}
               onCountryChange={(code) => {
                 setCountryCode(code)
+                setError(undefined)
+              }}
+              onCallingCodeChange={(code) => {
+                setCallingCode(code)
                 setError(undefined)
               }}
               onPhoneChange={(val) => {
