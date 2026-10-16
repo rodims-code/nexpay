@@ -52,6 +52,7 @@ export const SUPPORTED_COUNTRIES: Country[] = [
 export interface RegisterState {
   phoneNumber: string
   countryCode: string
+  callingCode?: string
   firstName?: string
   lastName?: string
   birthDate?: string

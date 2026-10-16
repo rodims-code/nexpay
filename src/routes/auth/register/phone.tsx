@@ -17,7 +17,8 @@ export const Route = createFileRoute('/auth/register/phone')({
 function PhoneStep() {
   const { registrationData, updateData } = useRegister()
   const [phoneNumber, setPhoneNumber] = useState(registrationData.phoneNumber)
-  const [countryCode, setCountryCode] = useState(registrationData.countryCode)
+  const [countryCode, setCountryCode] = useState(registrationData.countryCode || 'CG')
+  const [callingCode, setCallingCode] = useState(registrationData.callingCode || '+242')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | undefined>(undefined)
 
@@ -38,15 +39,20 @@ function PhoneStep() {
     }
 
     const country = SUPPORTED_COUNTRIES.find((c) => c.code === countryCode)
-    if (!country) return
+    const effectiveCallingCode = country?.callingCode || callingCode || '+242'
+    const sanitized = sanitizePhone(phoneNumber, effectiveCallingCode)
 
-    const sanitized = sanitizePhone(phoneNumber, country.callingCode)
-
-    // Regex check based on country specific formatting rules
-    if (!country.regex.test(sanitized)) {
+    // Regex check pour les pays prédéfinis
+    if (country && !country.regex.test(sanitized)) {
       setError(
         `Format invalide pour le pays sélectionné. Ex: ${country.placeholder}`,
       )
+      return
+    }
+
+    // Pour un indicatif personnalisé (OTHER), validation de longueur minimale
+    if (!country && sanitized.length < 6) {
+      setError('Veuillez saisir un numéro de téléphone valide.')
       return
     }
 
@@ -56,6 +62,7 @@ function PhoneStep() {
       updateData({
         phoneNumber: sanitized,
         countryCode,
+        callingCode: effectiveCallingCode,
       })
 
       // Proceed to Step 2
@@ -75,6 +82,10 @@ function PhoneStep() {
           phoneNumber={phoneNumber}
           onCountryChange={(code) => {
             setCountryCode(code)
+            setError(undefined)
+          }}
+          onCallingCodeChange={(code) => {
+            setCallingCode(code)
             setError(undefined)
           }}
           onPhoneChange={(val) => {
