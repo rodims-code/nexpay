@@ -5,7 +5,7 @@
  */
 import '@tanstack/react-start/server-only'
 import { getRequestHeaders } from '@tanstack/react-start/server'
-import { and, eq } from 'drizzle-orm'
+import { and, eq, or } from 'drizzle-orm'
 import { db } from '#/db'
 import { paymentTransaction, transaction } from '#/db/schema'
 import { auth } from '#/lib/auth'
@@ -65,21 +65,37 @@ export async function synchronizePayment(
 // ─── Statut de retour de paiement ─────────────────────────────────────────────
 
 export async function getPaymentStatusServer(paymentId: string) {
-  const user = await requireAuthenticatedUser()
+  const session = await auth.api.getSession({ headers: getRequestHeaders() })
+  const userId = session?.user?.id
 
-  const [row] = await db
-    .select({ payment: paymentTransaction })
+  // Recherche d'abord par ID interne NexPay (UUID) ou par providerReference Moneroo
+  const rows = await db
+    .select({
+      payment: paymentTransaction,
+      userId: transaction.userId,
+    })
     .from(paymentTransaction)
     .innerJoin(transaction, eq(paymentTransaction.transactionId, transaction.id))
     .where(
-      and(
+      or(
         eq(paymentTransaction.id, paymentId),
-        eq(transaction.userId, user.id),
+        eq(paymentTransaction.providerReference, paymentId),
       ),
     )
     .limit(1)
 
-  if (!row) throw new Error('Paiement introuvable')
+  const row = rows[0]
+
+  if (!row) {
+    console.warn(`[payment] Retour: aucun paiement trouvé pour l'identifiant '${paymentId}'`)
+    throw new Error('Paiement introuvable')
+  }
+
+  // Si l'utilisateur est connecté, on s'assure qu'il est bien le propriétaire de la transaction
+  if (userId && row.userId !== userId) {
+    console.warn(`[payment] Retour: utilisateur ${userId} non autorisé pour le paiement ${paymentId}`)
+    throw new Error('Non autorisé')
+  }
 
   const payment =
     row.payment.status === 'pending'

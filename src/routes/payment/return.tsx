@@ -22,9 +22,19 @@ import { CheckCircle2, Clock, XCircle, AlertCircle, Loader2 } from 'lucide-react
 import { getPaymentReturnStatus } from '#/lib/payments.functions'
 
 export const Route = createFileRoute('/payment/return')({
-  /** Pourquoi : extraire uniquement paymentId de l'URL — ignorer paymentStatus de Moneroo. */
+  /**
+   * Pourquoi : extraire l'identifiant du paiement depuis les paramètres d'URL.
+   * Moneroo peut rediriger avec ?paymentId=..., ?payment_id=... ou ?id=...
+   */
   validateSearch: (search: Record<string, unknown>) => ({
-    paymentId: typeof search.paymentId === 'string' ? search.paymentId : '',
+    paymentId:
+      typeof search.paymentId === 'string' && search.paymentId
+        ? search.paymentId
+        : typeof search.payment_id === 'string' && search.payment_id
+          ? search.payment_id
+          : typeof search.id === 'string' && search.id
+            ? search.id
+            : '',
   }),
   component: PaymentReturnPage,
 })
@@ -36,20 +46,46 @@ function PaymentReturnPage() {
   const [pageStatus, setPageStatus] = useState<PageStatus>('loading')
 
   useEffect(() => {
+    // Si aucun paramètre n'a été transmis dans l'URL
     if (!paymentId) {
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search)
+        const fallbackId = urlParams.get('paymentId') || urlParams.get('payment_id') || urlParams.get('id')
+        if (fallbackId) {
+          verify(fallbackId)
+          return
+        }
+      }
       setPageStatus('error')
       return
     }
 
-    // Appel server function — le statut vient de la base, pas de l'URL.
-    getPaymentReturnStatus({ data: { paymentId } })
-      .then((result) => {
-        const s = result.status as PageStatus
-        setPageStatus(['success', 'failed', 'cancelled', 'pending'].includes(s) ? s : 'pending')
-      })
-      .catch(() => {
-        setPageStatus('error')
-      })
+    verify(paymentId)
+
+    function verify(id: string) {
+      let attempts = 0
+      const maxAttempts = 5
+
+      const check = () => {
+        getPaymentReturnStatus({ data: { paymentId: id } })
+          .then((result) => {
+            const s = result.status as PageStatus
+            if (s === 'pending' && attempts < maxAttempts) {
+              attempts++
+              setPageStatus('pending')
+              setTimeout(check, 2500)
+            } else {
+              setPageStatus(['success', 'failed', 'cancelled', 'pending'].includes(s) ? s : 'pending')
+            }
+          })
+          .catch((err) => {
+            console.error('[payment/return] Erreur vérification:', err)
+            setPageStatus('error')
+          })
+      }
+
+      check()
+    }
   }, [paymentId])
 
   return (
