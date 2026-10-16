@@ -174,9 +174,9 @@ export function AfricaMapSection() {
                     <ArrowUpRight className="size-5 text-secondary opacity-70 transition-all group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:opacity-100" />
                   </div>
 
-                  <div className="mt-2 flex items-center gap-1.5 text-sm font-medium text-base-content/70 group-hover:text-base-content">
+                  <div className="mt-2 flex flex-wrap items-center gap-4 text-sm font-medium text-base-content/70 group-hover:text-base-content">
                     <span>Provider envisagé</span>
-                    <span className="badge badge-secondary badge-xs font-bold font-mono uppercase tracking-widest transition-colors group-hover:bg-secondary group-hover:text-white">
+                    <span className="badge badge-secondary badge-lg inline-flex h-auto max-w-full whitespace-normal break-words py-2 text-center leading-tight font-bold font-mono uppercase tracking-widest transition-colors group-hover:bg-secondary group-hover:text-white">
                       Voir couverture ↗
                     </span>
                   </div>
