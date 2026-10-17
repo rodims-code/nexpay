@@ -39,7 +39,7 @@ export const Route = createFileRoute('/dashboard/send')({
 })
 
 // Montants rapides en USD pour le sandbox (1, 5, 10, 25, 50, 100).
-const QUICK_AMOUNTS_USD = [5, 10, 25, 50, 100]
+const QUICK_AMOUNTS_USD = [100, 200, 300, 400, 500]
 
 function formatUSD(num: number): string {
   return new Intl.NumberFormat('fr-FR', {
@@ -216,7 +216,7 @@ function SendPage() {
     ? (sandboxData?.config.currency ?? 'USD')
     : 'USD' // TODO : utiliser la devise live depuis paymentConfig
 
-  const minAmount = isSandbox ? 1 : 5
+  const minAmount = isSandbox ? 1 : 100
   const quickAmounts = QUICK_AMOUNTS_USD
 
   const handleAmountChange = (val: string) => {
