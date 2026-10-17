@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { getCountryCurrency } from './countriesData'
+
 export interface Country {
   code: string
   name: string
@@ -18,7 +20,7 @@ export const SUPPORTED_COUNTRIES: Country[] = [
     flag: '🇨🇬',
     currency: 'XAF',
     placeholder: '06 600 00 00',
-    regex: /^(05|06)\d{7}$/, // standard Cog numbers are 9 digits usually starting with 05 or 06
+    regex: /^(05|06)\d{7}$/,
   },
   {
     code: 'CD',
@@ -27,7 +29,7 @@ export const SUPPORTED_COUNTRIES: Country[] = [
     flag: '🇨🇩',
     currency: 'CDF',
     placeholder: '810 000 000',
-    regex: /^[89]\d{8}$/, // standard DRC numbers are 9 digits
+    regex: /^[89]\d{8}$/,
   },
   {
     code: 'SN',
@@ -36,7 +38,7 @@ export const SUPPORTED_COUNTRIES: Country[] = [
     flag: '🇸🇳',
     currency: 'XOF',
     placeholder: '77 000 00 00',
-    regex: /^(70|75|76|77|78)\d{7}$/, // standard Senegal mobile
+    regex: /^(70|75|76|77|78)\d{7}$/,
   },
   {
     code: 'GA',
@@ -45,7 +47,187 @@ export const SUPPORTED_COUNTRIES: Country[] = [
     flag: '🇬🇦',
     currency: 'XAF',
     placeholder: '06 00 00 00',
-    regex: /^(05|06|07)\d{7}$/, // standard Gabon mobile
+    regex: /^(05|06|07)\d{7}$/,
+  },
+  {
+    code: 'CM',
+    name: 'Cameroun',
+    callingCode: '+237',
+    flag: '🇨🇲',
+    currency: 'XAF',
+    placeholder: '6 70 00 00 00',
+    regex: /^6\d{8}$/,
+  },
+  {
+    code: 'CI',
+    name: "Côte d'Ivoire",
+    callingCode: '+225',
+    flag: '🇨🇮',
+    currency: 'XOF',
+    placeholder: '07 00 00 00 00',
+    regex: /^\d{10}$/,
+  },
+  {
+    code: 'BJ',
+    name: 'Bénin',
+    callingCode: '+229',
+    flag: '🇧🇯',
+    currency: 'XOF',
+    placeholder: '97 00 00 00',
+    regex: /^\d{8}$/,
+  },
+  {
+    code: 'TG',
+    name: 'Togo',
+    callingCode: '+228',
+    flag: '🇹🇬',
+    currency: 'XOF',
+    placeholder: '90 00 00 00',
+    regex: /^\d{8}$/,
+  },
+  {
+    code: 'ML',
+    name: 'Mali',
+    callingCode: '+223',
+    flag: '🇲🇱',
+    currency: 'XOF',
+    placeholder: '70 00 00 00',
+    regex: /^\d{8}$/,
+  },
+  {
+    code: 'BF',
+    name: 'Burkina Faso',
+    callingCode: '+226',
+    flag: '🇧🇫',
+    currency: 'XOF',
+    placeholder: '70 00 00 00',
+    regex: /^\d{8}$/,
+  },
+  {
+    code: 'GN',
+    name: 'Guinée',
+    callingCode: '+224',
+    flag: '🇬🇳',
+    currency: 'GNF',
+    placeholder: '620 00 00 00',
+    regex: /^6\d{8}$/,
+  },
+  {
+    code: 'TD',
+    name: 'Tchad',
+    callingCode: '+235',
+    flag: '🇹🇩',
+    currency: 'XAF',
+    placeholder: '66 00 00 00',
+    regex: /^\d{8}$/,
+  },
+  {
+    code: 'CF',
+    name: 'Centrafrique',
+    callingCode: '+236',
+    flag: '🇨🇫',
+    currency: 'XAF',
+    placeholder: '75 00 00 00',
+    regex: /^\d{8}$/,
+  },
+  {
+    code: 'GQ',
+    name: 'Guinée équatoriale',
+    callingCode: '+240',
+    flag: '🇬🇶',
+    currency: 'XAF',
+    placeholder: '222 000 000',
+    regex: /^\d{9}$/,
+  },
+  {
+    code: 'MA',
+    name: 'Maroc',
+    callingCode: '+212',
+    flag: '🇲🇦',
+    currency: 'MAD',
+    placeholder: '06 50 12 34 56',
+    regex: /^[67]\d{8}$/,
+  },
+  {
+    code: 'DZ',
+    name: 'Algérie',
+    callingCode: '+213',
+    flag: '🇩🇿',
+    currency: 'DZD',
+    placeholder: '05 50 12 34 56',
+    regex: /^[567]\d{8}$/,
+  },
+  {
+    code: 'TN',
+    name: 'Tunisie',
+    callingCode: '+216',
+    flag: '🇹🇳',
+    currency: 'TND',
+    placeholder: '20 123 456',
+    regex: /^\d{8}$/,
+  },
+  {
+    code: 'RW',
+    name: 'Rwanda',
+    callingCode: '+250',
+    flag: '🇷🇼',
+    currency: 'RWF',
+    placeholder: '078 000 000',
+    regex: /^7\d{8}$/,
+  },
+  {
+    code: 'FR',
+    name: 'France',
+    callingCode: '+33',
+    flag: '🇫🇷',
+    currency: 'EUR',
+    placeholder: '06 12 34 56 78',
+    regex: /^[67]\d{8}$/,
+  },
+  {
+    code: 'BE',
+    name: 'Belgique',
+    callingCode: '+32',
+    flag: '🇧🇪',
+    currency: 'EUR',
+    placeholder: '0470 12 34 56',
+    regex: /^4\d{8}$/,
+  },
+  {
+    code: 'US',
+    name: 'États-Unis',
+    callingCode: '+1',
+    flag: '🇺🇸',
+    currency: 'USD',
+    placeholder: '(555) 000-0000',
+    regex: /^\d{10}$/,
+  },
+  {
+    code: 'CA',
+    name: 'Canada',
+    callingCode: '+1',
+    flag: '🇨🇦',
+    currency: 'CAD',
+    placeholder: '(555) 000-0000',
+    regex: /^\d{10}$/,
+  },
+  {
+    code: 'CH',
+    name: 'Suisse',
+    callingCode: '+41',
+    flag: '🇨🇭',
+    currency: 'CHF',
+    placeholder: '079 123 45 67',
+    regex: /^7\d{8}$/,
+  },
+  {
+    code: 'GB',
+    name: 'Royaume-Uni',
+    callingCode: '+44',
+    flag: '🇬🇧',
+    currency: 'GBP',
+    placeholder: '07911 123456',
+    regex: /^7\d{9}$/,
   },
 ]
 
@@ -211,15 +393,24 @@ export const mockAuthService = {
     userData: RegisterState,
   ): Promise<{ success: boolean; error?: string }> => {
     await new Promise((r) => setTimeout(r, 1200))
-    const country = SUPPORTED_COUNTRIES.find(
-      (c) => c.code === userData.countryCode,
-    )
-    if (!country) {
-      return { success: false, error: 'Pays non pris en charge.' }
-    }
+    const country =
+      SUPPORTED_COUNTRIES.find((c) => c.code === userData.countryCode) ||
+      (() => {
+        const { code: curr } = getCountryCurrency(userData.countryCode)
+        return {
+          code: userData.countryCode,
+          name: userData.countryCode,
+          callingCode: userData.callingCode || '+242',
+          flag: '🌐',
+          currency: curr,
+          placeholder: '00 000 0000',
+          regex: /^\d{6,14}$/,
+        }
+      })()
+    const callingCode = country.callingCode || userData.callingCode || '+242'
     const fullPhone =
-      country.callingCode +
-      sanitizePhone(userData.phoneNumber, country.callingCode)
+      callingCode +
+      sanitizePhone(userData.phoneNumber, callingCode)
 
     if (usersDb.has(fullPhone)) {
       return {
