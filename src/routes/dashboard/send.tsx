@@ -206,7 +206,7 @@ function SendPage() {
   const recipientPhone =
     recipientType === 'contact' ? activeRecipient?.phone || '' : customPhone.trim()
 
-  // En sandbox, tout est en USD — montant entier, minimum 1, maximum 10 000.
+  // En sandbox, tout est en USD — montant entier, minimum 100, maximum 10 000.
   const rawAmount = parseInt(amountStr.replace(/\D/g, '') || '0', 10)
   // NOTE : frais affichés à titre indicatif seulement. Le montant final est calculé
   // côté serveur (paymentConfig.fixedFee = 0 en sandbox — voir src/server/payments/config.ts).
@@ -216,7 +216,7 @@ function SendPage() {
     ? (sandboxData?.config.currency ?? 'USD')
     : 'USD' // TODO : utiliser la devise live depuis paymentConfig
 
-  const minAmount = isSandbox ? 1 : 100
+  const minAmount = isSandbox ? 100 : 1
   const quickAmounts = QUICK_AMOUNTS_USD
 
   const handleAmountChange = (val: string) => {
