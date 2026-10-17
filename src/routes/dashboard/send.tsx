@@ -216,7 +216,7 @@ function SendPage() {
     ? (sandboxData?.config.currency ?? 'USD')
     : 'USD' // TODO : utiliser la devise live depuis paymentConfig
 
-  const minAmount = isSandbox ? 100 : 100
+  const minAmount = isSandbox ? 100 : 1
   const quickAmounts = QUICK_AMOUNTS_USD
 
   const handleAmountChange = (val: string) => {
