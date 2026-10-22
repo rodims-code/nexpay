@@ -19,6 +19,15 @@ export const auth = betterAuth({
     provider: "pg",
     schema: schema,
   }),
+  advanced: {
+    ipAddress: {
+      ipAddressHeaders: ["x-real-ip"],
+    },
+  },
+  rateLimit: {
+    enabled: true,
+    storage: "database",
+  },
   user: {
     additionalFields: {
       phone: { type: "string", required: true, unique: true, input: true },
