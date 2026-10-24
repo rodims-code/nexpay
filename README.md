@@ -1744,7 +1744,7 @@ Building technology for Africa.
 
 > **Move Money. Connect Africa.**
 
-NexPay is built around a simple belief:
+NexPay is built around a simple belief :
 
 **Sending money should be as easy as sending a message.**
 
