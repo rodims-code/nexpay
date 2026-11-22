@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, notFound } from '@tanstack/react-router'
 import { joinWaitlist, waitlistSchema } from '#/lib/waitlist.functions'
+import { isSandboxRouteEnabled } from '#/lib/sandbox.functions'
 
 const checklist: Array<{
   label: string
@@ -33,6 +34,9 @@ const badgeLabel: Record<'todo' | 'wip' | 'done', string> = {
 }
 
 export const Route = createFileRoute('/sandbox')({
+  beforeLoad: async () => {
+    if (!(await isSandboxRouteEnabled())) throw notFound()
+  },
   component: Sandbox,
 })
 

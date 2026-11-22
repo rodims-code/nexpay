@@ -14,7 +14,7 @@ export const user = pgTable("user", {
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   birthDate: text("birth_date").notNull(),
-});
+}).enableRLS();
 
 export const session = pgTable(
   "session",
@@ -29,7 +29,7 @@ export const session = pgTable(
     userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
   },
   (table) => [index("session_userId_idx").on(table.userId)],
-);
+).enableRLS();
 
 export const account = pgTable(
   "account",
@@ -50,7 +50,7 @@ export const account = pgTable(
     updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => new Date()).notNull(),
   },
   (table) => [index("account_userId_idx").on(table.userId)],
-);
+).enableRLS();
 
 export const verification = pgTable(
   "verification",
@@ -63,20 +63,20 @@ export const verification = pgTable(
     updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => new Date()).notNull(),
   },
   (table) => [index("verification_identifier_idx").on(table.identifier)],
-);
+).enableRLS();
 
 export const rateLimit = pgTable("rateLimit", {
   id: text("id").primaryKey(),
   key: text("key").notNull().unique(),
   count: integer("count").notNull(),
   lastRequest: bigint("last_request", { mode: "number" }).notNull(),
-});
+}).enableRLS();
 
 export const waitlistRateLimit = pgTable("waitlist_rate_limit", {
   ip: text("ip").primaryKey(),
   count: integer("count").notNull(),
   windowStartedAt: timestamp("window_started_at").defaultNow().notNull(),
-});
+}).enableRLS();
 
 export const paymentMethod = pgTable(
   "payment_method",
@@ -92,7 +92,7 @@ export const paymentMethod = pgTable(
     updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => new Date()).notNull(),
   },
   (table) => [index("payment_method_userId_idx").on(table.userId)],
-);
+).enableRLS();
 
 export type PaymentMethod = typeof paymentMethod.$inferSelect;
 export type NewPaymentMethod = typeof paymentMethod.$inferInsert;
@@ -110,7 +110,7 @@ export const contact = pgTable(
     updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => new Date()).notNull(),
   },
   (table) => [index("contact_userId_idx").on(table.userId)],
-);
+).enableRLS();
 
 export type Contact = typeof contact.$inferSelect;
 export type NewContact = typeof contact.$inferInsert;
@@ -138,7 +138,7 @@ export const transaction = pgTable(
     index("transaction_userId_idx").on(table.userId),
     index("transaction_reference_idx").on(table.reference),
   ],
-);
+).enableRLS();
 
 export type Transaction = typeof transaction.$inferSelect;
 export type NewTransaction = typeof transaction.$inferInsert;
@@ -154,7 +154,7 @@ export const paymentTransaction = pgTable("payment_transaction", {
   status: text("status").notNull().default("pending"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => new Date()).notNull(),
-}, (table) => [index("payment_transaction_transaction_id_idx").on(table.transactionId)]);
+}, (table) => [index("payment_transaction_transaction_id_idx").on(table.transactionId)]).enableRLS();
 
 export type PaymentTransaction = typeof paymentTransaction.$inferSelect;
 export type NewPaymentTransaction = typeof paymentTransaction.$inferInsert;
@@ -164,6 +164,6 @@ export const waitlist = pgTable("waitlist", {
   email: text("email").notNull().unique(),
   country: text("country").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-});
+}).enableRLS();
 
 
