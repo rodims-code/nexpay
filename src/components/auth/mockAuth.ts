@@ -345,8 +345,9 @@ export const mockAuthService = {
   sendOtp: async (fullPhone: string): Promise<string> => {
     await new Promise((r) => setTimeout(r, 1000))
 
-    // Generate a random 6-digit code
-    const code = Math.floor(100000 + Math.random() * 900000).toString()
+    // A fixed OTP is allowed only when explicitly injected for sandbox testing.
+    const configuredSandboxOtp = import.meta.env.VITE_SANDBOX_OTP
+    const code = configuredSandboxOtp || Math.floor(100000 + Math.random() * 900000).toString()
     const expiresAt = Date.now() + 60 * 1000 // 60 seconds lifetime
 
     otpStore.set(fullPhone, { code, expiresAt, attempts: 0 })

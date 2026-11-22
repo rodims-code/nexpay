@@ -12,6 +12,7 @@
   "scripts": {
     "dev": "vite dev --port 3000",
     "generate-routes": "tsr generate",
+    "db:migrate": "drizzle-kit migrate",
     "build": "vite build",
     "start": "node .output/server/index.mjs",
     "preview": "vite preview",
