@@ -15,19 +15,16 @@ import {
   UserRound,
   X,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { DashboardLayout } from '#/components/dashboard/dashboard-layout'
 import { useSession, signOut } from '#/lib/auth-client'
 import { getUserProfile, updateUserProfile } from '#/lib/user.functions'
+import { PhoneInput } from '#/components/auth/PhoneInput'
+import { CountrySelector } from '#/components/auth/CountrySelector'
+import { getCountryCurrency } from '#/components/auth/countriesData'
+import fr from 'react-phone-number-input/locale/fr.json'
 
-const COUNTRIES = [
-  { code: 'CG', name: 'Congo-Brazzaville', currency: 'XAF', flag: '🇨🇬' },
-  { code: 'SN', name: 'Sénégal', currency: 'XOF', flag: '🇸🇳' },
-  { code: 'CI', name: 'Côte d’Ivoire', currency: 'XOF', flag: '🇨🇮' },
-  { code: 'CD', name: 'RDC (Congo-Kinshasa)', currency: 'CDF', flag: '🇨🇩' },
-  { code: 'CM', name: 'Cameroun', currency: 'XAF', flag: '🇨🇲' },
-  { code: 'GA', name: 'Gabon', currency: 'XAF', flag: '🇬🇦' },
-]
+const frMap = fr as Record<string, string>
 
 export function SettingsPage() {
   const { data: session } = useSession()
@@ -104,12 +101,14 @@ export function SettingsPage() {
   }, [session?.user?.id])
 
   const handleCountryChange = (cCode: string) => {
-    const c = COUNTRIES.find((item) => item.code === cCode)
     setCountryCode(cCode)
-    if (c) {
-      setCurrency(c.currency)
-    }
+    const { code: curr } = getCountryCurrency(cCode)
+    setCurrency(curr)
   }
+
+  const { name: currencyLabel } = useMemo(() => {
+    return getCountryCurrency(countryCode)
+  }, [countryCode])
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -158,8 +157,7 @@ export function SettingsPage() {
   const displayPhone = profile?.phone || (session?.user as any)?.phone || ''
   const displayEmail = profile?.email || session?.user?.email || ''
   const displayCountry =
-    COUNTRIES.find((c) => c.code === (profile?.countryCode || 'CG'))?.name ||
-    'Congo-Brazzaville'
+    frMap[profile?.countryCode || 'CG'] || profile?.countryCode || 'Congo'
   const displayCurrency = profile?.currency || 'XAF'
 
   const initials =
@@ -431,17 +429,11 @@ export function SettingsPage() {
                       <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-base-content/70">
                         Numéro de téléphone principal
                       </label>
-                      <div className="relative">
-                        <Phone className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-base-content/40" />
-                        <input
-                          type="tel"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                          placeholder="+242 06 123 45 67"
-                          required
-                          className="input input-bordered w-full rounded-2xl pl-10 text-sm font-medium"
-                        />
-                      </div>
+                      <PhoneInput
+                        value={phone}
+                        onChange={(val) => setPhone(val)}
+                        defaultCountry={countryCode as any}
+                      />
                     </div>
 
                     <div>
@@ -465,46 +457,24 @@ export function SettingsPage() {
                       <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-base-content/70">
                         Pays de résidence
                       </label>
-                      <div className="grid gap-2 sm:grid-cols-2">
-                        {COUNTRIES.map((c) => {
-                          const isSelected = countryCode === c.code
-                          return (
-                            <button
-                              key={c.code}
-                              type="button"
-                              onClick={() => handleCountryChange(c.code)}
-                              className={`flex items-center gap-2.5 rounded-2xl border p-3 text-left transition ${
-                                isSelected
-                                  ? 'border-primary bg-primary/10 ring-2 ring-primary/20'
-                                  : 'border-base-200 hover:bg-base-200/50'
-                              }`}
-                            >
-                              <span className="text-xl">{c.flag}</span>
-                              <div className="min-w-0 flex-1">
-                                <p className="truncate text-xs font-bold text-base-content">
-                                  {c.name}
-                                </p>
-                                <p className="text-[10px] text-base-content/50">
-                                  Devise: {c.currency}
-                                </p>
-                              </div>
-                            </button>
-                          )
-                        })}
-                      </div>
+                      <CountrySelector
+                        value={countryCode}
+                        onChange={handleCountryChange}
+                        onCurrencyChange={(c) => setCurrency(c)}
+                      />
                     </div>
 
                     <div>
                       <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-base-content/70">
-                        Devise de compte
+                        Devise de compte (automatique)
                       </label>
-                      <input
-                        type="text"
-                        value={currency}
-                        onChange={(e) => setCurrency(e.target.value.toUpperCase())}
-                        placeholder="XAF"
-                        className="input input-bordered w-full rounded-2xl text-sm font-bold uppercase"
-                      />
+                      <div className="input input-bordered w-full h-12 flex items-center justify-between font-bold text-sm bg-base-200 border-base-300">
+                        <div className="flex items-center gap-2">
+                          <span>🪙</span>
+                          <span className="font-mono text-primary font-extrabold">{currency}</span>
+                        </div>
+                        <span className="text-xs text-base-content/60 font-semibold">{currencyLabel}</span>
+                      </div>
                     </div>
                   </>
                 )}
