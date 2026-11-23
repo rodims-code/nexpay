@@ -14,6 +14,7 @@ export const user = pgTable("user", {
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   birthDate: text("birth_date").notNull(),
+  gender: text("gender"),
 }).enableRLS();
 
 export const session = pgTable(

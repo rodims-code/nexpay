@@ -13,6 +13,7 @@ function PersonalStep() {
   const { registrationData, updateData } = useRegister()
   const [firstName, setFirstName] = useState(registrationData.firstName || '')
   const [lastName, setLastName] = useState(registrationData.lastName || '')
+  const [gender, setGender] = useState(registrationData.gender || '')
   const [birthDate, setBirthDate] = useState(registrationData.birthDate || '')
   const [error, setError] = useState<string | undefined>(undefined)
   const [loading, setLoading] = useState(false)
@@ -28,6 +29,7 @@ function PersonalStep() {
     const validation = personalSchema.safeParse({
       firstName,
       lastName,
+      gender,
       birthDate,
     })
 
@@ -38,7 +40,12 @@ function PersonalStep() {
     }
 
     // Save personal information and go to Step 3
-    updateData({ firstName, lastName, birthDate })
+    updateData({
+      firstName,
+      lastName,
+      gender: validation.data.gender,
+      birthDate,
+    })
     setLoading(false)
     navigate({ to: '/auth/register/country' })
   }
@@ -70,6 +77,25 @@ function PersonalStep() {
           />
         </FormField>
       </div>
+
+      <FormField label="Sexe" required>
+        <select
+          className="select select-bordered w-full font-bold focus:outline-none focus:border-primary"
+          value={gender}
+          onChange={(e) => {
+            setGender(e.target.value)
+            setError(undefined)
+          }}
+          disabled={loading}
+          required
+        >
+          <option value="" disabled>
+            Sélectionnez votre sexe
+          </option>
+          <option value="female">Femme</option>
+          <option value="male">Homme</option>
+        </select>
+      </FormField>
 
       <FormField
         label="Date de naissance"

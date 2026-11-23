@@ -46,6 +46,7 @@ function SecurityStep() {
       !registrationData.phoneNumber ||
       !registrationData.firstName ||
       !registrationData.lastName ||
+      !registrationData.gender ||
       !registrationData.birthDate ||
       !registrationData.currency
     ) {
@@ -66,6 +67,7 @@ function SecurityStep() {
       firstName: registrationData.firstName,
       lastName: registrationData.lastName,
       birthDate: registrationData.birthDate,
+      gender: registrationData.gender,
     })
 
     if (signUpError) {
