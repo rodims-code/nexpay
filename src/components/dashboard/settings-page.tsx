@@ -22,12 +22,13 @@ import { getUserProfile, updateUserProfile } from '#/lib/user.functions'
 import { PhoneInput } from '#/components/auth/PhoneInput'
 import { CountrySelector } from '#/components/auth/CountrySelector'
 import { getCountryCurrency } from '#/components/auth/countriesData'
+import { ProfileAvatar } from '#/components/dashboard/profile-avatar'
 import fr from 'react-phone-number-input/locale/fr.json'
 
 const frMap = fr as Record<string, string>
 
 export function SettingsPage() {
-  const { data: session } = useSession()
+  const { data: session, refetch: refetchSession } = useSession()
 
   const [profile, setProfile] = useState<any>(null)
   const [, setLoading] = useState(true)
@@ -40,6 +41,7 @@ export function SettingsPage() {
   // Edit form state
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
+  const [gender, setGender] = useState<'male' | 'female'>('male')
   const [phone, setPhone] = useState('')
   const [birthDate, setBirthDate] = useState('')
   const [countryCode, setCountryCode] = useState('CG')
@@ -63,6 +65,7 @@ export function SettingsPage() {
       setProfile(data)
       setFirstName(data.firstName || '')
       setLastName(data.lastName || '')
+      setGender(data.gender === 'female' ? 'female' : 'male')
       setPhone(data.phone || '')
       setBirthDate(data.birthDate || '')
       setCountryCode(data.countryCode || 'CG')
@@ -77,6 +80,7 @@ export function SettingsPage() {
           name: u.name,
           firstName: u.firstName || u.name?.split(' ')[0] || '',
           lastName: u.lastName || u.name?.split(' ').slice(1).join(' ') || '',
+          gender: u.gender || 'male',
           phone: u.phone || '',
           email: u.email || '',
           birthDate: u.birthDate || '',
@@ -86,6 +90,7 @@ export function SettingsPage() {
         setProfile(fallback)
         setFirstName(fallback.firstName)
         setLastName(fallback.lastName)
+        setGender(fallback.gender === 'female' ? 'female' : 'male')
         setPhone(fallback.phone)
         setBirthDate(fallback.birthDate)
         setCountryCode(fallback.countryCode)
@@ -127,6 +132,7 @@ export function SettingsPage() {
         data: {
           firstName: firstName.trim(),
           lastName: lastName.trim(),
+          gender,
           phone: phone.trim(),
           birthDate: birthDate.trim(),
           countryCode: countryCode.trim(),
@@ -134,6 +140,14 @@ export function SettingsPage() {
         },
       })
       setProfile(updated)
+      try {
+        await refetchSession()
+      } catch (err) {
+        console.error(
+          'Impossible de rafraîchir la session après la mise à jour du profil',
+          err,
+        )
+      }
       showNotification('Vos informations ont été mises à jour avec succès !')
       setIsEditOpen(false)
     } catch (err: any) {
@@ -159,15 +173,6 @@ export function SettingsPage() {
   const displayCountry =
     frMap[profile?.countryCode || 'CG'] || profile?.countryCode || 'Congo'
   const displayCurrency = profile?.currency || 'XAF'
-
-  const initials =
-    displayName
-      .split(' ')
-      .filter(Boolean)
-      .map((n: string) => n[0])
-      .join('')
-      .slice(0, 2)
-      .toUpperCase() || 'NP'
 
   const settingsGroups = [
     {
@@ -226,11 +231,11 @@ export function SettingsPage() {
         {/* User Card with Edit Action */}
         <div className="flex flex-col gap-5 rounded-[2.5rem] bg-primary p-6 text-primary-content shadow-xl shadow-primary/20 sm:flex-row sm:items-center sm:justify-between sm:p-8">
           <div className="flex items-center gap-4">
-            <div className="avatar placeholder">
-              <div className="flex size-16 items-center justify-center rounded-2xl bg-white/20 text-2xl font-black backdrop-blur-sm">
-                {initials}
-              </div>
-            </div>
+            <ProfileAvatar
+              gender={profile?.gender ?? session?.user?.gender}
+              alt={`Photo de profil de ${displayName}`}
+              className="size-16 rounded-2xl object-cover"
+            />
             <div>
               <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
                 {displayName}
@@ -423,6 +428,25 @@ export function SettingsPage() {
                           className="input input-bordered w-full rounded-2xl text-sm font-medium"
                         />
                       </div>
+                    </div>
+
+                    <div>
+                      <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-base-content/70">
+                        Sexe
+                      </label>
+                      <select
+                        value={gender}
+                        onChange={(e) =>
+                          setGender(
+                            e.target.value === 'female' ? 'female' : 'male',
+                          )
+                        }
+                        required
+                        className="select select-bordered w-full rounded-2xl text-sm font-medium"
+                      >
+                        <option value="female">Femme</option>
+                        <option value="male">Homme</option>
+                      </select>
                     </div>
 
                     <div>

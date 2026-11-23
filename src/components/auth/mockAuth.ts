@@ -238,6 +238,7 @@ export interface RegisterState {
   firstName?: string
   lastName?: string
   birthDate?: string
+  gender?: 'male' | 'female'
   password?: string
   currency?: string
 }
@@ -285,6 +286,9 @@ export const phoneSchema = z.object({
 export const personalSchema = z.object({
   firstName: z.string().min(2, 'Le prénom doit contenir au moins 2 caractères'),
   lastName: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
+  gender: z.enum(['male', 'female'], {
+    error: 'Veuillez sélectionner votre sexe',
+  }),
   birthDate: z.string().refine(
     (val) => {
       if (!val) return false

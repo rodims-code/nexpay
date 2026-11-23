@@ -39,6 +39,7 @@ export const updateUserProfile = createServerFn({ method: "POST" })
       birthDate: string;
       countryCode: string;
       currency: string;
+      gender: string;
     }) => data,
   )
   .handler(async ({ data }) => {
@@ -49,6 +50,9 @@ export const updateUserProfile = createServerFn({ method: "POST" })
     }
     if (!data.phone?.trim()) {
       throw new Error("Le numéro de téléphone est obligatoire");
+    }
+    if (data.gender !== "male" && data.gender !== "female") {
+      throw new Error("Veuillez sélectionner une option valide pour le sexe");
     }
 
     const fullName = `${data.firstName.trim()} ${data.lastName.trim()}`.trim();
@@ -73,6 +77,7 @@ export const updateUserProfile = createServerFn({ method: "POST" })
         name: fullName,
         phone: data.phone.trim(),
         birthDate: data.birthDate?.trim() || "",
+        gender: data.gender,
         countryCode: data.countryCode?.trim() || "CG",
         currency: data.currency?.trim() || "XAF",
         ...(data.email?.trim() ? { email: data.email.trim() } : {}),

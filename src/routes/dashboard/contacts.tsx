@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { DashboardLayout } from '#/components/dashboard/dashboard-layout'
+import { ProfileAvatar } from '#/components/dashboard/profile-avatar'
 import {
   getContacts,
   createContact,
@@ -28,24 +29,6 @@ import type { Contact } from '#/db/schema'
 export const Route = createFileRoute('/dashboard/contacts')({
   component: ContactsPage,
 })
-
-function getInitials(name: string) {
-  return name
-    .split(' ')
-    .map((n) => n[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2)
-}
-
-const AVATAR_COLORS = [
-  'bg-blue-100 text-blue-700',
-  'bg-emerald-100 text-emerald-700',
-  'bg-purple-100 text-purple-700',
-  'bg-orange-100 text-orange-700',
-  'bg-pink-100 text-pink-700',
-  'bg-indigo-100 text-indigo-700',
-]
 
 function ContactsPage() {
   const [contacts, setContacts] = useState<Contact[]>([])
@@ -278,19 +261,18 @@ function ContactsPage() {
           </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
-            {filtered.map((c, idx) => {
-              const colorCls = AVATAR_COLORS[idx % AVATAR_COLORS.length]
+            {filtered.map((c) => {
               return (
                 <div
                   key={c.id}
                   className="card rounded-3xl border border-base-200 bg-base-100 shadow-sm transition hover:shadow-md"
                 >
                   <div className="card-body flex-row items-center gap-4 p-5">
-                    <div
-                      className={`flex size-12 shrink-0 items-center justify-center rounded-2xl text-sm font-extrabold ${colorCls}`}
-                    >
-                      {getInitials(c.name)}
-                    </div>
+                    <ProfileAvatar
+                      gender="male"
+                      alt={`Photo de profil de ${c.name}`}
+                      className="size-12 shrink-0 rounded-2xl object-cover"
+                    />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <h3 className="truncate font-bold text-base-content">{c.name}</h3>

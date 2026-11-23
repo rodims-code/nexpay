@@ -18,6 +18,7 @@ import {
 import { useState, type ReactNode } from 'react'
 import { useSession, signOut } from '#/lib/auth-client'
 import { SandboxBanner } from '#/components/sandbox-banner'
+import { ProfileAvatar } from '#/components/dashboard/profile-avatar'
 import { useTheme } from '#/lib/theme'
 
 const navItems = [
@@ -53,15 +54,6 @@ export function DashboardLayout({
   const userName = session?.user?.name || 'Mon Compte'
   const displayName =
     (session?.user as any)?.firstName || userName.split(' ')[0] || 'Utilisateur'
-  const initials =
-    userName
-      .split(' ')
-      .filter(Boolean)
-      .map((part) => part[0])
-      .join('')
-      .slice(0, 2)
-      .toUpperCase() || 'NP'
-
   const handleSignOut = async () => {
     await signOut({
       fetchOptions: {
@@ -248,11 +240,11 @@ export function DashboardLayout({
                   className="flex items-center gap-2 rounded-xl p-1 hover:bg-base-200/80 sm:pr-2.5 transition"
                   aria-label="Menu profil"
                 >
-                  <div className="avatar placeholder">
-                    <div className="w-8 sm:w-9 rounded-xl bg-primary text-[11px] sm:text-xs font-extrabold text-primary-content shadow-sm">
-                      {initials}
-                    </div>
-                  </div>
+                  <ProfileAvatar
+                    gender={session?.user?.gender}
+                    alt={`Photo de profil de ${displayName}`}
+                    className="size-8 rounded-xl object-cover shadow-sm sm:size-9"
+                  />
                   <span className="hidden max-w-[120px] truncate text-xs font-bold sm:inline">
                     {displayName}
                   </span>

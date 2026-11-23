@@ -43,6 +43,7 @@ export const auth = betterAuth({
       firstName: { type: "string", required: true, input: true },
       lastName: { type: "string", required: true, input: true },
       birthDate: { type: "string", required: true, input: true },
+      gender: { type: "string", required: true, input: true },
     },
   },
   plugins: [tanstackStartCookies()],
